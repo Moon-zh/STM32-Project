@@ -1,0 +1,7 @@
+---- g_u8DHCP Matches (6 in 1 files) ----
+UserHmi.c (d:\hardware\张保忠\mypingmu\mypingmu0416\mainboard\user):u8 g_u8DHCP=1;
+UserHmi.c (d:\hardware\张保忠\mypingmu\mypingmu0416\mainboard\user):		FlashReadDHCP(&g_u8DHCP);
+UserHmi.c (d:\hardware\张保忠\mypingmu\mypingmu0416\mainboard\user):		if(g_u8DHCP == 1)
+UserHmi.c (d:\hardware\张保忠\mypingmu\mypingmu0416\mainboard\user):			NumberToASCII(u8Str,g_u8DHCP);
+UserHmi.c (d:\hardware\张保忠\mypingmu\mypingmu0416\mainboard\user):		g_u8DHCP = s16RevVal;
+UserHmi.c (d:\hardware\张保忠\mypingmu\mypingmu0416\mainboard\user):		FlashWriteDHCP(&g_u8DHCP);

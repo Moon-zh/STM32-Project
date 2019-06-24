@@ -1,0 +1,18 @@
+<Resource>
+    <pages>
+        <page name="首页" id="0" />
+        <page name="设备配置" id="1" />
+        <page name="保存确认" id="2" />
+    </pages>
+    <images>
+        <image id="0" url="d:\2019project\junqing1\终端显示屏\project\Images\终端显示.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="1" url="d:\2019project\junqing1\终端显示屏\project\Images\设备配置.png" width="184" height="98" crop="0" effect_left="0" effect_top="0" effect_width="184" effect_height="98" size="36064" />
+        <image id="2" url="d:\2019project\junqing1\终端显示屏\project\Images\设备配置界面1.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="3" url="d:\2019project\junqing1\终端显示屏\project\Images\保存.png" width="240" height="120" crop="0" effect_left="0" effect_top="0" effect_width="240" effect_height="120" size="57600" />
+        <image id="4" url="d:\2019project\junqing1\终端显示屏\project\Images\返回.png" width="240" height="120" crop="0" effect_left="0" effect_top="0" effect_width="240" effect_height="120" size="57600" />
+        <image id="5" url="d:\2019project\junqing1\终端显示屏\project\Images\保存确认.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="6" url="d:\2019project\junqing1\终端显示屏\project\Images\确认.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="7" url="d:\2019project\junqing1\终端显示屏\project\Images\取消.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+    </images>
+    <waves />
+</Resource>

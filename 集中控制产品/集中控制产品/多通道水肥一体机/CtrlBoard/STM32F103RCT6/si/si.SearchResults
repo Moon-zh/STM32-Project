@@ -1,0 +1,42 @@
+---- FlowmeterCount Matches (41 in 4 files) ----
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):FlowmeterStruct FlowmeterCount; //流量计数组
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):						FlowmeterCount.flower.Flowmeter1 =	BCDTOHEX(Flowmeter_RX_Buf);
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):						FlowmeterCount.flower.Flowmeter2=	BCDTOHEX(Flowmeter_RX_Buf);
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):						FlowmeterCount.flower.Flowmeter3 =	BCDTOHEX(Flowmeter_RX_Buf);
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):						FlowmeterCount.flower.Flowmeter4 =	BCDTOHEX(Flowmeter_RX_Buf);	
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://						FlowmeterCount.Flowmeter5 =	BCDTOHEX(Flowmeter_RX_Buf);
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://						FlowmeterCount.Flowmeter6 =	   Flowmeter_RX_Buf[3]<<24;
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://						FlowmeterCount.Flowmeter6 |=	Flowmeter_RX_Buf[4]<<16;
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://						FlowmeterCount.Flowmeter6 |=	Flowmeter_RX_Buf[5]<<8;	
+Flowmeter.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://						FlowmeterCount.Flowmeter6 |=	Flowmeter_RX_Buf[6];			
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):extern FlowmeterStruct FlowmeterCount; //流量计数组
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://	FlowmeterCount.databuf[0]++;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://	if(FlowmeterCount.databuf[0]>250)
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://		FlowmeterCount.databuf[0]=0;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://		FlowmeterCount.databuf[1]++;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://	FlowmeterCount.databuf[4]++;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://	if(FlowmeterCount.databuf[4]>250)
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://		FlowmeterCount.databuf[4]=0;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://		FlowmeterCount.databuf[5]++;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):// 	FlowmeterCount.databuf[8]++;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://	if(FlowmeterCount.databuf[8]>250)
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://		FlowmeterCount.databuf[8]=0;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://		FlowmeterCount.databuf[9]++;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):// 	FlowmeterCount.databuf[12]++;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://	if(FlowmeterCount.databuf[12]>250)
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://		FlowmeterCount.databuf[12]=0;
+Main.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://		FlowmeterCount.databuf[13]++;
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):extern FlowmeterStruct FlowmeterCount; //流量计数组
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://			if(FlowmeterCount.Flowmeter1>MOCHINEDATE.lastFlowmeter1)
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://			if(FlowmeterCount.Flowmeter2>MOCHINEDATE.lastFlowmeter2)
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://			if(FlowmeterCount.Flowmeter3>MOCHINEDATE.lastFlowmeter3)
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://			if(FlowmeterCount.Flowmeter4>MOCHINEDATE.lastFlowmeter4)
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://			if(FlowmeterCount.Flowmeter5>MOCHINEDATE.lastFlowmeter5)
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://								MOCHINEDATE.lastFlowmeter1 =FlowmeterCount.Flowmeter1;//需要上传的数据
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://								MOCHINEDATE.lastFlowmeter2 =FlowmeterCount.Flowmeter2;//需要上传的数据
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://								MOCHINEDATE.lastFlowmeter3 =FlowmeterCount.Flowmeter3;//需要上传的数据
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://								MOCHINEDATE.lastFlowmeter4 =FlowmeterCount.Flowmeter4;//需要上传的数据
+UserCore.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://								MOCHINEDATE.lastFlowmeter5 =FlowmeterCount.Flowmeter5;//需要上传的数据								
+ZoneCtrl.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):extern FlowmeterStruct FlowmeterCount; 
+ZoneCtrl.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user):			com4databuf[i]=FlowmeterCount.databuf[i-6];//测试数据
+ZoneCtrl.c (d:\hardware\张保忠\mypingmu\mypingmu0416\ctrlboard\stm32f103rct6\user)://			com4databuf[i]=FlowmeterCount.databuf[i];//拷贝流量数据

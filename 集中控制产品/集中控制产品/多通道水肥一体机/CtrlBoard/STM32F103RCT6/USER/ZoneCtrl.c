@@ -1,0 +1,446 @@
+#include "ZoneCtrl.h"
+#include "Rs485.h"
+#include "includes.h"
+#include "delay.h"
+#include "UserCore.h"
+#include "IO_BSP.h"
+#include "Flowmeter.h"
+ZoneCommand ZoneCtrl;
+IOCtrlPara ZonePara;
+u8 timeset=0;//先开电磁阀延迟时间
+u8 time_flag=0;//开启水泵标志
+extern FlowmeterStruct FlowmeterCount; 
+u8 com4state=0;
+u8 ZoneSendBuf[10];
+u32 IOState;
+u8 IowriteState=0; //io写状态
+u8 Ioaction=0;
+u8 IosendCount=0;
+u8 horizon_test=0;
+u8 io_RX_Buf[20]; //流量计接收buf
+IOPara IO;
+u8 com4databuf[24];//串口4数据 IO状态占2个字节，4个流量表占16个字节
+u8 Ioread_write_flag=0; //测试IO读取反馈检测
+extern u8 SendIoCount;//向IO发送指令次数计时
+static u8   s_u8ioState = 0;
+static u16 s_u16ioPos = 0;
+static u16 s_u16ioLength = 0;
+u8  f_u8State = 0;
+u16 f_u16Pos = 0;
+u16 f_u16Length = 0; 
+extern MOCHINEStruct  MOCHINEDATE;//状态机执行所需条件
+/*16位CRC校验表*/
+const u8 auchCRCHi[]={
+0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,
+0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,
+0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,
+0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,
+0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,
+0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,
+0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,
+0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,
+
+0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,
+0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,
+0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,
+0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,
+0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,
+0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,
+0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40,0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,
+0x00,0xc1,0x81,0x40,0x01,0xc0,0x80,0x41,0x01,0xc0,0x80,0x41,0x00,0xc1,0x81,0x40
+};
+const u8 auchCRCLo[]={
+0x00,0xc0,0xc1,0x01,0xc3,0x03,0x02,0xc2,0xc6,0x06,0x07,0xc7,0x05,0xc5,0xc4,0x04,
+0xcc,0x0c,0x0d,0xcd,0x0f,0xcf,0xce,0x0e,0x0a,0xca,0xcb,0x0b,0xc9,0x09,0x08,0xc8,
+0xd8,0x18,0x19,0xd9,0x1b,0xdb,0xda,0x1a,0x1e,0xde,0xdf,0x1f,0xdd,0x1d,0x1c,0xdc,
+0x14,0xd4,0xd5,0x15,0xd7,0x17,0x16,0xd6,0xd2,0x12,0x13,0xd3,0x11,0xd1,0xd0,0x10,
+0xf0,0x30,0x31,0xf1,0x33,0xf3,0xf2,0x32,0x36,0xf6,0xf7,0x37,0xf5,0x35,0x34,0xf4,
+0x3c,0xfc,0xfd,0x3d,0xff,0x3f,0x3e,0xfe,0xfa,0x3a,0x3b,0xfb,0x39,0xf9,0xf8,0x38,
+0x28,0xe8,0xe9,0x29,0xeb,0x2b,0x2a,0xea,0xee,0x2e,0x2f,0xef,0x2d,0xed,0xec,0x2c,
+0xe4,0x24,0x25,0xe5,0x27,0xe7,0xe6,0x26,0x22,0xe2,0xe3,0x23,0xe1,0x21,0x20,0xe0,
+
+0xa0,0x60,0x61,0xa1,0x63,0xa3,0xa2,0x62,0x66,0xa6,0xa7,0x67,0xa5,0x65,0x64,0xa4,
+0x6c,0xac,0xad,0x6d,0xaf,0x6f,0x6e,0xae,0xaa,0x6a,0x6b,0xab,0x69,0xa9,0xa8,0x68,
+0x78,0xb8,0xb9,0x79,0xbb,0x7b,0x7a,0xba,0xbe,0x7e,0x7f,0xbf,0x7d,0xbd,0xbc,0x7c,
+0xb4,0x74,0x75,0xb5,0x77,0xb7,0xb6,0x76,0x72,0xb2,0xb3,0x73,0xb1,0x71,0x70,0xb0,
+0x50,0x90,0x91,0x51,0x93,0x53,0x52,0x92,0x96,0x56,0x57,0x97,0x55,0x95,0x94,0x54,
+0x9c,0x5c,0x5d,0x9d,0x5f,0x9f,0x9e,0x5e,0x5a,0x9a,0x9b,0x5b,0x99,0x59,0x58,0x98,
+0x88,0x48,0x49,0x89,0x4b,0x8b,0x8a,0x4a,0x4e,0x8e,0x8f,0x4f,0x8d,0x4d,0x4c,0x8c,
+0x44,0x84,0x85,0x45,0x87,0x47,0x46,0x86,0x82,0x42,0x43,0x83,0x41,0x81,0x80,0x40
+};
+
+u16 CRC16(u8* puchMsg, u16 usDataLen)
+{
+	u8 uchCRCHi=0xff;
+	u8 uchCRCLo=0xff;
+	u8 uIndex;
+	
+	while(usDataLen--)
+	{
+		uIndex=uchCRCHi^*(puchMsg++);
+		uchCRCHi=uchCRCLo^auchCRCHi[uIndex];
+		uchCRCLo=auchCRCLo[uIndex];
+	}
+	return uchCRCHi<<8|uchCRCLo;
+}
+
+/*io写入函数
+//id 器件地址
+ dataadress 对应Yn的寄存器地址
+ Y1----00
+ Y2----01
+ Y3----02
+ Y4----03
+ Y5----04
+ Y6----05
+ Y7----06
+ Y8----07
+
+*/
+//id 1器件地址
+//dataadress 寄存器低位地址
+//action 动作命令 FF 置位 00 复位
+void IO_SET_DATA(u8 id,u8 dataadress,u8 action)
+{
+	 u16 crc=0;
+
+	u8 buf[10] ={0xFE,0x0f,0,0,0,0x8,0x01,0,0,0};
+
+
+
+		 buf[7] = action;
+			crc =CRC16(buf,8);
+		buf[8] =(u8)(crc>>8);
+		buf[9] =(u8)(crc&0xff);
+//		IO.IOdata =0;
+//		IO.IOid =0xfe;							//方便检测反馈是否成功
+//		IO.IORegister=dataadress;
+//		IO.IOread_write = 1;
+//		IO.ioaction =action;
+//	  if(IO.ioaction==0xff)
+//			IO.IOdata |= (1<<dataadress);
+//		else
+//			IO.IOdata =0; //关闭电磁阀
+		comSendBuf(COM5,buf,10);
+}
+/*io写入函数
+//id 器件地址
+ dataadress 对应Yn的寄存器地址
+具体参照置位函数
+全断所有继电器
+*/
+void IO_RESETALL_DATA(u8 id)
+{
+	 u16 crc=0;
+	u8 buf[10] ={0,0x0F,0,0,0x0,0X08,1,0,0,0};
+		 buf[0] =	id;
+
+		crc =CRC16(buf,8);
+		buf[8] =(u8)(crc>>8);
+		buf[9] =(u8)(crc&0xff);
+		IO.IOread_write =2; //数据全清指令
+//		IO.IOid =id;							//方便检测反馈是否成功
+//		IO.IORegister=dataadress;
+//		IO.IOread_write = 1;
+//		IO.IOdata |= (1<<dataadress);
+		comSendBuf(COM5,buf,10);
+
+}
+//要读取的IO模块的地址
+void IO_READ_Input_Data(u8 id)
+{
+	 u16 crc=0;
+	u8 buf[8] ={0,0x02,0,0,0x0,8,0,0};
+		 buf[0] =	id;
+
+			crc =CRC16(buf,6);
+		buf[6] =(u8)(crc>>8);
+		buf[7] =(u8)(crc&0xff);
+		IO.IOread_write = 0; //读数据检测
+		comSendBuf(COM5,buf,8);
+
+
+}
+//IO模块接收数据帧解析
+u16 IO_Data ( u8 *buffer ) //从串口获取完整的原始数据,qsize buf_len
+{
+	u8 u8Data = 0;
+//	GR_U8 u8CountTem = 0 ,u8DataTem;
+//	GR_U16 u16CRC ,u16DataLength = 0;
+	u16 u16SUM_Check;
+
+	while ( comGetRxAvailableDataSize(COM5)>0 )
+	{
+//		if(IO.IOread_write==2)// 全清命令 防止485通信不畅情况(线路断掉)进入死循环
+//		{
+//			comGetChar ( COM5 , &u8Data );
+//			return 0;
+//		}
+		switch ( s_u8ioState )
+		{
+			case 0:
+//				if(	IO.IOread_write == 1) //写IO数据
+//				{	
+					comGetChar ( COM5 , &u8Data );
+					if ( ( u8Data == 0xfe) && ( s_u16ioPos == 0 ) ) //帧头
+					{
+							buffer[s_u16ioPos ++] = u8Data;
+					}
+					else if( ( u8Data != 0xfe ) && ( s_u16ioPos == 0) ) //帧头
+					{
+						s_u16ioPos = 0;
+						continue;
+					}
+					else
+					{
+						buffer[s_u16ioPos ++] = u8Data;
+					}
+				  if ( ( s_u16ioPos == 2 ) && ( buffer[1] != 0X0f ) ) //检测写指针
+					{
+						s_u16ioPos = 0;
+						return s_u16ioPos;
+					}
+				  if ( ( s_u16ioPos == 3) && ( buffer[2] == 0x0 ) ) //操作寄存器是否正确
+					{
+							s_u8ioState = 1;
+					}					
+				  else if ( ( s_u16ioPos == 3) && ( buffer[2] != 0x0 ) ) //操作寄存器是否正确
+					{
+						s_u16ioPos = 0;
+						return s_u16ioPos;
+					}
+//				  if ( ( s_u16ioPos == 5) && ( buffer[4] ==IO.ioaction)) //检测动作指令是否正确
+//					{
+//						s_u8ioState = 1;
+//					}
+//				  else if ( ( s_u16ioPos == 5) && ( buffer[4] !=IO.ioaction)) //检测动作指令是否正确
+//					{
+//						s_u16ioPos = 0;
+//						return s_u16ioPos;
+//					}
+//				}
+		
+
+				break;
+			case 1://持续接收后面数据，全部接收完
+				comGetChar (COM5 , &u8Data );
+				buffer[s_u16ioPos++] = u8Data;
+
+				if ( s_u16ioPos > 8 )
+				{
+					s_u16ioPos = 0;
+					memset ( io_RX_Buf , 0 , 20 );
+					s_u8ioState = 0;
+					return 0;
+				}
+
+				if ( s_u16ioPos == 8 ) //接收完
+				{
+					s_u8ioState = 0;
+//							   u16DataLength = s_u16Length;
+					u16SUM_Check = CRC16 ( buffer , s_u16ioPos - 2);
+					s_u16ioLength = s_u16ioPos;
+					s_u16ioPos = 0;
+
+					//验证结束码和校验和
+					if  ( u16SUM_Check == ( ( buffer[s_u16ioLength - 2] << 8 ) | buffer[s_u16ioLength - 1] ) )  //
+					{
+						return s_u16ioLength;
+					}
+					else//失败
+					{
+						memset ( io_RX_Buf , 0 , s_u16ioLength );
+						return 0;
+					}
+				}
+
+							
+				break;
+			default:
+				break;
+		}
+	}
+
+	if ( s_u16ioPos > 8 )
+	{
+		s_u16ioPos = 0;
+		s_u8ioState = 0;
+	}
+
+	return 0;//没有形成完整的一帧
+}
+void  DepackIO_Data ( void )
+{
+	u8 u8SourceDataLength , u8DataLength , u8CMD;
+	u8SourceDataLength = IO_Data ( io_RX_Buf );
+
+	if ( u8SourceDataLength != 0 )
+	{
+		u8CMD = io_RX_Buf[1];
+
+		switch ( u8CMD )
+		{
+			case 0X0F:
+       IowriteState=0;
+				break;
+			default :
+				break;
+		}
+	}
+}
+u16 verifycom4recviedata(u8 *buffer)
+{
+	u8 u8Data = 0;
+//	GR_U8 u8CountTem = 0 ,u8DataTem;
+//	GR_U16 u16CRC ,u16DataLength = 0;
+	u8 u16SUM_Check;
+
+	while ( comGetRxAvailableDataSize(COM4)>0 )
+	{
+		switch ( f_u8State )
+		{
+			case 0:
+				comGetChar ( COM4 , &u8Data );
+
+				if ( ( u8Data == 0xaa ) && ( f_u16Pos == 0 ) ) //帧头
+				{
+					buffer[f_u16Pos ++] = u8Data;
+				}
+				else if ( ( u8Data != 0xAA ) && ( f_u16Pos == 0 ) ) //帧头
+				{
+					f_u16Pos = 0;
+					continue;
+				}
+				else
+				{
+					buffer[f_u16Pos ++] = u8Data;
+				}
+
+				if(( buffer[1]!= 0x55 ) && ( f_u16Pos == 2 ))
+				{
+							f_u16Pos = 0;
+						return f_u16Pos;
+				}
+				//s_u16Pos ++;
+
+				if ( ( f_u16Pos == 3 ) && ( buffer[2] == 1 ) )
+				{
+					f_u8State = 1;
+				}
+				else if ( ( f_u16Pos == 3 ) && ( buffer[2] != 1) )
+				{
+					f_u16Pos = 0;
+					return f_u16Pos;
+				}
+
+				break;
+			case 1://持续接收后面数据，全部接收完
+				comGetChar ( COM4 , &u8Data );
+				buffer[f_u16Pos++] = u8Data;
+
+				if ( f_u16Pos > 25 )
+				{
+					f_u16Pos = 0;
+					memset ( com4databuf , 0 , 24);
+					f_u8State = 0;
+					return 0;
+				}
+
+				if ( f_u16Pos ==24) //接收完
+				{
+					f_u8State = 0;
+//							   u16DataLength = s_u16Length;
+					f_u16Length = f_u16Pos;
+					f_u16Pos = 0;
+
+					//验证结束码和校验和
+					if ( ( buffer[f_u16Length - 1]==0x5a ) && ( buffer[f_u16Length - 2]==0xa5) )  //
+					{
+						return f_u16Length;
+					}
+					else//失败
+					{
+						memset ( com4databuf , 0 , f_u16Length );
+						return 0;
+					}
+				}
+
+				break;
+			default:
+				break;
+		}
+	}
+
+	if ( f_u16Pos > 25)
+	{
+		f_u16Pos = 0;
+		f_u8State = 0;
+	}
+
+	return 0;//没有形成完整的一帧
+}
+void  DepackCom4Data ( void )
+{
+	u8 u8SourceDataLength , i , u8CMD;
+	u8SourceDataLength = verifycom4recviedata ( com4databuf );
+
+	if ( u8SourceDataLength != 0 )
+	{
+		u8CMD = com4databuf[3];
+
+		switch ( u8CMD )
+		{
+			case 3://读流量表的数据
+			for(i=6;i<22;i++)
+			com4databuf[i]=FlowmeterCount.databuf[i-6];//测试数据
+//			com4databuf[i]=FlowmeterCount.databuf[i];//拷贝流量数据
+			comSendBuf(COM4,com4databuf ,24);		
+      memset(com4databuf,0,24);		
+			break;
+			case 6:
+			comSendBuf(COM4,com4databuf ,24);
+			if(com4databuf[4]==1) //打开水泵
+			{
+//				time_flag=1;//打开水泵
+				//timeset=0;
+			 IO_OutSet(1, 1);
+			}
+		  else if(com4databuf[4]==2)//关闭水泵
+			{
+				IO_OutSet(1, 0);
+			}
+			IO_SET_DATA(1,1,com4databuf[5]);//要开启或关闭的电磁阀
+			Ioaction=com4databuf[5];
+			horizon_test=1;	
+			IowriteState=1;//若未写成功则继续写
+      memset(com4databuf,0,24);	
+				break;
+			default :
+				break;
+		}
+	}
+}
+//分区控制任务
+// alfred
+// 添加局部变量更新消息判断数据读取与控制
+void ZoneCtrl_task(void *pdata)
+{
+//	ZoneCtrl_Init();
+//	ZonePara_Init();
+//	ZoneBufClear();
+//OS_CPU_SR cpu_sr=0;	
+	u8 iolength=0;
+	while(1)
+	{
+//		OSTimeDlyHMSM(0,0,0,100);
+		delay_ms(100);
+	 DepackIO_Data ();
+	 
+   if(IowriteState)
+	 {
+	 	IO_SET_DATA(1,1,Ioaction);//要开启或关闭的电磁阀
+	 
+	 } 
+		DepackCom4Data ();	
+	}
+}

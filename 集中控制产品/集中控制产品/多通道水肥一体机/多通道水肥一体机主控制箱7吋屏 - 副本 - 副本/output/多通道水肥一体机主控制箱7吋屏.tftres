@@ -1,0 +1,146 @@
+<Resource>
+    <pages>
+        <page name="首页" id="0" />
+        <page name="操作第一步" id="1" />
+        <page name="灌溉操作第一步" id="2" />
+        <page name="清水操作第二步" id="3" />
+        <page name="肥水操作第二步" id="4" />
+        <page name="清水操作第三步" id="5" />
+        <page name="肥水操作第三步" id="6" />
+        <page name="肥水操作第四步" id="7" />
+        <page name="清水正在灌溉" id="8" />
+        <page name="肥水正在灌溉" id="9" />
+        <page name="设置第一步" id="10" />
+        <page name="设置第二步" id="11" />
+        <page name="设置第三步" id="12" />
+        <page name="设置第四步" id="13" />
+        <page name="设置第五步" id="14" />
+        <page name="设置第六步" id="15" />
+        <page name="设置第七步" id="16" />
+        <page name="浓度保存" id="17" />
+        <page name="分区面积保存" id="18" />
+        <page name="复合肥保存" id="19" />
+        <page name="一阶段保存" id="20" />
+        <page name="二阶段保存" id="21" />
+        <page name="三阶段保存" id="22" />
+        <page name="四阶段保存" id="23" />
+        <page name="用户选择界面" id="24" />
+        <page name="访客登录界面" id="25" />
+        <page name="访客登录错误" id="26" />
+        <page name="管理员登录界面" id="27" />
+        <page name="管理员登录错误" id="28" />
+        <page name="任务记录" id="29" />
+        <page name="密码校验" id="30" />
+        <page name="修改新密码" id="31" />
+        <page name="密码保存成功" id="32" />
+        <page name="未完成任务提示" id="33" />
+        <page name="修改密码错误" id="34" />
+        <page name="未保存提示" id="35" />
+        <page name="配置选项" id="36" />
+        <page name="报警提示" id="37" />
+        <page name="WIFI配置" id="38" />
+        <page name="WIFI保存界面" id="39" />
+    </pages>
+    <images>
+        <image id="0" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\1_待机画面.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="1" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\2_操作第一步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="2" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\开始灌溉.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="3" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\开始设置.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="4" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\3_灌溉操作第一步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="5" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="6" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\清水灌溉.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="7" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\肥水灌溉.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="8" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\4_清水操作第二步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="9" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\复选空.png" width="50" height="50" crop="0" effect_left="0" effect_top="0" effect_width="50" effect_height="50" size="5000" />
+        <image id="10" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\复选√.png" width="50" height="50" crop="0" effect_left="0" effect_top="0" effect_width="50" effect_height="50" size="5000" />
+        <image id="11" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\上一步.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="12" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\下一步.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="13" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\5_肥水操作第二步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="14" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\6_清水操作第三步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="15" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\启动.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="16" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\60.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="17" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\90.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="18" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\120.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="19" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\150.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="20" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\180.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="21" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\210.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="22" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\7_肥水操作第三步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="23" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\复合肥橙色.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="24" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\复合肥.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="25" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\一阶段橙色.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="26" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\一阶段.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="27" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\二阶段橙色.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="28" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\二阶段.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="29" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\三阶段橙色.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="30" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\三阶段.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="31" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\四阶段橙色.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="32" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\四阶段.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="33" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\8_肥水操作第四步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="34" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\9_清水正在灌溉.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="35" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\停止.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="36" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\暂停.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="37" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\恢复.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="38" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\10_肥水正在灌溉.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="39" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\11_设置第一步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="40" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\保存.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="41" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\12_设置第二步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="42" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\13_设置第三步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="43" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\14_设置第四步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="44" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\15_设置第五步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="45" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\16_设置第六步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="46" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\17_设置第七步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="47" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\完成.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="48" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\11-1_浓度保存确认.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="49" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\确认.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="50" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\取消.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="51" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\12-1_分区面积保存确认.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="52" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\13-1_复合肥程序保存确认.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="53" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\14-1_一阶段程序保存确认.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="54" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\15-1_二阶段程序保存确认.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="55" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\16-1_三阶段程序保存确认.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="56" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\17-1_四阶段程序保存确认.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="57" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\用户选择界面.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="58" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\访客.png" width="187" height="80" crop="0" effect_left="0" effect_top="0" effect_width="187" effect_height="80" size="29920" />
+        <image id="59" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\管理员.png" width="187" height="80" crop="0" effect_left="0" effect_top="0" effect_width="187" effect_height="80" size="29920" />
+        <image id="60" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\查看记录.png" width="187" height="80" crop="0" effect_left="0" effect_top="0" effect_width="187" effect_height="80" size="29920" />
+        <image id="61" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="217" height="80" crop="0" effect_left="0" effect_top="0" effect_width="217" effect_height="80" size="34720" />
+        <image id="62" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\访客登录界面.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="63" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\取消取消.png" width="155" height="80" crop="0" effect_left="0" effect_top="0" effect_width="155" effect_height="80" size="24800" />
+        <image id="64" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\确定确定.png" width="155" height="80" crop="0" effect_left="0" effect_top="0" effect_width="155" effect_height="80" size="24800" />
+        <image id="65" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\更改密码.png" width="155" height="80" crop="0" effect_left="0" effect_top="0" effect_width="155" effect_height="80" size="24800" />
+        <image id="66" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\密码错误.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="67" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="195" height="59" crop="0" effect_left="0" effect_top="0" effect_width="195" effect_height="59" size="23010" />
+        <image id="68" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\管理员登录界面.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="69" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\取消取消.png" width="167" height="80" crop="0" effect_left="0" effect_top="0" effect_width="167" effect_height="80" size="26720" />
+        <image id="70" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\确定确定.png" width="167" height="80" crop="0" effect_left="0" effect_top="0" effect_width="167" effect_height="80" size="26720" />
+        <image id="71" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="197" height="47" crop="0" effect_left="0" effect_top="0" effect_width="197" effect_height="47" size="18518" />
+        <image id="72" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\任务记录.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="73" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\上一条.png" width="154" height="44" crop="0" effect_left="0" effect_top="0" effect_width="154" effect_height="44" size="13552" />
+        <image id="74" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\下一条.png" width="154" height="44" crop="0" effect_left="0" effect_top="0" effect_width="154" effect_height="44" size="13552" />
+        <image id="75" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\显示输入记录.png" width="154" height="44" crop="0" effect_left="0" effect_top="0" effect_width="154" effect_height="44" size="13552" />
+        <image id="76" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="154" height="47" crop="0" effect_left="0" effect_top="0" effect_width="154" effect_height="47" size="14476" />
+        <image id="77" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\修改密码校验.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="78" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\取消取消.png" width="187" height="80" crop="0" effect_left="0" effect_top="0" effect_width="187" effect_height="80" size="29920" />
+        <image id="79" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\确定确定.png" width="187" height="80" crop="0" effect_left="0" effect_top="0" effect_width="187" effect_height="80" size="29920" />
+        <image id="80" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\新密码.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="81" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="176" height="80" crop="0" effect_left="0" effect_top="0" effect_width="176" effect_height="80" size="28160" />
+        <image id="82" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\保存.png" width="176" height="80" crop="0" effect_left="0" effect_top="0" effect_width="176" effect_height="80" size="28160" />
+        <image id="83" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\密码更新成功.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="84" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="204" height="65" crop="0" effect_left="0" effect_top="0" effect_width="204" effect_height="65" size="26520" />
+        <image id="85" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\未完成任务提示.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="86" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\放弃任务.png" width="184" height="87" crop="0" effect_left="0" effect_top="0" effect_width="184" effect_height="87" size="32016" />
+        <image id="87" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\继续任务.png" width="184" height="87" crop="0" effect_left="0" effect_top="0" effect_width="184" effect_height="87" size="32016" />
+        <image id="88" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="195" height="74" crop="0" effect_left="0" effect_top="0" effect_width="195" effect_height="74" size="28860" />
+        <image id="89" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\未保存提示.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="90" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\取消取消.png" width="234" height="80" crop="0" effect_left="0" effect_top="0" effect_width="234" effect_height="80" size="37440" />
+        <image id="91" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\确定确定.png" width="234" height="80" crop="0" effect_left="0" effect_top="0" effect_width="234" effect_height="80" size="37440" />
+        <image id="92" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\配置选项.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="93" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\关闭.png" width="167" height="41" crop="0" effect_left="0" effect_top="0" effect_width="167" effect_height="41" size="13694" />
+        <image id="94" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\启动.png" width="167" height="41" crop="0" effect_left="0" effect_top="0" effect_width="167" effect_height="41" size="13694" />
+        <image id="95" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\下一步.png" width="193" height="59" crop="0" effect_left="0" effect_top="0" effect_width="193" effect_height="59" size="22774" />
+        <image id="96" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\错误提示.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="97" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\返回.png" width="257" height="79" crop="0" effect_left="0" effect_top="0" effect_width="257" effect_height="79" size="40606" />
+        <image id="98" url="c:\users\moon\desktop\集中控制产品\集中控制产品\多通道水肥一体机\多通道水肥一体机主控制箱7吋屏 - 副本 - 副本\Images\WIFI配置界面.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+    </images>
+    <waves />
+</Resource>

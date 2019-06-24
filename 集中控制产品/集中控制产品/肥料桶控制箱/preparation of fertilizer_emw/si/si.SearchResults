@@ -1,0 +1,13 @@
+---- ALARMMSG_STIRTIME_OPEN Matches (12 in 3 files) ----
+Alarm.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):				case ALARMMSG_STIRTIME_OPEN://收到命令时打开计时器
+Alarm.h (d:\2019project\junqing1\preparation of fertilizer_emw\user):#define ALARMMSG_STIRTIME_OPEN	 	0x03//搅拌时间判断开启
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;
+UserCore.c (d:\2019project\junqing1\preparation of fertilizer_emw\user):								MsgSend.CmdType = ALARMMSG_STIRTIME_OPEN;

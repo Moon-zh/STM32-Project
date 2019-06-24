@@ -1,0 +1,4 @@
+---- tagendid Matches (3 in 1 files) ----
+UserCore.c (d:\hardware\张保忠\mypingmu\tagendemw\user):u8 tagendid=1;//终端ID
+UserCore.c (d:\hardware\张保忠\mypingmu\tagendemw\user):				if ( ( s_u16Pos == 3 ) && ( buffer[2] == tagendid ) )
+UserCore.c (d:\hardware\张保忠\mypingmu\tagendemw\user):				else if ( ( s_u16Pos == 3 ) && ( buffer[2] != tagendid ) )
