@@ -170,3 +170,9 @@ unsigned int  up_wartime=20;	//报警上传频率
 unsigned char Three=0;
 unsigned char Nsendok=0;
 #include "my_HDMI.h"
+extern uint8_t g_RxBuf1[UART1_RX_BUF_SIZE];
+extern uint8_t g_RxBuf5[UART5_RX_BUF_SIZE];
+void	readflash(void);
+void	sendflash(void);
+void	UpSetAlarm_wifi(Waring data,u8 group);
+void	UpSetAlarm(Waring data,u8 group);

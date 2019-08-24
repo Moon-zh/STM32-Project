@@ -321,9 +321,9 @@
 //画面配置界面的背景图片
 #define  _IMG_配置界面                                                            20
 
-#define  _TXT_DIS__配置界面_TEXT_DISPLAY1                                          3
+#define  _TXT_DIS__配置界面_TEXT_DISPLAY1                                          1
 
-#define  _TXT_DIS__配置界面_TEXT_DISPLAY2                                          1
+#define  _TXT_DIS__配置界面_TEXT_DISPLAY2                                          2
 
 //画面配置界面中按钮Button1弹起时的图片
 #define  _IMG_配置界面_BUTTON1_UP                                                 15
@@ -331,7 +331,7 @@
 //画面配置界面中按钮Button1按下时的图片
 #define  _IMG_配置界面_BUTTON1_DOWN                                               15
 
-#define  _BTN_配置界面_BUTTON1                                                     5
+#define  _BTN_配置界面_BUTTON1                                                    52
 
 //画面配置界面中按钮Button2弹起时的图片
 #define  _IMG_配置界面_BUTTON2_UP                                                 14
@@ -339,7 +339,17 @@
 //画面配置界面中按钮Button2按下时的图片
 #define  _IMG_配置界面_BUTTON2_DOWN                                               14
 
-#define  _BTN_配置界面_BUTTON2                                                     2
+#define  _BTN_配置界面_BUTTON2                                                    22
+
+#define  _TXT_DIS__配置界面_TEXT_DISPLAY3                                          3
+
+#define  _TXT_DIS__配置界面_TEXT_DISPLAY4                                          4
+
+#define  _TXT_DIS__配置界面_TEXT_DISPLAY5                                          5
+
+#define  _TXT_DIS__配置界面_TEXT_DISPLAY6                                          6
+
+#define  _TXT_DIS__配置界面_TEXT_DISPLAY7                                          7
 
 //画面保存配置的背景图片
 #define  _IMG_保存配置                                                            16

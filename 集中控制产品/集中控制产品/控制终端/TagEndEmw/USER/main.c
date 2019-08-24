@@ -214,10 +214,10 @@ void	readflashthree(void)						//从flash中读取三元组数据
 		memset(DeviceName0,0,20);
 		msg=buf+25+3;for(i=0;*msg;msg++)	DeviceName[i++]=*msg;
 	}
-	if(buf[79]=='S')
+	if(buf[59]=='S')
 	{
 		memset(DeviceSecret0,0,40);
-		msg=buf+79+3;for(i=0;*msg;msg++)	DeviceSecret[i++]=*msg;
+		msg=buf+59+3;for(i=0;*msg;msg++)	DeviceSecret[i++]=*msg;
 	}
 	
 	//STMFLASH_Read(100+FLASH_THREE_ADDR,(u16*)buf,50);
@@ -248,8 +248,8 @@ void	sendflashthree(u8 group)				//向内存写入设置的三元组数据
 	STMFLASH_Write(group*100+FLASH_THREE_ADDR+4,(u16*)ProductKey0,sizeof(ProductKey0));
 	STMFLASH_Write(group*100+FLASH_THREE_ADDR+24,(u16*)"DN:0",4);
 	STMFLASH_Write(group*100+FLASH_THREE_ADDR+28,(u16*)DeviceName0,sizeof(DeviceName0));
-	STMFLASH_Write(group*100+FLASH_THREE_ADDR+78,(u16*)"DS:0",4);
-	STMFLASH_Write(group*100+FLASH_THREE_ADDR+82,(u16*)DeviceSecret0,sizeof(DeviceSecret0));
+	STMFLASH_Write(group*100+FLASH_THREE_ADDR+58,(u16*)"DS:0",4);
+	STMFLASH_Write(group*100+FLASH_THREE_ADDR+62,(u16*)DeviceSecret0,sizeof(DeviceSecret0));
 	readflashthree();
 	//LED_BZ=0;
 	OS_EXIT_CRITICAL();				//退出临界区(可以被中断打断)

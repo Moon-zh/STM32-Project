@@ -1,0 +1,37 @@
+<Resource>
+    <pages>
+        <page name="首页" id="0" />
+        <page name="显示" id="1" />
+        <page name="设备配置" id="2" />
+        <page name="设置时长" id="3" />
+        <page name="倒计时" id="4" />
+    </pages>
+    <images>
+        <image id="0" url="c:\users\moon\desktop\control terminal\project\Images\1_待机画面.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="1" url="c:\users\moon\desktop\control terminal\project\Images\终端显示.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="2" url="c:\users\moon\desktop\control terminal\project\Images\设备配置.png" width="184" height="98" crop="0" effect_left="0" effect_top="0" effect_width="184" effect_height="98" size="36064" />
+        <image id="3" url="c:\users\moon\desktop\control terminal\project\Images\下一步.png" width="184" height="98" crop="0" effect_left="0" effect_top="0" effect_width="184" effect_height="98" size="36064" />
+        <image id="4" url="c:\users\moon\desktop\control terminal\project\Images\电磁阀1.png" width="200" height="91" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="91" size="36400" />
+        <image id="5" url="c:\users\moon\desktop\control terminal\project\Images\电磁阀1 - 副本.png" width="200" height="91" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="91" size="36400" />
+        <image id="6" url="c:\users\moon\desktop\control terminal\project\Images\电磁阀2 - 副本 - 副本.png" width="200" height="91" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="91" size="36400" />
+        <image id="7" url="c:\users\moon\desktop\control terminal\project\Images\电磁阀2 - 副本 - 副本 - 副本.png" width="200" height="91" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="91" size="36400" />
+        <image id="8" url="c:\users\moon\desktop\control terminal\project\Images\电磁阀3 - 副本.png" width="200" height="91" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="91" size="36400" />
+        <image id="9" url="c:\users\moon\desktop\control terminal\project\Images\电磁阀3 - 副本 - 副本.png" width="200" height="91" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="91" size="36400" />
+        <image id="10" url="c:\users\moon\desktop\control terminal\project\Images\电磁阀4.png" width="200" height="91" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="91" size="36400" />
+        <image id="11" url="c:\users\moon\desktop\control terminal\project\Images\电磁阀4 - 副本.png" width="200" height="91" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="91" size="36400" />
+        <image id="12" url="c:\users\moon\desktop\control terminal\project\Images\设备配置界面1.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="13" url="c:\users\moon\desktop\control terminal\project\Images\保存.png" width="240" height="120" crop="0" effect_left="0" effect_top="0" effect_width="240" effect_height="120" size="57600" />
+        <image id="14" url="c:\users\moon\desktop\control terminal\project\Images\返回.png" width="240" height="120" crop="0" effect_left="0" effect_top="0" effect_width="240" effect_height="120" size="57600" />
+        <image id="15" url="c:\users\moon\desktop\control terminal\project\Images\设置时长.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="16" url="c:\users\moon\desktop\control terminal\project\Images\启动.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="17" url="c:\users\moon\desktop\control terminal\project\Images\60.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="18" url="c:\users\moon\desktop\control terminal\project\Images\90.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="19" url="c:\users\moon\desktop\control terminal\project\Images\120.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="20" url="c:\users\moon\desktop\control terminal\project\Images\150.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="21" url="c:\users\moon\desktop\control terminal\project\Images\180.png" width="100" height="100" crop="0" effect_left="0" effect_top="0" effect_width="100" effect_height="100" size="20000" />
+        <image id="22" url="c:\users\moon\desktop\control terminal\project\Images\取消.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="23" url="c:\users\moon\desktop\control terminal\project\Images\倒计时.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="24" url="c:\users\moon\desktop\control terminal\project\Images\停止.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+    </images>
+    <waves />
+</Resource>

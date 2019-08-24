@@ -125,7 +125,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>岉s</Name>
+          <Name>(105=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -280,6 +280,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>RtcBKP</ItemText>
         </Ww>
+        <Ww>
+          <count>25</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_u8WifiPara</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -376,8 +381,8 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-          <SubType>3</SubType>
-          <ItemText>BKP_BASE</ItemText>
+          <SubType>8</SubType>
+          <ItemText>\\UCOSII_3\../HARDWARE/RS485/rs485.c\g_RxBuf1</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>

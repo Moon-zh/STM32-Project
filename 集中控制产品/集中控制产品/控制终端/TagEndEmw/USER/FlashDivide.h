@@ -9,6 +9,7 @@
 #define ADDR_PARA					0x5000	//参数起始地址
 #define ADDR_PARASET				0x1000	//WiFi参数地址
 #define ADDR_DEVICEID				0x2000	//地址参数地址
+#define ADDR_DHCPSET	  			0xa0a0	//WiFi参数地址
 
 void FlashReadWaterProg(u8* _pBuf,u8 addr,u8 Num);
 void FlashWriteWaterProg(u8* _pBuf,u8 Num);
@@ -24,6 +25,8 @@ void FlashReadPara(u8* _pBuf,u8 addr,u8 Num);
 void FlashWritePara(u8* _pBuf,u8 Num);
 void FlashReadID(u8* _pBuf);
 void FlashWriteID(u8* _pBuf);
+void FlashReadDHCP(u8* _pBuf);
+void FlashWriteDHCP(u8* _pBuf);
 
 
 

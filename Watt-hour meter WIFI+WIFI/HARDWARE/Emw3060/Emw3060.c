@@ -146,17 +146,21 @@ void	Emw3060_init(void)				//EMW初始化
 	memset(buf,0,sizeof buf);
 }
 
-void	Emw3060_con(void)				//EMW连接阿里云
+extern 	uint8_t g_RxBuf2[UART2_RX_BUF_SIZE];
+unsigned char Emw3060_con(void)				//EMW连接阿里云
 {
 	u8 buf[250];
 	char hc[100];
 	char cs[40];
 	char mac[33];
 	char *m;
-	Emwled=2;
+	u8 to=0;
+	Emwled=2;to=0;
 	ProductKeyw=ProductKey1;
 	DeviceNamew=DeviceName1;
 	DeviceSecretw=DeviceSecret1;
+	
+	memset(cs,0,sizeof cs);
 	
 	while(1)	//读取MAC地址
 	{
@@ -173,6 +177,7 @@ void	Emw3060_con(void)				//EMW连接阿里云
 	
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
+	memset(g_RxBuf2,0,UART2_RX_BUF_SIZE);
 	
 	sprintf(hc,"clientId%sdeviceName%sproductKey%stimestamp789",mac,DeviceNamew,ProductKeyw);
 	while(1)	//写入设备鉴权信息
@@ -186,6 +191,7 @@ void	Emw3060_con(void)				//EMW连接阿里云
 	}
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
+	memset(g_RxBuf2,0,UART2_RX_BUF_SIZE);
 	
 	while(1)	//设置设备CID
 	{
@@ -197,6 +203,7 @@ void	Emw3060_con(void)				//EMW连接阿里云
 	}
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
+	memset(g_RxBuf2,0,UART2_RX_BUF_SIZE);
 	
 	while(1)	//设置目标IP地址
 	{
@@ -235,9 +242,11 @@ void	Emw3060_con(void)				//EMW连接阿里云
 	{
 		printf_num=2;
 		printf("AT+MQTTSTART\r");
-		delay_ms(2000);
+		delay_ms(4000);
 		COM2GetBuf(buf,200);
-		if(strstr((const char *)buf,"MQTTEVENT:CONNECT,SUCCESS")[0]=='M')break;
+		if(strstr((const char *)buf,"SUCCESS")[0]=='S')break;
+		if(++to==20){Emwled=3;return 0;}
+		comClearRxFifo(COM2);
 	}
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
@@ -255,6 +264,7 @@ void	Emw3060_con(void)				//EMW连接阿里云
 	memset(g_RxBuf2,0,UART2_RX_BUF_SIZE);
 	Emwled=3;
 	sumbz=0;
+	return 1;
 }
 
 u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
@@ -268,6 +278,7 @@ u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
 	DeviceSecretw=DeviceSecret1;
 	memset(buf,0,sizeof buf);
 	comClearRxFifo(COM2);
+	time=0;
 	while(1)	//设置发送topic
 	{
 		printf_num=2;
@@ -277,10 +288,11 @@ u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
 		delay_ms(500);
 		COM2GetBuf(buf,200);
 		if(strstr((const char *)buf,"OK")[0]=='O')break;
+		if(++time==10){Emwled=3;return 0;}
 	}
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
-	
+
 	len=0;time=0;
 	while(1)	//发送数据指令
 	{
@@ -288,24 +300,24 @@ u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
 		printf("AT+MQTTSEND=%d\r",strlen(data)+13);
 		while(1)
 		{
-			delay_ms(200);
+			delay_ms(100);
 			COM2GetBuf(buf,20);
 			if(strstr((const char *)buf,">")[0]=='>')break;
 			if(strstr((const char *)buf,"ERROR")[0]=='E')break;
-			if(++time==10)return 0;
+			if(++time==10){Emwled=3;return 0;}
 		}
 		if(strstr((const char *)buf,">")[0]=='>')break;
 		comClearRxFifo(COM2);
-		if(++len==5){return 0;}
+		if(++len==5){Emwled=3;return 0;}
 	}
 	memset(buf,0,sizeof buf);
+	comClearRxFifo(COM2);
 	
 	sprintf(hc,"{\"params\":{%s}}",data);
 	len=strlen(hc);
 	if(hc[len-3]==',')hc[len-3]=' ';
 	printf_num=2;
 	printf("%s",hc);
-	
 	delay_ms(3000);
 	COM2GetBuf(buf,100);
 	Emwled=3;

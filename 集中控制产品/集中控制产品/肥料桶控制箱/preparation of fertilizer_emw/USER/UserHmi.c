@@ -15,10 +15,15 @@ extern OS_TMR	CallerTmr;
 u8 Hmi_cmd_buffer[CMD_MAX_BUFFER];  //串口命令接收缓冲区
 u16 s_screen_id;                  //页面ID编号变量
 u16 s_control_id;                 //控件ID编号变量
-
+u8 g_u8DHCP=1;
 u16 s_TargetID;				//密码正确跳转界面zbz
 u16 s_ReturnID;				//密码界面返回跳转界面zbz
-
+extern char ssid[31];
+extern char password[31];
+extern char ipaddr[16];
+extern char subnet[16];
+extern char gateway[16];
+extern char dns[16];
 void SignedNumberToASCII ( u8 *Arry , s16 Number,u8 decimalnum);//有正负的数
 /*******************************************************************************
 名称:数字文本输入获取
@@ -451,13 +456,14 @@ void SavePara(PCTRL_MSG msg, qsize size)
 		PackSendRemoteQ(&Msgtemp);
 	}
 }
-u8 g_u8WifiPara[62];
+u8 g_u8WifiPara[130];
 
 void StartPage(PCTRL_MSG msg, qsize size)
 {
 		u16 u16Control_ID;				   //控件ID编号变量
 //		u8	u8ButtonVaule = msg->param[1];
 //		s16 s16RevVal  = 0;
+		u8 u8Str[7] = {0,0,0,0,0,0,0};
  		u16Control_ID = PTR2U16 ( &msg->control_id ); //控件ID
 		if(u16Control_ID == 2 )
 		{
@@ -468,8 +474,21 @@ void StartPage(PCTRL_MSG msg, qsize size)
 			//从flash中读取参数
 			FlashReadWiFi(g_u8WifiPara);
 			//展示参数
-			SetTextValue(LCD_WIFISET_PAGE,3,g_u8WifiPara);
-			SetTextValue(LCD_WIFISET_PAGE,1,&g_u8WifiPara[31]);
+			SetTextValue(LCD_WIFISET_PAGE,1,&g_u8WifiPara[0]);
+			SetTextValue(LCD_WIFISET_PAGE,2,&g_u8WifiPara[31]);
+			SetTextValue(LCD_WIFISET_PAGE,3,&g_u8WifiPara[62]);
+			SetTextValue(LCD_WIFISET_PAGE,4,&g_u8WifiPara[78]);
+			SetTextValue(LCD_WIFISET_PAGE,5,&g_u8WifiPara[94]);
+			SetTextValue(LCD_WIFISET_PAGE,6,&g_u8WifiPara[110]);
+			if(g_u8DHCP == 1)
+			{
+				NumberToASCII(u8Str,g_u8DHCP);
+			}
+			else 
+			{
+				u8Str[0]=0x30;
+			}
+			SetTextValue(LCD_WIFISET_PAGE,7,u8Str);
 			//跳转界面
 //SetScreen(LCD_WIFISET_PAGE);
 		}
@@ -478,17 +497,45 @@ void StartPage(PCTRL_MSG msg, qsize size)
 void WiFiSet(PCTRL_MSG msg, qsize size)
 {
 	u16 u16Control_ID;				   //控件ID编号变量
-	u8	u8ButtonVaule = msg->param[1];
+	s16 s16RevVal  = 0;
+	
 	u16Control_ID = PTR2U16 ( &msg->control_id ); //控件ID
-	if(u16Control_ID == 3)
+	if(u16Control_ID == 1)
 	{
 		memcpy(g_u8WifiPara,msg->param,(size-12));
+		memcpy(ssid,msg->param,(size-12));
 	}
-	else if(u16Control_ID == 1)
+	else if(u16Control_ID == 2)
 	{
 		memcpy(&g_u8WifiPara[31],msg->param,(size-12));
+		memcpy(password,msg->param,(size-12));
+	}
+	else if(u16Control_ID == 3)
+	{
+		memcpy(&g_u8WifiPara[62],msg->param,(size-12));
+		memcpy(ipaddr,msg->param,(size-12));
+	}
+	else if(u16Control_ID == 4)
+	{
+		memcpy(&g_u8WifiPara[78],msg->param,(size-12));
+		memcpy(subnet,msg->param,(size-12));
 	}
 	else if(u16Control_ID == 5)
+	{
+		memcpy(&g_u8WifiPara[94],msg->param,(size-12));
+		memcpy(gateway,msg->param,(size-12));
+	}
+	else if(u16Control_ID == 7)
+	{
+		FifureTextInput ( &s16RevVal, msg );
+		g_u8DHCP = s16RevVal;
+	}
+	else if(u16Control_ID == 6)
+	{
+		memcpy(&g_u8WifiPara[110],msg->param,(size-12));
+		memcpy(dns,msg->param,(size-12));
+	}
+	else if(u16Control_ID == 52)
 	{
 		SetScreen(LCD_WIFISAVE_PAGE);
 	}
@@ -501,6 +548,7 @@ void WiFiSave(PCTRL_MSG msg, qsize size)
 	if(u16Control_ID == 1 && u8ButtonVaule ==1)
 	{
 		FlashWriteWiFi(g_u8WifiPara);
+		FlashWriteDHCP(&g_u8DHCP);
 		SetScreen(LCD_WIFISET_PAGE);
 	}
 	else if(u16Control_ID == 2 && u8ButtonVaule ==1)
@@ -806,7 +854,8 @@ void TimeUpdate(void)
 /*接受AGV的触摸屏显示器交互信息*/
 void Task_HMIMonitor ( void * parg )
 {
-	
+	FlashReadWiFi(g_u8WifiPara);
+	FlashReadDHCP(&g_u8DHCP);
 	parg = parg;
 	while ( 1 )
 	{

@@ -468,7 +468,7 @@ void	Emw3060_init(void)
 			u3_printf("AT+WDHCP=OFF\r");
 			delay_ms(50);
 			COM1GetBuf(buf,200);
-			if(strstr((const char *)buf,"OK")[0]=='+')
+			if(strstr((const char *)buf,"OK")[0]=='O')
 			break;
 		}
 		comClearRxFifo(COM1);
@@ -479,7 +479,7 @@ void	Emw3060_init(void)
 			u3_printf("AT+WJAPIP=%s,%s,%s,%s\r",ipaddr,subnet,gateway,dns);
 			delay_ms(50);
 			COM1GetBuf(buf,200);
-			if(strstr((const char *)buf,"OK")[0]=='+')
+			if(strstr((const char *)buf,"OK")[0]=='O')
 			break;
 		}
 		comClearRxFifo(COM1);

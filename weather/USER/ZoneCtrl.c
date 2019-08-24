@@ -272,8 +272,8 @@ u8 ReadRainfall(u8* Buf, u8 DevAddr)
 {
 	Buf[0] = DevAddr;
 	Buf[1] = 0x03;
-	Buf[2] = 0x00;
-	Buf[3] = 0x00;
+	Buf[2] = 0x01;
+	Buf[3] = 0x05;
 	Buf[4] = 0x00;
 	Buf[5] = 0x01;
 	return 6;

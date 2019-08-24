@@ -1,17 +1,21 @@
 #include "main.h"
 
-#define 	sensor_num		1			//传感器数量
+OS_TMR   * tmr1;           								//软件定时器1
+void tmr1_callback(OS_TMR *ptmr,void *p_arg)			//软件定时器1回调函数
+{
+    if(++ttm==6){wifi++,nb++,wart++;ttm=0;}		//1分钟计时++
+	if(wifi>=up_time)wifiup=1,wifi=0;			//wifi上传时间到
+	if(nb>up_time)nbup=1,nb=0;					//NB上传时间到
+	if(wart>=up_wartime)warup=1,wart=0;			//报警上传时间到
+}
 
-Environmental sensor[EnvNum];			//传感器数量上限组数的内存
-
-u16	Alarm(u16 armtime)					//报警判断
+u8		Alarm()											//报警判断
 {
 	u8 i;
 	char a[250];
 	char c[250];
 	char *b=c;
 	u8 k=0;
-	armtime++;
 	memset(a,0,sizeof a);
 	memset(a,0,sizeof c);
 	for(i=0;i<sensor_num;i++,k=0)
@@ -58,11 +62,12 @@ u16	Alarm(u16 armtime)					//报警判断
 			delay_ms(100);
 			sprintf(b,"\\\"EC_%d\\\":%d",i+1,sensor[i].EC);									for(;*b;b++)a[k++]=*b;
 		}
-		if((armtime/80)>=up_wartime)
+		if(warup|firstarm)
 		{
-			armtime=0;
+			warup=0;
 			if(k>2)
 			{
+				firstarm=0;
 				if(N21_B)
 				{
 					n21_set=1;
@@ -80,15 +85,17 @@ u16	Alarm(u16 armtime)					//报警判断
 					OSTaskResume(UpyunWF_TASK_PRIO);
 					emw_set=0;
 				}	
-				
-				delay_ms(1000);delay_ms(1000);delay_ms(1000);delay_ms(1000);delay_ms(1000);
+				delay_ms(1000);delay_ms(1000);
+				return 1;
 			}
+			firstarm=1;
 		}
 	}
-	return armtime;
+//	return armtime;
+	return 0;
 }
 
-void	Update_Sensor_Number()			//更新传感器显示
+void	Update_Sensor_Number()							//更新传感器显示
 {
 	//空气四参数
 	u8 i;
@@ -111,14 +118,13 @@ void	Update_Sensor_Number()			//更新传感器显示
 	}
 }
 
-void 	UpdateUI()						//更新触摸屏显示
+void 	UpdateUI()										//更新触摸屏显示
 {
 	delay_ms(100);
 	Update_Sensor_Number();delay_ms(100);
 }
 
-extern 	uint8_t g_RxBuf5[UART5_RX_BUF_SIZE];
-void	setalarm()						//显示报警设置值
+void	setalarm()										//显示报警设置值
 {
 	u8 i;char buf[22];
 	for(i=0;i<war_group;i++)
@@ -158,9 +164,9 @@ void	setalarm()						//显示报警设置值
 	comClearRxFifo(COM5);
 }
 
-u8		check_value[]={0x01,0x03,0x00,0x00,0x00,0x09,0xc4,0xb0};
-void	sendcmd_read(u8 addr,u8 CMD)	//发送查询相关数据指令
+void	sendcmd_read(u8 addr,u8 CMD)					//发送查询相关数据指令
 {
+	u8 check_value[]={0x01,0x03,0x00,0x00,0x00,0x09,0xc4,0xb0};
 	u8 i;
 	u16 crc;
 	check_value[0]=addr;
@@ -172,7 +178,7 @@ void	sendcmd_read(u8 addr,u8 CMD)	//发送查询相关数据指令
 	delay_ms(60);
 }
 
-u16		readcmd1(u8 i)					//读取空气传感器返回的数据
+u16		readcmd1(u8 i)									//读取空气传感器返回的数据
 {
 	u16 crc;
 	u8 a[26];
@@ -193,7 +199,7 @@ u16		readcmd1(u8 i)					//读取空气传感器返回的数据
 	return 0;
 }
 
-u16		readcmd2(u8 i)					//读取土壤传感器返回的数据
+u16		readcmd2(u8 i)									//读取土壤传感器返回的数据
 {
 	u16 crc;
 	u8 a[26];
@@ -213,31 +219,62 @@ u16		readcmd2(u8 i)					//读取土壤传感器返回的数据
 	return 0;
 }
 
-void	ReadValue()						//读取传感器数据并上传到触摸屏
+u16		readcmd3(u8 i)									//读取土壤传感器返回的数据
+{
+	u16 crc;
+	u8 a[26];
+	u8 len;
+	len=COM3GetBuf(a,25);
+	if(len<7)return 0;
+	comClearRxFifo(COM3);
+	crc=mc_check_crc16(a,len-2);
+	if((a[len-2]==(crc>>8))&&(a[len-1]==(crc&0xff)))
+	{
+		sensor[i].EC=(a[7]<<8)|a[8];
+		return 1;
+	}
+	return 0;
+}
+
+void	ReadValue()										//读取传感器数据并上传到触摸屏
 {
 	u16 k;
 	u8 	i;
+	u8	time=0;
 	comClearRxFifo(COM3);
 	for(i=0;i<sensor_num;i++)
 	{
+		time=0;
 		do{
 			sendcmd_read(1+i,CMD_AIRHUMI);			//读取空气湿度
 			delay_ms(200);
 			k=readcmd1(0);
 			if(k)break;
+			if(++time==10)break;
 		}while(1);
 		delay_ms(500);
 		
+		time=0;
 		do{
 			sendcmd_read(50+i,CMD_AIRHUMI);			//读取空气湿度
 			delay_ms(200);
 			k=readcmd2(0);
 			if(k)break;
+			if(++time==10)break;
+		}while(1);
+		
+		time=0;
+		do{
+			sendcmd_read(50+i,CMD_EC);				//读取空气湿度
+			delay_ms(200);
+			k=readcmd3(0);
+			if(k)break;
+			if(++time==10)break;
 		}while(1);
 	}
 }
 
-void	HDMI_Init()						//触摸屏初始化
+void	HDMI_Init()										//触摸屏初始化
 {
 	queue_reset();			//清空缓存区
 	delay_ms(300);			//必须等待300ms
@@ -245,50 +282,47 @@ void	HDMI_Init()						//触摸屏初始化
 	UpdateUI();
 }
 
-void	readflashthree()				//从flash中读取三元组数据
+void	readflashthree()								//从flash中读取三元组数据
 {
 	char buf[150];
 	char *msg=buf;
 	u8 i;
 	STMFLASH_Read(FLASH_THREE_ADDR,(u16*)buf,55);
-//	if((buf[0]==0)|(buf[0]==0xff))return;
 	if(buf[1]=='K')
 	{
 		memset(ProductKey0,0,20);
-		msg=buf+4;for(i=0;*msg;msg++)		ProductKey[i++]=*msg;
+		msg=buf+4;for(i=0;*msg;msg++)		ProductKey0[i++]=*msg;
 	}
 	if(buf[25]=='N')
 	{
 		memset(DeviceName0,0,20);
-		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceName[i++]=*msg;
+		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceName0[i++]=*msg;
 	}
 	if(buf[59]=='S')
 	{
 		memset(DeviceSecret0,0,40);
-		msg=buf+62;for(i=0;*msg;msg++)	DeviceSecret[i++]=*msg;
+		msg=buf+62;for(i=0;*msg;msg++)		DeviceSecret0[i++]=*msg;
 	}
 	
 	STMFLASH_Read(100+FLASH_THREE_ADDR,(u16*)buf,70);
-//	if((buf[0]==0)|(buf[0]==0xff))return;
 	if(buf[1]=='K')
 	{
 		memset(ProductKey1,0,20);
-		msg=buf+4;for(i=0;*msg;msg++)		ProductKeyw[i++]=*msg;
+		msg=buf+4;for(i=0;*msg;msg++)		ProductKey1[i++]=*msg;
 	}
 	if(buf[25]=='N')
 	{
 		memset(DeviceName1,0,50);
-		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceNamew[i++]=*msg;
+		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceName1[i++]=*msg;
 	}
 	if(buf[79]=='S')
 	{
 		memset(DeviceSecret1,0,50);
-		msg=buf+78+4;for(i=0;*msg;msg++)	DeviceSecretw[i++]=*msg;
+		msg=buf+78+4;for(i=0;*msg;msg++)	DeviceSecret1[i++]=*msg;
 	}
-
 }
 
-void	sendflashthree(u8 group)		//向内存写入设置的三元组数据
+void	sendflashthree(u8 group)						//向内存写入设置的三元组数据
 {
 	
 	LED_BZ=1;
@@ -314,33 +348,36 @@ void	sendflashthree(u8 group)		//向内存写入设置的三元组数据
 	LED_BZ=0;
 }
 
-void	readflash(void);
-void	sendflash(void);
-void	init()							//系统初始化
+void	init()											//系统初始化
 {
 	SystemInit();
-	delay_init();	    	 //延时函数初始化	  
+	delay_init();	    	 			//延时函数初始化	  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
-	LED_Init();		  		//初始化与LED连接的硬件接口	
+	LED_Init();		  					//初始化与LED连接的硬件接口	
 	bsp_InitUart();
-	HDMI_Init();
 	comClearRxFifo(COM4);
-	readflashthree();				//读取内存里写入的三元组数据
+	memset(g_RxBuf4,0,UART4_RX_BUF_SIZE);
+	HDMI_Init();
+//	sendflashthree(2);
+	readflashthree();					//读取内存里写入的三元组数据
 //	sendflash();
 	readflash();
 }
 
-int 	main(void)						//系统开始
-{	 
+int 	main(void)										//系统开始
+{	
+	u8 err;
 	init();
 	OSInit();
 	OSTaskCreate(start_task,(void *)0,(OS_STK *)&START_TASK_STK[START_STK_SIZE-1],START_TASK_PRIO );//创建起始任务
+	tmr1=OSTmrCreate(0,100,OS_TMR_OPT_PERIODIC,(OS_TMR_CALLBACK)tmr1_callback,0,(u8 *)tmr1,&err);//10s执行一次
+	OSTmrStart(tmr1,&err);//启动软件定时器1
 	OSStart();
 }
 
-void 	start_task(void *pdata)			//任务开始
+void 	start_task(void *pdata)							//任务开始
 {
-    OS_CPU_SR cpu_sr=0;
+	OS_CPU_SR cpu_sr=0;
 	pdata = pdata; 
   	OS_ENTER_CRITICAL();			//进入临界区(无法被中断打断)    
  	OSTaskCreate(Alarm_task,(void *)0,(OS_STK*)&Alarm_TASK_STK[Alarm_STK_SIZE-1],Alarm_TASK_PRIO);						   
@@ -354,7 +391,7 @@ void 	start_task(void *pdata)			//任务开始
 	OS_EXIT_CRITICAL();				//退出临界区(可以被中断打断)
 }
 
-void 	LED_task(void *pdata)			//LED运行状态指示灯任务
+void 	LED_task(void *pdata)							//LED运行状态指示灯任务
 {	 
 	u8 i=0;
 	while(1)
@@ -389,7 +426,7 @@ void 	LED_task(void *pdata)			//LED运行状态指示灯任务
 	}
 }
 
-void	readflash()						//从flash读取报警设置
+void	readflash()										//从flash读取报警设置
 {
 	u16 data;
 	u16 buf[50];
@@ -473,7 +510,7 @@ void	readflash()						//从flash读取报警设置
 	if(data<0xffff)DHCP=data;
 }
 
-void	sendflash()						//存储报警设置到flash
+void	sendflash()										//存储报警设置到flash
 {
 	u16 bz=0xaaaa;
 	u16 buf[50];
@@ -562,9 +599,7 @@ void	sendflash()						//存储报警设置到flash
 	readflash();
 }
 
-void	UpSetAlarm_wifi(Waring data,u8 group);
-void	UpSetAlarm(Waring data,u8 group);
-void 	HDMI_task(void *pdata)			//触摸屏监控任务
+void 	HDMI_task(void *pdata)							//触摸屏监控任务
 {	  
 	static qsize  size = 0;
 	OS_CPU_SR cpu_sr=0;
@@ -662,7 +697,7 @@ void	UpSetAlarm(Waring data,u8 group)				//上传报警设置值到阿里云
 	u16 i;i=0;
 	memset(a,0,sizeof a);
 	sprintf(b,"\\\"airtempUP_war\\\":%2.1f,",(float)(data.Alarm_airtemp_up/10.0));		for(;*b;b++)a[i++]=*b;
-	sprintf(b,"\\\"airtempDN_war\\\":%2.1f,",(float)(data.Alarm_airtemp_up/10.0));		for(;*b;b++)a[i++]=*b;
+	sprintf(b,"\\\"airtempDN_war\\\":%2.1f,",(float)(data.Alarm_airtemp_dn/10.0));		for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\\\"airhumiUP_war\\\":%2.1f,",(float)(data.Alarm_airhumi_up/10.0));		for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\\\"airhumiDN_war\\\":%2.1f,",(float)(data.Alarm_airhumi_dn/10.0));		for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\\\"lightUP_war\\\":%d,",data.Alarm_light_up);							for(;*b;b++)a[i++]=*b;
@@ -712,6 +747,7 @@ void	UpSetAlarm_wifi(Waring data,u8 group)			//上传报警设置值到阿里云
 	sendok=sendEmw(a,0);
 }
 
+
 void	readthree()										//从COM3 485串口读取是否设置了三元组数据
 {
 	u8 len,i;
@@ -724,47 +760,47 @@ void	readthree()										//从COM3 485串口读取是否设置了三元组数据
 	len=COM4GetBuf(buf,200);
 	if(len>50)
 	{
-		if(strstr((const char *)buf,"m1")[0]=='m')
+		if(strstr((const char *)buf,"m1:")[0]=='m')
 		{
 			msg=strstr((const char *)buf,"PK:");
 			if(msg[1]=='K')
 			{
 				memset(ProductKey0,0,20);
-				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKey[i++]=*msg;	if(i>=20)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKey0[i++]=*msg;	if(i>=20)return ;}
 			}
 			msg=strstr((const char *)buf,"DN:");
 			if(msg[1]=='N')
 			{
 				memset(DeviceName0,0,50);
-				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceName[i++]=*msg;	if(i>=50)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceName0[i++]=*msg;	if(i>=50)return ;}
 			}
 			msg=strstr((const char *)buf,"DS:");
 			if(msg[1]=='S')
 			{
 				memset(DeviceSecret0,0,50);
-				msg+=3;for(i=0;*msg;msg++)		{DeviceSecret[i++]=*msg;if(i>=50)return ;}
+				msg+=3;for(i=0;*msg;msg++)		{DeviceSecret0[i++]=*msg;if(i>=50)return ;}
 			}
 			len=1;
 		}
-		else if(strstr((const char *)buf,"m2")[0]=='m')
+		else if(strstr((const char *)buf,"m2:")[0]=='m')
 		{
 			msg=strstr((const char *)buf,"PK:");
 			if(msg[1]=='K')
 			{
 				memset(ProductKey1,0,20);
-				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKeyw[i++]=*msg;	if(i>=20)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKey1[i++]=*msg;	if(i>=20)return ;}
 			}
 			msg=strstr((const char *)buf,"DN:");
 			if(msg[1]=='N')
 			{
 				memset(DeviceName1,0,50);
-				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceNamew[i++]=*msg;	if(i>=50)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceName1[i++]=*msg;	if(i>=50)return ;}
 			}
 			msg=strstr((const char *)buf,"DS:");
 			if(msg[1]=='S')
 			{
 				memset(DeviceSecret1,0,50);
-				msg+=3;for(i=0;*msg;msg++)		{DeviceSecretw[i++]=*msg;if(i>=50)return ;}
+				msg+=3;for(i=0;*msg;msg++)		{DeviceSecret1[i++]=*msg;if(i>=50)return ;}
 			}
 			len=2;
 		}
@@ -776,8 +812,7 @@ void	readthree()										//从COM3 485串口读取是否设置了三元组数据
 		sendflashthree(len);
 		comSendBuf(COM4,buf,strlen((char *)buf));
 		comClearRxFifo(COM4);
-		memset(buf,0,sizeof buf);
-		memset(hc,0,sizeof buf);
+		memset(g_RxBuf4,0,UART4_RX_BUF_SIZE);
 	}
 }
 
@@ -881,7 +916,6 @@ void	Upccid()										//上报CCID
 	Nsendok=sendN21(b,0);
 }
 
-extern 	uint8_t g_RxBuf1[UART1_RX_BUF_SIZE];
 void 	Upyun_task(void *pdata)							//上传云任务 N21
 {
 	u8 g=0;
@@ -898,11 +932,11 @@ void 	Upyun_task(void *pdata)							//上传云任务 N21
 	while(1)
 	{
 		delay_ms(200);
-		if(((++time)/250)>=up_time)					//发送间隔，每次只发送一组
+		readset(0);						//读取阿里云下发数据
+		if(nbup)
 		{
+			nbup=0;
 			n21_set=1;
-			comClearRxFifo(COM1);
-			memset(g_RxBuf1,0,UART1_RX_BUF_SIZE);
 			printf_num=1;
 			printf("AT\r\n");
 			delay_ms(100);
@@ -921,20 +955,22 @@ void 	Upyun_task(void *pdata)							//上传云任务 N21
 				N21_B=1;
 				memset(g_RxBuf1,0,UART1_RX_BUF_SIZE);
 			}
-			time=0;
 			Uptoaliyun(sensor[g],g);if(++g==sensor_num)g=0;
 			n21_set=0;
 		}
-		if(!Nsendok){n21_set=1;N21_B=0;NeoWayN21_init();conN21();n21_set=0;N21_B=1;}
-		readset(0);						//读取阿里云下发数据	
+		if(!Nsendok){n21_set=1;N21_B=0;NeoWayN21_init();conN21();n21_set=0;N21_B=1;}	
+		comClearRxFifo(COM1);
+		memset(g_RxBuf1,0,UART1_RX_BUF_SIZE);
 	}
 }
 
 void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 {
-	u16 i;u8 buf[50];u8 error=0;
-	Emw3060_init();
-	Emw3060_con();
+	u8 buf[50];u8 error=0;
+	do	
+	{
+		Emw3060_init();
+	}while(!Emw3060_con());
 	UpSetAlarm_wifi(Alarm_war[0],0);
 	Emw_B=1;emw_set=0;
 	while(1)
@@ -944,16 +980,24 @@ void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 		comClearRxFifo(COM2);
 		printf_num=2;
 		printf("AT+WJAPS\r");
-		delay_ms(200);
+		delay_ms(50);
 		COM2GetBuf(buf,45);
 		if(strstr((const char *)buf,"STATION_UP")[0]!='S')
 		{
-			if(++error==10){sendok=1;emw_set=1;Emw_B=0;Emw3060_init();Emw3060_con();Emw_B=1;emw_set=0;}
+			if(++error==10)
+			{
+rest:			sendok=1;emw_set=1;Emw_B=0;
+				do	
+				{
+					Emw3060_init();
+				}while(!Emw3060_con());
+				Emw_B=1;emw_set=0;
+			}
 			continue;
 		}
 		else error=0;
-		if(((++i)/270)>=up_time){i=0;emw_set=1;Uptoaliyun_wifi(sensor[0],0);emw_set=0;}
-		//if(!sendok){sendok=1;emw_set=1;Emw_B=0;Emw3060_init();Emw3060_con();Emw_B=1;emw_set=0;}
+		if(sendok==0)goto rest;
+		if(wifiup){wifiup=0;emw_set=1;Uptoaliyun_wifi(sensor[0],0);emw_set=0;}
 	}
 }
 
@@ -988,10 +1032,9 @@ void 	Collection_task(void *pdata)					//采集任务
 
 void 	Alarm_task(void *pdata)							//报警任务
 {	
-	u16 armtime=0;
 	while(1)
 	{	
 		delay_ms(200);
-		armtime=Alarm(armtime);
+		Alarm();
 	}
 }

@@ -15,6 +15,8 @@ u8 tab_send[]   ={0xFE ,0xFE ,0xFE ,0xFE ,0x68 ,0x91 ,0x83 ,0x01 ,0x14 ,0x12 ,0x
 u8 tab_water[]  ={0x01 ,0x03 ,0x00 ,0x00 ,0x00 ,0x04 ,0x44 ,0x09};
 u8 tab_water_b[]={0x01 ,0x03 ,0x08 ,0x00 ,0x00 ,0x00 ,0x14 ,0x00 ,0x00 ,0x00 ,0x00 ,0xA5 ,0xD4};
 
+extern uint8_t g_RxBuf1[UART1_RX_BUF_SIZE];
+
 void	strtobcd(u8 *a)
 {
 	u8 i;
@@ -24,12 +26,18 @@ void	strtobcd(u8 *a)
 	}
 }
 
-u8		bcdtoint(u8 a)
+u8		bcdtoint(u8 a)					
 {
 	return (a>>4)*10+(a&0x0f);
 }
 
-void	send(u8 *a)	//485发送函数
+u8		hextoint(u8 data)				//转换数据
+{
+	data-=0x33;
+	return (data>>4)*10+(data&0xf);
+}
+
+void	send(u8 *a)						//485发送函数
 {
 	u16 crc;
 	comClearRxFifo(COM3);
@@ -38,7 +46,7 @@ void	send(u8 *a)	//485发送函数
 	comSendBuf(COM3,a,20);
 }
 
-void	send1(u8 *a)//485发送函数
+void	send1(u8 *a)					//485发送函数
 {
 	comClearRxFifo(COM5);
 	comSendBuf(COM5,a,8);
@@ -46,23 +54,17 @@ void	send1(u8 *a)//485发送函数
 	delay_ms(10);
 }
 
-u8		hextoint(u8 data)
-{
-	data-=0x33;
-	return (data>>4)*10+(data&0xf);
-}
-
-void	savekWh(u8 *a)  //18 19 20 21  小数、十位、千位、十万
+void	savekWh(u8 *a)  				//18 19 20 21  小数、十位、千位、十万
 {
 	PAW.power=hextoint(a[18])/100.00+hextoint(a[19])+hextoint(a[20])*100+hextoint(a[21])*10000;
 }
 
-void	save3m3h(u8 *a)
+void	save3m3h(u8 *a)					//转换水表读数
 {
 	PAW.water=bcdtoint(a[4])*10000+bcdtoint(a[5])*100+bcdtoint(a[6]);//*10+bcdtoint(a[10])+bcdtoint(a[3])/10.0+bcdtoint(a[4])/100.0+bcdtoint(a[5])/1000.0+bcdtoint(a[6])/10000.0;
 }
 
-u8		read(u8 *a)		//485读取函数
+u8		read(u8 *a)						//485读取函数
 {
 	u8 len;
 	len=COM3GetBuf(a,30);
@@ -82,7 +84,7 @@ u8		read(u8 *a)		//485读取函数
 	return 0;
 }
 
-void	pdcmd(u8 *a)	//判断指令
+void	pdcmd(u8 *a)					//判断指令
 {
 	u8 k,sum;
 	u16 crc;
@@ -278,7 +280,7 @@ void	Uptoaliyun_wifi()				//上传传感器数据到阿里云 WIFI
 
 }
 
-void	Uptoaliyun_wifi2()			//上传传感器数据到阿里云
+void	Uptoaliyun_wifi2()				//上传传感器数据到阿里云
 {
 	char a[250];
 	char c[250];
@@ -292,7 +294,7 @@ void	Uptoaliyun_wifi2()			//上传传感器数据到阿里云
 	sendEmw2(a,0);
 }
 
-void	readthree()										//从COM3 485串口读取是否设置了三元组数据
+void	readthree()						//从COM3 485串口读取是否设置了三元组数据
 {
 	u8 len,i;
 	char hc[250];
@@ -357,7 +359,7 @@ void	readthree()										//从COM3 485串口读取是否设置了三元组数据
 	}
 }
 
-void	readset(u8 t)									//读取阿里下发的数据
+void	readset(u8 t)					//读取阿里下发的数据
 {
 	u8 len;
 	u8 buf[250];
@@ -387,8 +389,7 @@ qw:		if(emw_set)return;
 	memset(c,0,200);
 }
 
-extern uint8_t g_RxBuf1[UART1_RX_BUF_SIZE];
-void 	Upyun_task(void *pdata)							//上传云任务 N21
+void 	Upyun_task(void *pdata)			//上传云任务 N21
 {
 	u16 i;
 	Emw3060_init2();
@@ -402,11 +403,13 @@ void 	Upyun_task(void *pdata)							//上传云任务 N21
 	}
 }
 
-void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
+void 	UpyunWF_task(void *pdata)		//上传云任务 WIFI
 {
 	u16 i;u8 error=0;u8 buf[100];
-	Emw3060_init();
-	Emw3060_con();
+	do	
+	{
+		Emw3060_init();
+	}while(!Emw3060_con());
 	Emw_B=1;emw_set=0;
 	while(1)
 	{
@@ -419,7 +422,16 @@ void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 		COM2GetBuf(buf,45);
 		if(strstr((const char *)buf,"STATION_UP")[0]!='S')
 		{
-			if(++error==10){emw_set=1;Emw_B=0;Emw3060_init();Emw3060_con();Emw_B=1;emw_set=0;}
+			if(++error==10)
+			{
+				emw_set=1;Emw_B=0;
+				do	
+				{
+					Emw3060_init();
+				}while(!Emw3060_con());
+				Emw_B=1;emw_set=0;
+			
+			}
 			continue;
 		}
 		else error=0;
@@ -427,7 +439,7 @@ void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 	}
 }
 
-void 	SaveThree_task(void *pdata)						//三元组存储任务
+void 	SaveThree_task(void *pdata)		//三元组存储任务
 {
 	while(1)
 	{
@@ -436,7 +448,7 @@ void 	SaveThree_task(void *pdata)						//三元组存储任务
 	}
 }
 
-void 	ReadMeter_task(void *pdata)						//三元组存储任务
+void 	ReadMeter_task(void *pdata)		//读表任务
 {
 	u8 *rs485buf;
 	u8 buf[200];

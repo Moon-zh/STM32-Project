@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\Watt-hour meter.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\Watt-hour meter.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Jun 24 08:52:28 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jul 04 16:40:25 2019
 <BR><P>
 <H3>Maximum Stack Usage =       1304 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -440,6 +440,10 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;save3m3h
 </UL>
 
+<P><STRONG><a name="[8c]"></a>hextoint</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;savekWh
+</UL>
+
 <P><STRONG><a name="[85]"></a>send</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 92 + Unknown Stack Size
 <LI>Call Chain = send &rArr; comSendBuf &rArr; UartSend &rArr; USART_ITConfig
@@ -460,10 +464,6 @@ Global Symbols
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comClearRxFifo
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadMeter_task
-</UL>
-
-<P><STRONG><a name="[8c]"></a>hextoint</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;savekWh
 </UL>
 
 <P><STRONG><a name="[8b]"></a>savekWh</STRONG> (Thumb, 154 bytes, Stack size 80 bytes, main.o(.text))
@@ -569,7 +569,7 @@ Global Symbols
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UpyunWF_task
 </UL>
 
-<P><STRONG><a name="[ac]"></a>UpyunWF_task</STRONG> (Thumb, 160 bytes, Stack size 104 bytes, main.o(.text))
+<P><STRONG><a name="[ac]"></a>UpyunWF_task</STRONG> (Thumb, 172 bytes, Stack size 104 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1304 + Unknown Stack Size
 <LI>Call Chain = UpyunWF_task &rArr; Uptoaliyun_wifi &rArr; sendEmw &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -609,7 +609,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[b5]"></a>readthree</STRONG> (Thumb, 640 bytes, Stack size 528 bytes, main.o(.text))
+<P><STRONG><a name="[b5]"></a>readthree</STRONG> (Thumb, 642 bytes, Stack size 528 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 716 + Unknown Stack Size
 <LI>Call Chain = readthree &rArr; sendflashthree &rArr; readflashthree &rArr; STMFLASH_Read
 </UL>
@@ -1085,8 +1085,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UpyunWF_task
 </UL>
 
-<P><STRONG><a name="[ae]"></a>Emw3060_con</STRONG> (Thumb, 1102 bytes, Stack size 448 bytes, emw3060.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1028 + Unknown Stack Size
+<P><STRONG><a name="[ae]"></a>Emw3060_con</STRONG> (Thumb, 1150 bytes, Stack size 456 bytes, emw3060.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1036 + Unknown Stack Size
 <LI>Call Chain = Emw3060_con &rArr; hmacmd5 &rArr; hmac_md5 &rArr; MD5_Update &rArr; md5_block_data_order
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hmacmd5
@@ -1103,7 +1103,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UpyunWF_task
 </UL>
 
-<P><STRONG><a name="[a7]"></a>sendEmw</STRONG> (Thumb, 416 bytes, Stack size 528 bytes, emw3060.o(.text))
+<P><STRONG><a name="[a7]"></a>sendEmw</STRONG> (Thumb, 456 bytes, Stack size 528 bytes, emw3060.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672 + Unknown Stack Size
 <LI>Call Chain = sendEmw &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -1689,8 +1689,8 @@ Global Symbols
 <P><STRONG><a name="[d1]"></a>USART_DeInit</STRONG> (Thumb, 134 bytes, Stack size 8 bytes, stm32f10x_usart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART_DeInit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphResetCmd
-<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphResetCmd
+<BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphResetCmd
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphResetCmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
 </UL>

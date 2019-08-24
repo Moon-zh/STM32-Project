@@ -117,7 +117,6 @@ void 	UpdateUI()						//更新触摸屏显示
 	Update_Sensor_Number();delay_ms(100);
 }
 
-extern uint8_t g_RxBuf5[UART5_RX_BUF_SIZE];
 void	setalarm()						//显示报警设置值
 {
 	u8 i;char buf[22];
@@ -158,9 +157,9 @@ void	setalarm()						//显示报警设置值
 	comClearRxFifo(COM5);
 }
 
-u8		check_value[]={0x01,0x03,0x00,0x00,0x00,0x09,0xc4,0xb0};
 void	sendcmd_read(u8 addr,u8 CMD)	//发送查询相关数据指令
 {
+	u8 check_value[]={0x01,0x03,0x00,0x00,0x00,0x09,0xc4,0xb0};
 	u8 i;
 	u16 crc;
 	check_value[0]=addr;
@@ -213,7 +212,24 @@ u16		readcmd2(u8 i)					//读取土壤传感器返回的数据
 	return 0;
 }
 
-void	ReadValue()						//读取传感器数据
+u16		readcmd3(u8 i)					//读取土壤传感器返回的数据
+{
+	u16 crc;
+	u8 a[26];
+	u8 len;
+	len=COM3GetBuf(a,25);
+	if(len<7)return 0;
+	comClearRxFifo(COM3);
+	crc=mc_check_crc16(a,len-2);
+	if((a[len-2]==(crc>>8))&&(a[len-1]==(crc&0xff)))
+	{
+		sensor[i].EC=(a[7]<<8)|a[8];
+		return 1;
+	}
+	return 0;
+}
+
+void	ReadValue()						//读取传感器数据并上传到触摸屏
 {
 	u16 k;
 	u8 	i;
@@ -232,6 +248,13 @@ void	ReadValue()						//读取传感器数据
 			sendcmd_read(50+i,CMD_AIRHUMI);			//读取空气湿度
 			delay_ms(200);
 			k=readcmd2(0);
+			if(k)break;
+		}while(1);
+		
+		do{
+			sendcmd_read(50+i,CMD_EC);					//读取空气湿度
+			delay_ms(200);
+			k=readcmd3(0);
 			if(k)break;
 		}while(1);
 	}
@@ -255,17 +278,17 @@ void	readflashthree()				//从flash中读取三元组数据
 	if(buf[1]=='K')
 	{
 		memset(ProductKey0,0,20);
-		msg=buf+4;for(i=0;*msg;msg++)		ProductKey[i++]=*msg;
+		msg=buf+4;for(i=0;*msg;msg++)		ProductKey0[i++]=*msg;
 	}
 	if(buf[25]=='N')
 	{
 		memset(DeviceName0,0,20);
-		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceName[i++]=*msg;
+		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceName0[i++]=*msg;
 	}
 	if(buf[59]=='S')
 	{
 		memset(DeviceSecret0,0,40);
-		msg=buf+62;for(i=0;*msg;msg++)	DeviceSecret[i++]=*msg;
+		msg=buf+62;for(i=0;*msg;msg++)		DeviceSecret0[i++]=*msg;
 	}
 	
 	STMFLASH_Read(100+FLASH_THREE_ADDR,(u16*)buf,70);
@@ -273,17 +296,17 @@ void	readflashthree()				//从flash中读取三元组数据
 	if(buf[1]=='K')
 	{
 		memset(ProductKey1,0,20);
-		msg=buf+4;for(i=0;*msg;msg++)		ProductKeyw[i++]=*msg;
+		msg=buf+4;for(i=0;*msg;msg++)		ProductKey1[i++]=*msg;
 	}
 	if(buf[25]=='N')
 	{
 		memset(DeviceName1,0,50);
-		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceNamew[i++]=*msg;
+		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceName1[i++]=*msg;
 	}
 	if(buf[79]=='S')
 	{
 		memset(DeviceSecret1,0,50);
-		msg=buf+78+4;for(i=0;*msg;msg++)	DeviceSecretw[i++]=*msg;
+		msg=buf+78+4;for(i=0;*msg;msg++)	DeviceSecret1[i++]=*msg;
 	}
 
 }
@@ -314,8 +337,6 @@ void	sendflashthree(u8 group)		//向内存写入设置的三元组数据
 	LED_BZ=0;
 }
 
-void	readflash(void);
-void	sendflash(void);
 void	init()							//系统初始化
 {
 	SystemInit();
@@ -326,10 +347,8 @@ void	init()							//系统初始化
 	HDMI_Init();
 	comClearRxFifo(COM4);
 	readflashthree();				//读取内存里写入的三元组数据
-//	readflash();
 //	sendflash();
 	readflash();
-//	while(!init_4G());
 }
 
 int 	main(void)						//系统开始
@@ -409,7 +428,7 @@ void 	LED_task(void *pdata)			//LED运行状态指示灯任务
 	}
 }
 
-static u8 dz=0;
+static	u8 dz=0;
 void	uptodz()						//更改LED点阵显示内容
 {
 	setdz();
@@ -431,7 +450,6 @@ void	uptodz()						//更改LED点阵显示内容
 	}
 }
 
-void	sendflash(void);
 void	readflash()						//从flash读取报警设置
 {
 	u16 data;
@@ -605,8 +623,6 @@ void	sendflash()						//存储报警设置到flash
 	readflash();
 }
 
-void	UpSetAlarm_wifi(Waring data,u8 group);
-void	UpSetAlarm(Waring data,u8 group);
 void 	HDMI_task(void *pdata)			//触摸屏监控任务
 {	  
 	static qsize  size = 0;
@@ -769,19 +785,19 @@ void	readthree()										//从COM3 485串口读取是否设置了三元组数据
 			if(msg[1]=='K')
 			{
 				memset(ProductKey0,0,20);
-				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKey[i++]=*msg;	if(i>=20)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKey0[i++]=*msg;	if(i>=20)return ;}
 			}
 			msg=strstr((const char *)buf,"DN:");
 			if(msg[1]=='N')
 			{
 				memset(DeviceName0,0,50);
-				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceName[i++]=*msg;	if(i>=50)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceName0[i++]=*msg;	if(i>=50)return ;}
 			}
 			msg=strstr((const char *)buf,"DS:");
 			if(msg[1]=='S')
 			{
 				memset(DeviceSecret0,0,50);
-				msg+=3;for(i=0;*msg;msg++)		{DeviceSecret[i++]=*msg;if(i>=50)return ;}
+				msg+=3;for(i=0;*msg;msg++)		{DeviceSecret0[i++]=*msg;if(i>=50)return ;}
 			}
 			len=1;
 			sendflashthree(len);
@@ -797,19 +813,19 @@ void	readthree()										//从COM3 485串口读取是否设置了三元组数据
 			if(msg[1]=='K')
 			{
 				memset(ProductKey1,0,20);
-				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKeyw[i++]=*msg;	if(i>=20)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKey1[i++]=*msg;	if(i>=20)return ;}
 			}
 			msg=strstr((const char *)buf,"DN:");
 			if(msg[1]=='N')
 			{
 				memset(DeviceName1,0,50);
-				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceNamew[i++]=*msg;	if(i>=50)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceName1[i++]=*msg;	if(i>=50)return ;}
 			}
 			msg=strstr((const char *)buf,"DS:");
 			if(msg[1]=='S')
 			{
 				memset(DeviceSecret1,0,50);
-				msg+=3;for(i=0;*msg;msg++)		{DeviceSecretw[i++]=*msg;if(i>=50)return ;}
+				msg+=3;for(i=0;*msg;msg++)		{DeviceSecret1[i++]=*msg;if(i>=50)return ;}
 			}
 			len=2;
 			sendflashthree(len);
@@ -916,7 +932,6 @@ void	Upccid()										//上报CCID
 	sprintf(b,"\\\"CCID\\\":\\\"%s\\\"",CCID);
 	sendN21(b,0);
 }
-extern uint8_t g_RxBuf1[UART1_RX_BUF_SIZE];
 void 	Upyun_task(void *pdata)							//上传云任务 N21
 {
 	u8 g=0;
@@ -968,8 +983,10 @@ void 	Upyun_task(void *pdata)							//上传云任务 N21
 void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 {
 	u16 i;u8 buf[50];u8 error=0;
-	Emw3060_init();
-	Emw3060_con();
+	do	
+	{
+		Emw3060_init();
+	}while(!Emw3060_con());
 	UpSetAlarm_wifi(Alarm_war[0],0);
 	Emw_B=1;emw_set=0;
 	while(1)
@@ -983,7 +1000,16 @@ void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 		COM2GetBuf(buf,45);
 		if(strstr((const char *)buf,"STATION_UP")[0]!='S')
 		{
-			if(++error==10){emw_set=1;Emw_B=0;Emw3060_init();Emw3060_con();Emw_B=1;emw_set=0;}
+			if(++error==10)
+			{
+				emw_set=1;Emw_B=0;
+				do	
+				{
+					Emw3060_init();
+				}while(!Emw3060_con());
+				Emw_B=1;emw_set=0;
+			
+			}
 			continue;
 		}
 		else error=0;
@@ -1030,7 +1056,7 @@ void 	Alarm_task(void *pdata)							//报警任务
 	}
 }
 
-void 	LED_DZ_task(void *pdata)		//LED点阵显示任务
+void 	LED_DZ_task(void *pdata)						//LED点阵显示任务
 {	 
 	u8 i;
 	while(1)

@@ -6,12 +6,12 @@
 #include "md5.h"
 #include "UserCore.h"
 #include "UserHmi.h"
-
+#include "FlashDivide.h"
 
 //鉴权信息
  char ProductKey0[20]=	"a1EF5UgoDb2";//"a1q04qjosGa";
- char DeviceName0[50]=	"zbzzd";//"test_single";
- char DeviceSecret0[50]="FEqJ7zGwaOdm9rUyEhM0lGbzP108Q1Wr";	//"78eJYG6R0Y9AlPcpA9s4KXAUd3rjcQDn";
+ char DeviceName0[50]=	"SG-ZD-01";//"test_single";
+ char DeviceSecret0[50]="gH4T8svOdv6DD7gFG6C9WgMQrbYPtC4z";	//"78eJYG6R0Y9AlPcpA9s4KXAUd3rjcQDn";
 
  char *ProductKey=ProductKey0;
  char *DeviceName=DeviceName0;
@@ -24,11 +24,14 @@ void* 	RemoteMsgBlock[8];
 OS_MEM* RemotePartitionPt;
 u8 g_u8RemoteMsgMem[20][8];
 
-char ssid[31]="CU_Z4eg";
-char password[31]="z4egdkuj";
+u8 DHCP=1;
+
+char ssid[31]="CU_kquj";
+char password[31]="abb62f7k";
 char ipaddr[16]="";
 char subnet[16]="";
 char gateway[16]="";
+char dns[16]="";
 
 //创建消息队列和内存块
 //输出0：创建正常
@@ -267,6 +270,7 @@ char	*hmacmd5(char *data,u8 size_data,u8 size_ds)
 void	Emw3060_init(void)
 {
 	u8 buf[250];
+	u8 DnchF=0;
 	delay_ms(1000);
 	while(1)
 	{
@@ -285,6 +289,32 @@ void	Emw3060_init(void)
 	}
 	comClearRxFifo(COM1);
 	memset(buf,0,sizeof buf);
+	
+	FlashReadDHCP(&DnchF);
+	if(DnchF==0)
+	{
+		while(1)
+		{
+			u3_printf("AT+WDHCP=OFF\r");
+			delay_ms(50);
+			COM1GetBuf(buf,200);
+			if(strstr((const char *)buf,"OK")[0]=='O')
+			break;
+		}
+		comClearRxFifo(COM1);
+		memset(buf,0,sizeof buf);
+		
+		while(1)
+		{
+			u3_printf("AT+WJAPIP=%s,%s,%s,%s\r",ipaddr,subnet,gateway,dns);
+			delay_ms(50);
+			COM1GetBuf(buf,200);
+			if(strstr((const char *)buf,"OK")[0]=='O')
+			break;
+		}
+		comClearRxFifo(COM1);
+		memset(buf,0,sizeof buf);
+	}
 	
 	while(1)
 	{
@@ -496,17 +526,24 @@ void network_task(void *pdata)
 	MsgStruct Msgtemp;
 	RemoteQInit();
 	FlashReadWiFi(WifiPara);
-	if(WifiPara[0]!=0xff)//如果flash中未写入，使用程序中固化的
+	if((WifiPara[0]!=0xff)&(WifiPara[0]!=0))//如果flash中未写入，使用程序中固化的
 	{
 		memcpy(ssid,WifiPara,31);
 		memcpy(password,&WifiPara[31],31);
 		memcpy(ipaddr,&WifiPara[62],16);
 		memcpy(subnet,&WifiPara[78],16);
 		memcpy(gateway,&WifiPara[94],16);
+		memcpy(dns,&WifiPara[110],16);
 	}
 	else
 	{
-		
+		memcpy(WifiPara,ssid,31);
+		memcpy(&WifiPara[31],password,31);
+		memcpy(&WifiPara[62],ipaddr,16);
+		memcpy(&WifiPara[78],subnet,16);
+		memcpy(&WifiPara[94],gateway,16);
+		memcpy(&WifiPara[110],dns,16);
+		FlashWriteWiFi(WifiPara);
 	}
 	//IO_OutSet(6,1);
 	delay_ms(1000);

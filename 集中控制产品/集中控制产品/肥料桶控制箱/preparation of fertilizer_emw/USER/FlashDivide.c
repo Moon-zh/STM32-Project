@@ -75,12 +75,19 @@ void FlashWriteD(u8* _pBuf)
 
 void FlashReadWiFi(u8* _pBuf)
 {
-	W25QXX_Read ( _pBuf, ADDR_PARASET, 62 );//保存时间为2字节
+	W25QXX_Read ( _pBuf, ADDR_PARASET, 130 );//保存时间为2字节
 }
 void FlashWriteWiFi(u8* _pBuf)
 {
-	W25QXX_Write ( _pBuf, ADDR_PARASET, 62);
+	W25QXX_Write ( _pBuf, ADDR_PARASET, 130);
 }
 
-
+void FlashReadDHCP(u8* _pBuf)
+{
+	W25QXX_Read ( _pBuf, ADDR_DHCPSET, 1 );//保存时间为2字节
+}
+void FlashWriteDHCP(u8* _pBuf)
+{
+	W25QXX_Write ( _pBuf, ADDR_DHCPSET, 1);
+}
 

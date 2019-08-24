@@ -24,7 +24,7 @@
  char ipaddr[16]="";
  char subnet[16]="";
  char gateway[16]="";
- 
+ char dns[16]="";
 Ring NETCircle;
 
 OS_EVENT * RemoteQMsg;
@@ -114,7 +114,7 @@ u8 DepackReceiveRemoteQ(MsgStruct * RemoteQ)
 //str:期待的应答结果
 //返回值:0,没有得到期待的应答结果
 //其他,期待应答结果的位置(str的位置)
-u8* EMW3060_check_cmd(u8 *str)
+u8* EMW3060_check_cmd(char *str)
 {
 	char *strx=0;
 	strx = strstr((const char*)NETCircle.buf,(const char*)str);
@@ -148,7 +148,7 @@ u8 EMW3060_send_cmd(u8 *cmd,u8 *ack,u16 waittime, u8 flag)
 			//串口收到新的数据，并判断是否有为有效数据
 			COM1GetBuf(NETCircle.buf, 512);
 			{
-				p = EMW3060_check_cmd(ack);
+				p = EMW3060_check_cmd((char*)ack);
 				if(p)
 				{
 					memset(&NETCircle, 0 , sizeof(NETCircle));
@@ -299,7 +299,7 @@ void DepackRevData(void)
 {
 	u8* p=NULL;
 	u8 u8Cnt = 0;
-	MsgStruct Msgtemp;
+//	MsgStruct Msgtemp;
 	//u16 RevNum=0;
 	
 	p=EMW3060_check_cmd("+MQTTRECV");
@@ -316,24 +316,24 @@ void DepackRevData(void)
 			}
 		}
 	}
-	if(Remote_Para[3]==1)
-	{
-		Msgtemp.CmdSrc = SCREEN_TASK_CODE;
-	//	Msgtemp.CmdType = MSG_START;
-		Msgtemp.CmdData[0] = Remote_Para[0];
-		Msgtemp.CmdData[1] = Remote_Para[2];
-//		Msgtemp.CmdData[2] = Remote_Para[1]/60;
-//		Msgtemp.CmdData[3] = Remote_Para[1]%60;
-//		PackSendMasterQ(&Msgtemp);
-		//SetScreen(LCD_STATESHOW_PAGE);
-	}
-	else if(Remote_Para[3]==0)
-	{
-		//发送任务停止消息
-		Msgtemp.CmdSrc = SCREEN_TASK_CODE;
-	//	Msgtemp.CmdType = MSG_STOP;
-//		PackSendMasterQ(&Msgtemp);
-	}
+//	if(Remote_Para[3]==1)
+//	{
+//		Msgtemp.CmdSrc = SCREEN_TASK_CODE;
+//	//	Msgtemp.CmdType = MSG_START;
+//		Msgtemp.CmdData[0] = Remote_Para[0];
+//		Msgtemp.CmdData[1] = Remote_Para[2];
+////		Msgtemp.CmdData[2] = Remote_Para[1]/60;
+////		Msgtemp.CmdData[3] = Remote_Para[1]%60;
+////		PackSendMasterQ(&Msgtemp);
+//		//SetScreen(LCD_STATESHOW_PAGE);
+//	}
+//	else if(Remote_Para[3]==0)
+//	{
+//		//发送任务停止消息
+//		Msgtemp.CmdSrc = SCREEN_TASK_CODE;
+//	//	Msgtemp.CmdType = MSG_STOP;
+////		PackSendMasterQ(&Msgtemp);
+//	}
 }
 char xxbuf[34];
 
@@ -356,6 +356,7 @@ char	*hmacmd5(char *data,u8 size_data,u8 size_ds)
 void	Emw3060_init(void)
 {
 	u8 buf[250];
+	u8 DnchF=0;
 	delay_ms(1000);
 	while(1)
 	{
@@ -374,6 +375,32 @@ void	Emw3060_init(void)
 	}
 	comClearRxFifo(COM1);
 	memset(buf,0,sizeof buf);
+	
+	FlashReadDHCP(&DnchF);
+	if(DnchF==0)
+	{
+		while(1)
+		{
+			u3_printf("AT+WDHCP=OFF\r");
+			delay_ms(50);
+			COM1GetBuf(buf,200);
+			if(strstr((const char *)buf,"OK")[0]=='O')
+			break;
+		}
+		comClearRxFifo(COM1);
+		memset(buf,0,sizeof buf);
+		
+		while(1)
+		{
+			u3_printf("AT+WJAPIP=%s,%s,%s,%s\r",ipaddr,subnet,gateway,dns);
+			delay_ms(50);
+			COM1GetBuf(buf,200);
+			if(strstr((const char *)buf,"OK")[0]=='O')
+			break;
+		}
+		comClearRxFifo(COM1);
+		memset(buf,0,sizeof buf);
+	}
 	
 	while(1)
 	{
@@ -734,17 +761,24 @@ void network_task(void *pdata)
 	MsgStruct Msgtemp;
 	RemoteQInit();
 	FlashReadWiFi(WifiPara);
-	if(WifiPara[0]!=0xff)//如果flash中未写入，使用程序中固化的
+	if((WifiPara[0]!=0xff)&(WifiPara[0]!=0))//如果flash中未写入，使用程序中固化的
 	{
 		memcpy(ssid,WifiPara,31);
 		memcpy(password,&WifiPara[31],31);
 		memcpy(ipaddr,&WifiPara[62],16);
 		memcpy(subnet,&WifiPara[78],16);
 		memcpy(gateway,&WifiPara[94],16);
+		memcpy(dns,&WifiPara[110],16);
 	}
 	else
 	{
-		
+		memcpy(WifiPara,ssid,31);
+		memcpy(&WifiPara[31],password,31);
+		memcpy(&WifiPara[62],ipaddr,16);
+		memcpy(&WifiPara[78],subnet,16);
+		memcpy(&WifiPara[94],gateway,16);
+		memcpy(&WifiPara[110],dns,16);
+		FlashWriteWiFi(WifiPara);
 	}
 	//IO_OutSet(6,1);
 	delay_ms(1000);

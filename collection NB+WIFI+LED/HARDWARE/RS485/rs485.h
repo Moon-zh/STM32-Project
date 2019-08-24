@@ -1,15 +1,12 @@
 #ifndef __RS485_H
 #define __RS485_H			 
-#include "sys.h"	 
-//#include "GM3Dir.h"
+#include "sys.h"
 /*
 *********************************************************************************************************
 *
 *	模块名称 : 串口中断+FIFO驱动模块
 *	文件名称 : bsp_uart_fifo.h
 *	说    明 : 头文件
-*
-*	Copyright (C), 2015-2020, 安富莱电子 www.armfly.com
 *
 *********************************************************************************************************
 */
@@ -48,7 +45,7 @@ typedef enum
 /* 定义串口波特率和FIFO缓冲区大小，分为发送缓冲区和接收缓冲区, 支持全双工 */
 #if UART1_FIFO_EN == 1
 	#define UART1_BAUD			115200
-	#define UART1_TX_BUF_SIZE	350
+	#define UART1_TX_BUF_SIZE	1*256
 	#define UART1_RX_BUF_SIZE	350
 #endif
 
@@ -127,31 +124,12 @@ void RS485_SetBaud(uint32_t _baud);
 uint8_t COMGetBuf(COM_PORT_E _ucPort , Ring* Circle,uint16_t len);
 void u3_printf(char* fmt,...);
 void usart3send(u8* buf, u16 uLen);
+uint8_t COM5GetBuf(u8* Buf,u8 size);
 uint8_t COM4GetBuf(u8* Buf,u8 size);
 uint8_t COM3GetBuf(u8* Buf,u8 size);
 uint8_t COM1GetBuf(u8* Buf,u16 size);
 uint8_t COM2GetBuf(u8* Buf,u8 size);
 void Uart1VarInit(void);
-
 extern unsigned char printf_num;
 
-/***************************** 安富莱电子 www.armfly.com (END OF FILE) *********************************/
-
-
 #endif	   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

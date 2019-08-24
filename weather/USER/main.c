@@ -164,6 +164,7 @@ unsigned char emw_set=1;	//wifi报警与线程互斥标志
 unsigned char n21_set=1;	//N21报警与线程互斥标志
 unsigned int  up_time=15;		//数据上传频率
 unsigned int  up_wartime=2;	//报警上传频率
+unsigned char sendok=1;
 
 extern char ssid[20];
 extern char password[20];
@@ -479,7 +480,7 @@ void	readset(u8 t)					//读取阿里下发的数据
 	if(len>10)
 	{
 		delay_ms(200);COM1GetBuf(buf,100);			//读取主设备下发的数据
-		if(strstr((const char *)buf,"RECV")[0]!='R'){memset(buf,0,200);memset(c,0,200);comClearRxFifo(COM1);return;}
+		if(strstr((const char *)buf,"RCVPUB")[0]!='R'){memset(buf,0,200);memset(c,0,200);comClearRxFifo(COM1);return;}
 		msg=strstr((const char *)buf,"up_time:");		if(msg[0]=='u')up_time=							(msg[8]-0x30)*10000+(msg[9]-0x30)*1000+(msg[10]-0x30)*100+(msg[11]-0x30)*10+(msg[12]-0x30);
 		msg=strstr((const char *)buf,"up_wartime:");	if(msg[0]=='u')up_wartime=						(msg[11]-0x30)*10000+(msg[12]-0x30)*1000+(msg[13]-0x30)*100+(msg[14]-0x30)*10+(msg[15]-0x30);
 		
@@ -493,6 +494,7 @@ void	readset(u8 t)					//读取阿里下发的数据
 	else
 	{
 qw:		if(emw_set)return;
+		return;
 		len=COM2GetBuf(buf,100);
 		if(len>10)
 		{
@@ -547,16 +549,16 @@ void	Uptoaliyun_wifi()	//上传传感器数据到阿里云 WIFI
 	sprintf(b,"\"airhumi_1\":%2.1f,",(float)(sensor.humi/10.0));		for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"pm25_1\":%d,",sensor.pm25);							for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"CO2_1\":%d,",sensor.co2);								for(;*b;b++)a[i++]=*b;
-	sprintf(b,"\"sound_1\":%d,",sensor.vol);							for(;*b;b++)a[i++]=*b;
+	sprintf(b,"\"sound_1\":%2.1f,",(float)(sensor.vol)/10.0);				for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"pm10_1\":%d,",sensor.pm10);							for(;*b;b++)a[i++]=*b;
-	sprintf(b,"\"windspeed_1\":%d,",sensor.windspeed);					for(;*b;b++)a[i++]=*b;
+	sprintf(b,"\"windspeed_1\":%2.1f,",(float)(sensor.windspeed/10.0));	for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"winddir_1\":%d,",sensor.winddir);						for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"rain_1\":%d,",sensor.rain);							for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"snow_1\":%d,",sensor.snow);							for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"light_1\":%d,",sensor.light);							for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"bmp_1\":%d,",sensor.bmp);								for(;*b;b++)a[i++]=*b;
 	
-	sendEmw(a,0);
+	sendok=sendEmw(a,0);
 }
 
 void	Uptoaliyun()			//上传传感器数据到阿里云
@@ -571,7 +573,7 @@ void	Uptoaliyun()			//上传传感器数据到阿里云
 	sprintf(b,"\\\"airhumi_1\\\":%2.1f,",(float)(sensor.humi/10.0));		for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\\\"pm25_1\\\":%d,",sensor.pm25);							for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\\\"CO2_1\\\":%d,",sensor.co2);								for(;*b;b++)a[i++]=*b;
-	sprintf(b,"\\\"sound_1\\\":%d,",sensor.vol);							for(;*b;b++)a[i++]=*b;
+	sprintf(b,"\\\"sound_1\\\":%2.1f,",(float)(sensor.vol/10.0));			for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\\\"pm10_1\\\":%d,",sensor.pm10);							for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\\\"windspeed_1\\\":%2.1f,",(float)(sensor.windspeed/10.0));	for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\\\"winddir_1\\\":%d,",sensor.winddir);						for(;*b;b++)a[i++]=*b;
@@ -652,11 +654,15 @@ void 	Upyun_task(void *pdata)							//上传云任务 N21
 	}
 }
 
+
+u16 wifitime=0;
 void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 {
-	u16 i;u8 error=0;u8 buf[100];
-	Emw3060_init();
-	Emw3060_con();
+	u8 error=0;u8 buf[100];
+	do	
+	{
+		Emw3060_init();
+	}while(!Emw3060_con());
 	Emw_B=1;emw_set=0;
 	while(1)
 	{
@@ -669,11 +675,21 @@ void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 		COM2GetBuf(buf,45);
 		if(strstr((const char *)buf,"STATION_UP")[0]!='S')
 		{
-			if(++error==10){emw_set=1;Emw_B=0;Emw3060_init();Emw3060_con();Emw_B=1;emw_set=0;}
+			if(++error==10)
+			{
+rest:			sendok=1;emw_set=1;Emw_B=0;
+				do	
+				{
+					Emw3060_init();
+				}while(!Emw3060_con());
+				Emw_B=1;emw_set=0;
+			
+			}
 			continue;
 		}
-		else error=0;		
-		if(((++i)/250)>=up_time){i=0;Uptoaliyun_wifi();}
+		else error=0;
+		if(sendok==0)goto rest;
+		if(((++wifitime)/260)>=up_time){wifitime=0;Uptoaliyun_wifi();}
 	}
 }
 

@@ -7,7 +7,7 @@
 #define ADDR_LOW				0x3000	//程序源码起始地址
 #define ADDR_D				0x4000	//程序源码起始地址
 #define ADDR_PARASET		0x5000	//WiFi参数地址
-
+#define ADDR_DHCPSET	  	0xa0a0	//WiFi参数地址
 
 void FlashReadWaterTime(u8* _pBuf);
 void FlashWriteWaterTime(u8* _pBuf);
@@ -25,5 +25,6 @@ void FlashReadD(u8* _pBuf);
 void FlashWriteD(u8* _pBuf);
 void FlashReadWiFi(u8* _pBuf);
 void FlashWriteWiFi(u8* _pBuf);
-
+void FlashReadDHCP(u8* _pBuf);
+void FlashWriteDHCP(u8* _pBuf);
 #endif

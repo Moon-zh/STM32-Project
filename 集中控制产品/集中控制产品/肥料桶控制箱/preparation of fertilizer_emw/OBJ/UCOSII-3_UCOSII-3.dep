@@ -206,9 +206,9 @@ I (..\HARDWARE\VisualTFT\hmi_user_uart.h)(0x5B24AE7C)
 I (UserHmi.h)(0x5D05A18E)
 I (..\HARDWARE\VisualTFT\cmd_queue.h)(0x5C025A14)
 I (..\HARDWARE\IO\IO_BSP.h)(0x5BA9991D)
-I (FlashDivide.h)(0x5CE3D052)
+I (FlashDivide.h)(0x5D11CDDA)
 I (Alarm.h)(0x5CAB0F6E)
-F (.\UserHmi.c)(0x5D05A642)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\RTC -I ..\HARDWARE\RTC -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\MALLOC -I ..\HARDWARE\RS485 -I ..\HARDWARE\LED -I ..\HARDWARE\RTC -I ..\HARDWARE\TIMER -I ..\HARDWARE\VisualTFT -I ..\HARDWARE\IO -I ..\HARDWARE\GPS -I ..\HARDWARE\md5\ipsec -I ..\HARDWARE\md5\core -I ..\HARDWARE\Emw3060 -I ..\HARDWARE\md5 -I ..\HARDWARE\STMFLASH-I.\RTE\_UCOSII-3-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\userhmi.o --omf_browse ..\obj\userhmi.crf --depend ..\obj\userhmi.d)
+F (.\UserHmi.c)(0x5D11DA12)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\RTC -I ..\HARDWARE\RTC -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\MALLOC -I ..\HARDWARE\RS485 -I ..\HARDWARE\LED -I ..\HARDWARE\RTC -I ..\HARDWARE\TIMER -I ..\HARDWARE\VisualTFT -I ..\HARDWARE\IO -I ..\HARDWARE\GPS -I ..\HARDWARE\md5\ipsec -I ..\HARDWARE\md5\core -I ..\HARDWARE\Emw3060 -I ..\HARDWARE\md5 -I ..\HARDWARE\STMFLASH-I.\RTE\_UCOSII-3-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\userhmi.o --omf_browse ..\obj\userhmi.crf --depend ..\obj\userhmi.d)
 I (UserHmi.h)(0x5D05A18E)
 I (..\UCOSII\CONFIG\includes.h)(0x5290AE83)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599EDB3C)
@@ -253,10 +253,10 @@ I (..\HARDWARE\VisualTFT\hmi_user_uart.h)(0x5B24AE7C)
 I (UserCore.h)(0x5BB84B38)
 I (..\SYSTEM\sys\sys.h)(0x5B058617)
 I (..\SYSTEM\delay\Delay.h)(0x5B20B7C0)
-I (FlashDivide.h)(0x5CE3D052)
+I (FlashDivide.h)(0x5D11CDDA)
 I (..\HARDWARE\Emw3060\Emw3060.h)(0x5D074B9E)
 I (Alarm.h)(0x5CAB0F6E)
-F (.\FlashDivide.c)(0x5CE3D034)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\RTC -I ..\HARDWARE\RTC -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\MALLOC -I ..\HARDWARE\RS485 -I ..\HARDWARE\LED -I ..\HARDWARE\RTC -I ..\HARDWARE\TIMER -I ..\HARDWARE\VisualTFT -I ..\HARDWARE\IO -I ..\HARDWARE\GPS -I ..\HARDWARE\md5\ipsec -I ..\HARDWARE\md5\core -I ..\HARDWARE\Emw3060 -I ..\HARDWARE\md5 -I ..\HARDWARE\STMFLASH-I.\RTE\_UCOSII-3-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\flashdivide.o --omf_browse ..\obj\flashdivide.crf --depend ..\obj\flashdivide.d)
+F (.\FlashDivide.c)(0x5D11DB08)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\RTC -I ..\HARDWARE\RTC -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\MALLOC -I ..\HARDWARE\RS485 -I ..\HARDWARE\LED -I ..\HARDWARE\RTC -I ..\HARDWARE\TIMER -I ..\HARDWARE\VisualTFT -I ..\HARDWARE\IO -I ..\HARDWARE\GPS -I ..\HARDWARE\md5\ipsec -I ..\HARDWARE\md5\core -I ..\HARDWARE\Emw3060 -I ..\HARDWARE\md5 -I ..\HARDWARE\STMFLASH-I.\RTE\_UCOSII-3-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\flashdivide.o --omf_browse ..\obj\flashdivide.crf --depend ..\obj\flashdivide.d)
 I (..\HARDWARE\W25QXX\W25Qxx.h)(0x5B23E741)
 I (..\SYSTEM\sys\sys.h)(0x5B058617)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -296,7 +296,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x599EDB3A)
 I (..\UCOSII\CORE\ucos_ii.h)(0x5B02D5B2)
 I (..\UCOSII\CONFIG\os_cfg.h)(0x5BB84FF2)
 I (..\UCOSII\PORT\os_cpu.h)(0x5AEFB495)
-I (FlashDivide.h)(0x5CE3D052)
+I (FlashDivide.h)(0x5D11CDDA)
 F (.\LevelGet.c)(0x5CF5FF4A)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\RTC -I ..\HARDWARE\RTC -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\MALLOC -I ..\HARDWARE\RS485 -I ..\HARDWARE\LED -I ..\HARDWARE\RTC -I ..\HARDWARE\TIMER -I ..\HARDWARE\VisualTFT -I ..\HARDWARE\IO -I ..\HARDWARE\GPS -I ..\HARDWARE\md5\ipsec -I ..\HARDWARE\md5\core -I ..\HARDWARE\Emw3060 -I ..\HARDWARE\md5 -I ..\HARDWARE\STMFLASH-I.\RTE\_UCOSII-3-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\levelget.o --omf_browse ..\obj\levelget.crf --depend ..\obj\levelget.d)
 I (..\SYSTEM\sys\sys.h)(0x5B058617)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -389,7 +389,7 @@ I (..\UCOSII\PORT\os_cpu.h)(0x5AEFB495)
 I (..\SYSTEM\delay\Delay.h)(0x5B20B7C0)
 I (Alarm.h)(0x5CAB0F6E)
 I (UserCore.h)(0x5BB84B38)
-I (FlashDivide.h)(0x5CE3D052)
+I (FlashDivide.h)(0x5D11CDDA)
 I (..\HARDWARE\Emw3060\Emw3060.h)(0x5D074B9E)
 I (..\HARDWARE\VisualTFT\Hmi_driver.h)(0x5CA5A535)
 I (..\HARDWARE\VisualTFT\hmi_user_uart.h)(0x5B24AE7C)
@@ -925,7 +925,7 @@ I (..\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\STM32F10x_FWLib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
-F (..\HARDWARE\Emw3060\Emw3060.c)(0x5D074B70)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\RTC -I ..\HARDWARE\RTC -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\MALLOC -I ..\HARDWARE\RS485 -I ..\HARDWARE\LED -I ..\HARDWARE\RTC -I ..\HARDWARE\TIMER -I ..\HARDWARE\VisualTFT -I ..\HARDWARE\IO -I ..\HARDWARE\GPS -I ..\HARDWARE\md5\ipsec -I ..\HARDWARE\md5\core -I ..\HARDWARE\Emw3060 -I ..\HARDWARE\md5 -I ..\HARDWARE\STMFLASH-I.\RTE\_UCOSII-3-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\emw3060.o --omf_browse ..\obj\emw3060.crf --depend ..\obj\emw3060.d)
+F (..\HARDWARE\Emw3060\Emw3060.c)(0x5D11DCFF)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\RTC -I ..\HARDWARE\RTC -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\MALLOC -I ..\HARDWARE\RS485 -I ..\HARDWARE\LED -I ..\HARDWARE\RTC -I ..\HARDWARE\TIMER -I ..\HARDWARE\VisualTFT -I ..\HARDWARE\IO -I ..\HARDWARE\GPS -I ..\HARDWARE\md5\ipsec -I ..\HARDWARE\md5\core -I ..\HARDWARE\Emw3060 -I ..\HARDWARE\md5 -I ..\HARDWARE\STMFLASH-I.\RTE\_UCOSII-3-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\emw3060.o --omf_browse ..\obj\emw3060.crf --depend ..\obj\emw3060.d)
 I (..\HARDWARE\RS485\Rs485.h)(0x5D05A9D5)
 I (..\SYSTEM\sys\sys.h)(0x5B058617)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
@@ -975,7 +975,7 @@ I (..\HARDWARE\VisualTFT\cmd_queue.h)(0x5C025A14)
 I (..\HARDWARE\VisualTFT\hmi_driver.h)(0x5CA5A535)
 I (..\HARDWARE\VisualTFT\hmi_user_uart.h)(0x5B24AE7C)
 I (..\USER\Alarm.h)(0x5CAB0F6E)
-I (..\USER\FlashDivide.h)(0x5CE3D052)
+I (..\USER\FlashDivide.h)(0x5D11CDDA)
 F (..\HARDWARE\md5\core\md5.c)(0x5CD008C1)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\RTC -I ..\HARDWARE\RTC -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\MALLOC -I ..\HARDWARE\RS485 -I ..\HARDWARE\LED -I ..\HARDWARE\RTC -I ..\HARDWARE\TIMER -I ..\HARDWARE\VisualTFT -I ..\HARDWARE\IO -I ..\HARDWARE\GPS -I ..\HARDWARE\md5\ipsec -I ..\HARDWARE\md5\core -I ..\HARDWARE\Emw3060 -I ..\HARDWARE\md5 -I ..\HARDWARE\STMFLASH-I.\RTE\_UCOSII-3-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\md5.o --omf_browse ..\obj\md5.crf --depend ..\obj\md5.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599EDB3C)
 I (..\HARDWARE\md5\ipsec/md5.h)(0x5CD5447B)

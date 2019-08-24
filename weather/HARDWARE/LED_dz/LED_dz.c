@@ -66,7 +66,7 @@ void	setdz1(Environmental data)//78
 	u8 i=0;
 	char *h1="温度:00℃ 无雨雪";	
 	char *h2="湿度:00%RH      ";	
-	char *h3="光照强度00000Lux";	
+	char *h3="光照强度:000000L";	
 	char *h4="大气压: 0000hpa ";	
 	u16 crc;
 
@@ -90,11 +90,12 @@ void	setdz1(Environmental data)//78
 	tab_dz1[88+sizeof("温度:")]														=data.temp/10%10+0x30;
 	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:")-1]									=data.humi%1000/100+0x30;
 	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:")]										=data.humi%100/10+0x30;
-	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")-1]					=data.light/10000+0x30;
-	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")]					=data.light/1000%10+0x30;
-	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")+1]					=data.light/100%10+0x30;
-	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")+2]					=data.light/10%10+0x30;
-	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")+3]					=data.light%10+0x30;
+	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")]					=data.light/100000+0x30;
+	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")+1]					=data.light/10000%10+0x30;
+	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")+2]					=data.light/1000%10+0x30;
+	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")+3]					=data.light/100%10+0x30;
+	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")+4]					=data.light/10%10+0x30;
+	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度")+5]					=data.light%10+0x30;
 //	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度00000Lux大气压:")-1]	=0x30;//data.bmp/10000+0x30;
 	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度00000Lux大气压:")]	=data.bmp/100000+0x30;
 	tab_dz1[88+sizeof("温度:00℃ 无雨雪湿度:00%RH      光照强度00000Lux大气压:")+1]	=data.bmp/10000%10+0x30;
@@ -121,7 +122,7 @@ void	setdz2(Environmental data)
 	char *h1="风向：西南偏北  ";	
 	char *h2="风速:00.0m/s    ";	
 	char *h3="CO2:0000ppm     ";	
-	char *h4="雨量:00mm       ";	
+	char *h4="雨量:000mm      ";	
 	u16 crc;
 	
 	switch(data.winddir)
@@ -158,8 +159,9 @@ void	setdz2(Environmental data)
 	tab_dz2[88+sizeof("风向  西南偏北  风速:000m/s     CO2:")]						=data.co2/100%10+0x30;
 	tab_dz2[88+sizeof("风向  西南偏北  风速:000m/s     CO2:")+1]					=data.co2/10%10+0x30;
 	tab_dz2[88+sizeof("风向  西南偏北  风速:000m/s     CO2:")+2]					=data.co2%10+0x30;
-	tab_dz2[88+sizeof("风向  西南偏北  风速:000m/s     CO2:0000ppm     雨量:")-1]	=data.rain/10+0x30;
-	tab_dz2[88+sizeof("风向  西南偏北  风速:000m/s     CO2:0000ppm     雨量:")]		=data.rain%10+0x30;
+	tab_dz2[88+sizeof("风向  西南偏北  风速:000m/s     CO2:0000ppm     雨量:")-1]	=data.rain/100+0x30;
+	tab_dz2[88+sizeof("风向  西南偏北  风速:000m/s     CO2:0000ppm     雨量:")]		=data.rain/10%10+0x30;
+	tab_dz2[88+sizeof("风向  西南偏北  风速:000m/s     CO2:0000ppm     雨量:")+1]	=data.rain%10+0x30;
 	
 	crc=CalcCRC(tab_dz2+32,sizeof(tab_dz2)-37);
 	tab_dz2[sizeof(tab_dz2)-4]=crc>>8;

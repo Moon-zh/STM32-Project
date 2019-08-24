@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\UCOSII-3.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\UCOSII-3.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Jun 24 15:33:27 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Jul 15 15:36:06 2019
 <BR><P>
 <H3>Maximum Stack Usage =        964 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1104,7 +1104,7 @@ Global Symbols
 
 <P><STRONG><a name="[315]"></a>Check_TaskRecord</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, userhmi.o(.text), UNUSED)
 
-<P><STRONG><a name="[103]"></a>Setbutonn_Page</STRONG> (Thumb, 182 bytes, Stack size 32 bytes, userhmi.o(.text))
+<P><STRONG><a name="[103]"></a>Setbutonn_Page</STRONG> (Thumb, 194 bytes, Stack size 32 bytes, userhmi.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224 + Unknown Stack Size
 <LI>Call Chain = Setbutonn_Page &rArr; W25QXX_Write &rArr; W25QXX_Erase_Sector &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -1139,7 +1139,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiveFromMonitor
 </UL>
 
-<P><STRONG><a name="[10b]"></a>ReceiveFromMonitor</STRONG> (Thumb, 526 bytes, Stack size 24 bytes, userhmi.o(.text))
+<P><STRONG><a name="[10b]"></a>ReceiveFromMonitor</STRONG> (Thumb, 524 bytes, Stack size 24 bytes, userhmi.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 292 + Unknown Stack Size
 <LI>Call Chain = ReceiveFromMonitor &rArr; PercentSet &rArr; SetMulSerialText3 &rArr; SendEndCmd &rArr; SendChar &rArr; comSendChar &rArr; comSendBuf &rArr; UartSend &rArr; USART_ITConfig
 </UL>
@@ -1172,14 +1172,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Task_HMIMonitor
 </UL>
 
-<P><STRONG><a name="[4e]"></a>Task_HMIMonitor</STRONG> (Thumb, 1598 bytes, Stack size 32 bytes, userhmi.o(.text))
+<P><STRONG><a name="[4e]"></a>Task_HMIMonitor</STRONG> (Thumb, 1608 bytes, Stack size 32 bytes, userhmi.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 324 + Unknown Stack Size
 <LI>Call Chain = Task_HMIMonitor &rArr; ReceiveFromMonitor &rArr; PercentSet &rArr; SetMulSerialText3 &rArr; SendEndCmd &rArr; SendChar &rArr; comSendChar &rArr; comSendBuf &rArr; UartSend &rArr; USART_ITConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetTextValue
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetTexFrontBColor
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlashWritetargetrecord
-<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlashWriteDHCP
+<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlashReadWiFi
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlashReadDHCP
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Copy_Folwer
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiveFromMonitor
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Water_Program
@@ -1530,6 +1531,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Setbutonn_Page
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;network_task
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Task_HMIMonitor
 </UL>
 
 <P><STRONG><a name="[109]"></a>FlashWriteWiFi</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, flashdivide.o(.text))
@@ -1548,6 +1550,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;W25QXX_Read
 </UL>
 <BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Setbutonn_Page
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Task_HMIMonitor
 <LI><a href="#[1fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Emw3060_init
 </UL>
 
@@ -1558,7 +1561,6 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;W25QXX_Write
 </UL>
 <BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WiFiSaveConfim
-<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Task_HMIMonitor
 </UL>
 
 <P><STRONG><a name="[c6]"></a>SetRemoteRead</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, network.o(.text))

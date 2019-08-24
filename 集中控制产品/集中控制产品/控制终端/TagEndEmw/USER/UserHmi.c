@@ -20,6 +20,12 @@ char	g_u8UserPassword[9]={0,0,0,0,0,0,0,0,0};//验证完以后要清零
 const char	g_u8AdminPassword[9]={0x31,0x39,0x39,0x31,0x30,0x37,0x30,0x31,0};
 char g_u8SysTemPassword[9]={0,0,0,0,0,0,0,0,0};
 
+extern char ssid[31];
+extern char password[31];
+extern char ipaddr[16];
+extern char subnet[16];
+extern char gateway[16];
+extern char dns[16];
 
 HmiRecord u_HmiRecord;
 WorkPara HmiWorkPara;
@@ -288,10 +294,12 @@ void StangbyPage(PCTRL_MSG msg, qsize size)
 	}
 }
 u16 FlashPara[76];
+u8 g_u8DHCP=1;
 //灌溉OR设置
 void IrrOrSet(PCTRL_MSG msg, qsize size)
 {
 	u16 u16Control_ID;				   //控件ID编号变量
+	s16 s16RevVal  = 0;
 	u8	u8ButtonVaule = msg->param[1];
 	uint32 u32ShowBuf[5]={0,0,0,0,0};
 	u8 u8Str[7] = {0,0,0,0,0,0,0};
@@ -299,29 +307,40 @@ void IrrOrSet(PCTRL_MSG msg, qsize size)
 	s16 value=0;
 	u16Control_ID = PTR2U16 ( &msg->control_id ); //控件ID
 	if(u16Control_ID == 1)
-	{
-		memcpy(g_u8WifiPara,msg->param,(size-12));
-	}
-	else if(u16Control_ID == 2)
-	{
-		memcpy(&g_u8WifiPara[31],msg->param,(size-12));
-	}
-	else if(u16Control_ID == 3)
-	{
-		memcpy(&g_u8WifiPara[62],msg->param,(size-12));
-	}
-	else if(u16Control_ID == 4)
-	{
-		memcpy(&g_u8WifiPara[78],msg->param,(size-12));
-	}
-	else if(u16Control_ID == 5)
-	{
-		memcpy(&g_u8WifiPara[94],msg->param,(size-12));
-	}
-	else if(u16Control_ID == 6 && u8ButtonVaule == 1)
-	{
-		SetScreen(2);
-	}
+    {
+        memcpy(g_u8WifiPara,msg->param,(size-12));
+        memcpy(ssid,msg->param,(size-12));
+    }
+    else if(u16Control_ID == 2)
+    {
+        memcpy(&g_u8WifiPara[31],msg->param,(size-12));
+        memcpy(password,msg->param,(size-12));
+    }
+    else if(u16Control_ID == 3)
+    {
+        memcpy(&g_u8WifiPara[62],msg->param,(size-12));
+        memcpy(ipaddr,msg->param,(size-12));
+    }
+    else if(u16Control_ID == 4)
+    {
+        memcpy(&g_u8WifiPara[78],msg->param,(size-12));
+        memcpy(subnet,msg->param,(size-12));
+    }
+    else if(u16Control_ID == 5)
+    {
+        memcpy(&g_u8WifiPara[94],msg->param,(size-12));
+        memcpy(gateway,msg->param,(size-12));
+    }
+    else if(u16Control_ID == 11)
+    {
+        FifureTextInput ( &s16RevVal, msg );
+        g_u8DHCP = s16RevVal;
+    }
+    else if(u16Control_ID == 9)
+    {
+        memcpy(&g_u8WifiPara[110],msg->param,(size-12));
+        memcpy(dns,msg->param,(size-12));
+    }
 	else if(u16Control_ID == 8)
 	{
 		FifureTextInput(&value,msg);
@@ -705,6 +724,7 @@ void SaveConfim(PCTRL_MSG msg, qsize size)
 		FlashWriteWiFi((u8*)g_u8WifiPara);
 		FlashWriteID(&g_u8DeviceID);
 		tagendid = g_u8DeviceID;
+		FlashWriteDHCP(&g_u8DHCP);
 		SetScreen(1);
 	}
 	else if(u16Control_ID==1)
@@ -822,6 +842,8 @@ void Task_HMIMonitor ( void * parg )
 {
 	parg = parg;
 	SetScreen(0);
+	FlashReadWiFi(g_u8WifiPara);
+    FlashReadDHCP(&g_u8DHCP);
 	while ( 1 ) 
 	{
 		delay_ms(100);

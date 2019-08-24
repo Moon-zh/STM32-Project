@@ -9,9 +9,9 @@ unsigned char Emwled=0;
 u8 sumbz=0;
 
 //鉴权信息
-char ProductKey1[20]=	"a1nsruIBCsX";
-char DeviceName1[50]=	"XNHZS_Collect01";
-char DeviceSecret1[50]=	"ZDuHUuwU5Jvpl0h7hfwGmokGizjeVDOJ";
+char ProductKey1[20]=	"a1LK1hla5Wo";
+char DeviceName1[50]=	"QXZ-01";
+char DeviceSecret1[50]=	"cmbKATBb6TrzcnikKwJL8FU6e8UKDOxj";
 
 char *ProductKeyw=ProductKey1;
 char *DeviceNamew=DeviceName1;
@@ -75,6 +75,17 @@ void	Emw3060_init(void)				//EMW初始化
 	while(1)	//恢复出厂设置
 	{
 		printf_num=2;
+		printf("AT+UART=115200,8,1,NONE,NONE\r");
+		delay_ms(200);
+		COM2GetBuf(buf,100);
+		if(strstr((const char *)buf,"OK")[0]=='O')break;
+	}
+	comClearRxFifo(COM2);
+	memset(buf,0,sizeof buf);
+	
+	while(1)	//恢复出厂设置
+	{
+		printf_num=2;
 		printf("AT+FACTORY\r");
 		delay_ms(200);
 		COM2GetBuf(buf,100);
@@ -125,36 +136,38 @@ void	Emw3060_init(void)				//EMW初始化
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
 	
-	while(1)	//设置北京时间时区
-	{
-		printf_num=2;
-		printf("AT+SNTPCFG=+8\r");
-		delay_ms(500);
-		COM2GetBuf(buf,30);
-		if(strchr((const char *)buf,'O')[0]=='O')break;
-	}
-	comClearRxFifo(COM2);
-	memset(buf,0,sizeof buf);
-	
-	while(1)	//校准网络时间
-	{
-		printf_num=2;
-		printf("AT+SNTPTIME\r");
-		delay_ms(500);
-		COM2GetBuf(buf,30);
-		if(strchr((const char *)buf,'O')[0]=='O')break;
-	}
-	comClearRxFifo(COM2);
-	memset(buf,0,sizeof buf);
+//	while(1)	//设置北京时间时区
+//	{
+//		printf_num=2;
+//		printf("AT+SNTPCFG=+8\r");
+//		delay_ms(500);
+//		COM2GetBuf(buf,30);
+//		if(strchr((const char *)buf,'O')[0]=='O')break;
+//	}
+//	comClearRxFifo(COM2);
+//	memset(buf,0,sizeof buf);
+//	
+//	while(1)	//校准网络时间
+//	{
+//		printf_num=2;
+//		printf("AT+SNTPTIME\r");
+//		delay_ms(500);
+//		COM2GetBuf(buf,30);
+//		if(strchr((const char *)buf,'O')[0]=='O')break;
+//	}
+//	comClearRxFifo(COM2);
+//	memset(buf,0,sizeof buf);
 }
 
-void	Emw3060_con(void)				//EMW连接阿里云
+u8	Emw3060_con(void)				//EMW连接阿里云
 {
 	u8 buf[250];
 	char hc[100];
 	char cs[40];
 	char mac[33];
 	char *m;
+	u8 to;
+	to=0;
 	Emwled=2;
 	ProductKeyw=ProductKey1;
 	DeviceNamew=DeviceName1;
@@ -240,6 +253,7 @@ void	Emw3060_con(void)				//EMW连接阿里云
 		delay_ms(2000);
 		COM2GetBuf(buf,200);
 		if(strstr((const char *)buf,"MQTTEVENT:CONNECT,SUCCESS")[0]=='M')break;
+		if(++to==20){Emwled=3;return 0;}
 	}
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
@@ -257,6 +271,7 @@ void	Emw3060_con(void)				//EMW连接阿里云
 	memset(g_RxBuf2,0,UART2_RX_BUF_SIZE);
 	Emwled=3;
 	sumbz=0;
+	return 1;
 }
 
 u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
@@ -279,6 +294,7 @@ u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
 		delay_ms(500);
 		COM2GetBuf(buf,200);
 		if(strstr((const char *)buf,"OK")[0]=='O')break;
+		if(++time==10){Emwled=3;return 0;}
 	}
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
@@ -290,11 +306,11 @@ u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
 		printf("AT+MQTTSEND=%d\r",strlen(data)+13);
 		while(1)
 		{
-			delay_ms(200);
+			delay_ms(150);
 			COM2GetBuf(buf,20);
 			if(strstr((const char *)buf,">")[0]=='>')break;
 			if(strstr((const char *)buf,"ERROR")[0]=='E')break;
-			if(++time==10)return 0;
+			//if(++time==10){Emwled=3;return 0;}
 		}
 		if(strstr((const char *)buf,">")[0]=='>')break;
 		comClearRxFifo(COM2);
@@ -312,9 +328,8 @@ u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
 	COM2GetBuf(buf,100);
 	Emwled=3;
 	comClearRxFifo(COM2);
-//	if(strstr((const char *)buf,"+MQTTEVENT:PUBLISH,SUCCESS")[0]=='+')sumbz=0;	//判断是否正常发送
-//	else sumbz++;
-//	if(sumbz>=3)return 0;
-//	else return 1;
-	return 0;
+	if(strstr((const char *)buf,"SUCCESS")[0]=='+')sumbz=0;	//判断是否正常发送
+	else sumbz++;
+	if(sumbz>=3)return 0;
+	else return 1;
 }

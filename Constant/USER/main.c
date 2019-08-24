@@ -16,7 +16,7 @@
 #define Y1	PCout(7)
 u8	x1,y1;
 
-typedef struct			//传感器数组结构体
+typedef struct				//传感器数组结构体
 {
 	float	water;		//水表读数
 	u16		frequrncy;	//频率
@@ -35,6 +35,8 @@ u8 tab_sendset[]={0x01 ,0x06 ,0x00 ,0x01 ,0x00 ,0x00 ,0x00,0x00};	//变频器设置指
 u8 tab_water[]  ={0x01 ,0x03 ,0x00 ,0x00 ,0x00 ,0x04 ,0x44 ,0x09};	//读水表指令
 u8 tab_water_b[]={0x01 ,0x03 ,0x08 ,0x00 ,0x00 ,0x00 ,0x14 ,0x00 ,0x00 ,0x00 ,0x00 ,0xA5 ,0xD4};	//判断水表返回值
 
+void	sendflash(void);
+
 void	X1SET()
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
@@ -52,7 +54,7 @@ void	X1SET()
 	
 }
 
-void	sendvm(u8 cmd,u16 addr,u16 data)
+void	sendvm(u8 cmd,u16 addr,u16 data)//发送指令到变频器
 {
 	u16 crc;
 	tab_send[1]=cmd;
@@ -67,7 +69,7 @@ void	sendvm(u8 cmd,u16 addr,u16 data)
 	delay_ms(60);
 }
 
-u8		readvm()
+u8		readvm()						//读变频器指令
 {
 	u16 crc;
 	u8 a[26];
@@ -86,7 +88,7 @@ u8		readvm()
 	return 0;
 }
 
-u8		readvmf(u16 *b)
+u8		readvmf(u16 *b)					//读取变频器故障
 {
 	u16 crc;
 	u8 a[26];
@@ -146,17 +148,17 @@ void	readflashthree()				//从flash中读取三元组数据
 	if(buf[1]=='K')
 	{
 		memset(ProductKey1,0,20);
-		msg=buf+4;for(i=0;*msg;msg++)		ProductKeyw[i++]=*msg;
+		msg=buf+4;for(i=0;*msg;msg++)		ProductKey1[i++]=*msg;
 	}
 	if(buf[25]=='N')
 	{
 		memset(DeviceName1,0,50);
-		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceNamew[i++]=*msg;
+		msg=buf+24+4;for(i=0;*msg;msg++)	DeviceName1[i++]=*msg;
 	}
 	if(buf[79]=='S')
 	{
 		memset(DeviceSecret1,0,50);
-		msg=buf+78+4;for(i=0;*msg;msg++)	DeviceSecretw[i++]=*msg;
+		msg=buf+78+4;for(i=0;*msg;msg++)	DeviceSecret1[i++]=*msg;
 	}
 }
 
@@ -174,7 +176,6 @@ void	sendflashthree(u8 group)		//向内存写入设置的三元组数据
 	LED_BZ=0;
 }
 
-void	sendflash(void);
 void	readflash()						//从flash读取报警设置
 {
 	u16 data;
@@ -369,19 +370,19 @@ void	readthree()						//从COM3 485串口读取是否设置了三元组数据
 			if(msg[1]=='K')
 			{
 				memset(ProductKey1,0,20);
-				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKeyw[i++]=*msg;	if(i>=20)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{ProductKey1[i++]=*msg;	if(i>=20)return ;}
 			}
 			msg=strstr((const char *)buf,"DN:");
 			if(msg[1]=='N')
 			{
 				memset(DeviceName1,0,50);
-				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceNamew[i++]=*msg;	if(i>=50)return ;}
+				msg+=3;for(i=0;*msg!=',';msg++)	{DeviceName1[i++]=*msg;	if(i>=50)return ;}
 			}
 			msg=strstr((const char *)buf,"DS:");
 			if(msg[1]=='S')
 			{
 				memset(DeviceSecret1,0,50);
-				msg+=3;for(i=0;*msg;msg++)		{DeviceSecretw[i++]=*msg;if(i>=50)return ;}
+				msg+=3;for(i=0;*msg;msg++)		{DeviceSecret1[i++]=*msg;if(i>=50)return ;}
 			}
 			len=2;
 		}
@@ -434,15 +435,37 @@ void	readset(u8 t)					//读取阿里下发的数据
 
 void 	UpyunWF_task(void *pdata)		//上传云任务 WIFI
 {
-	u32 i;
-	Emw3060_init();
-	Emw3060_con();
+	u32 i;u8 buf[50];u8 error=0;
+	do	
+	{
+		Emw3060_init();
+	}while(!Emw3060_con());
 	Upset();
 	Emw_B=1;emw_set=0;
 	while(1)
 	{
 		delay_ms(200);
 		readset(1);						//读取阿里云下发数据
+		comClearRxFifo(COM2);
+		printf_num=2;
+		printf("AT+WJAPS\r");
+		delay_ms(200);
+		COM2GetBuf(buf,45);
+		if(strstr((const char *)buf,"STATION_UP")[0]!='S')
+		{
+			if(++error==10)
+			{
+				emw_set=1;Emw_B=0;
+				do	
+				{
+					Emw3060_init();
+				}while(!Emw3060_con());
+				Emw_B=1;emw_set=0;
+			
+			}
+			continue;
+		}
+		else error=0;
 		if(((++i)/250)>=up_t1){i=0;Uptoaliyun_wifi();}
 	}
 }

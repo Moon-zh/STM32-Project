@@ -1,0 +1,13 @@
+ARM Compiler 	V6.10.1
+Language		gun99
+Language	 C++	gun++11
+Misc Controls	-D__weak="__attribute__((weak))" -D__packed="__attribute__((__packed__))" -D__NOINLINE="__attribute__ ( (noinline) )"
+core_cm3.c  27行
+	#if defined ( __CC_ARM   )
+  	#define __ASM            __asm                                      /*!< asm keyword for ARM Compiler          */
+  	#define __INLINE         inline                                   /*!< inline keyword for ARM Compiler       */
+  	#define STATIC_INLINE	   static inline
+屏蔽其他报错行
+
+C5编译器字节对齐方式	__align(8)OS_STK SaveThree_TASK_STK[SaveThree_STK_SIZE];
+C6编译器字节对齐方式改为 	OS_STK Alarm_TASK_STK[Alarm_STK_SIZE] __attribute__((aligned (8)));

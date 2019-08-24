@@ -10,7 +10,7 @@ static char  *wartopicw=	"user/war\"";
 static char   *warpostw="\\\"params\\\":{";
 
 void	Emw3060_init(void);
-void	Emw3060_con(void);
+unsigned char Emw3060_con(void);
 unsigned char sendEmw(char *data,unsigned char w);
 
 #define EmwLED1 PAout(1)

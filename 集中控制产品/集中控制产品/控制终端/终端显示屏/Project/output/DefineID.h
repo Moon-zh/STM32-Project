@@ -57,6 +57,10 @@
 
 #define  _TXT_DIS__设备配置_TEXT_DISPLAY6                                          8
 
+#define  _TXT_DIS__设备配置_TEXT_DISPLAY7                                          9
+
+#define  _TXT_DIS__设备配置_TEXT_DISPLAY8                                         11
+
 //画面保存确认的背景图片
 #define  _IMG_保存确认                                                             5
 
