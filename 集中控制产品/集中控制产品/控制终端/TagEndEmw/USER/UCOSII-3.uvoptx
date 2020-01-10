@@ -185,50 +185,45 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>butonn3_state</ItemText>
+          <ItemText>butonn4_state</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>butonn4_state</ItemText>
+          <ItemText>tagendid</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>tagendid</ItemText>
+          <ItemText>g_RxBuf1</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>g_RxBuf1</ItemText>
+          <ItemText>DHCP</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>DHCP</ItemText>
+          <ItemText>g_u8DHCP</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>g_u8DHCP</ItemText>
+          <ItemText>ProductKey0</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ProductKey0</ItemText>
+          <ItemText>DeviceSecret0</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>DeviceSecret0</ItemText>
-        </Ww>
-        <Ww>
-          <count>10</count>
-          <WinNumber>1</WinNumber>
           <ItemText>DeviceName0</ItemText>
         </Ww>
         <Ww>
-          <count>11</count>
+          <count>10</count>
           <WinNumber>1</WinNumber>
           <ItemText>dns</ItemText>
         </Ww>

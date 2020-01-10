@@ -1,0 +1,23 @@
+<Resource>
+    <pages>
+        <page name="主界面" id="0" />
+    </pages>
+    <images>
+        <image id="0" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\补光1.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="1" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\补光11.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="2" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\补光2.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="3" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\补光22.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="4" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\补光3.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="5" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\补光33.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="6" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\补气.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="7" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\补气1.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="8" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\喷雾.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="9" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\喷雾1.png" width="160" height="80" crop="0" effect_left="0" effect_top="0" effect_width="160" effect_height="80" size="25600" />
+        <image id="10" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\手动.png" width="162" height="81" crop="0" effect_left="0" effect_top="0" effect_width="162" effect_height="81" size="26244" />
+        <image id="11" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\自动.png" width="162" height="81" crop="0" effect_left="0" effect_top="0" effect_width="162" effect_height="81" size="26244" />
+        <image id="12" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\设置.png" width="162" height="81" crop="0" effect_left="0" effect_top="0" effect_width="162" effect_height="81" size="26244" />
+        <image id="13" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\设置1.png" width="162" height="81" crop="0" effect_left="0" effect_top="0" effect_width="162" effect_height="81" size="26244" />
+        <image id="14" url="c:\users\moon\desktop\控制箱 展示\控制箱\Images\start.png" width="43" height="71" crop="0" effect_left="0" effect_top="0" effect_width="43" effect_height="71" size="6106" />
+    </images>
+    <waves />
+</Resource>

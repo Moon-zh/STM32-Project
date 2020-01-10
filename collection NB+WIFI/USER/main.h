@@ -12,6 +12,7 @@
 #include "stmflash.h"
 #include "Emw3060.h"
 #include "NeowayN21.h"
+#include "cJSON.h"
 
 extern char ProductKey1[20];
 extern char DeviceName1[50];
@@ -94,7 +95,7 @@ void Collection_task(void *pdata);
 //设置任务优先级
 #define UpyunWF_TASK_PRIO       		7 
 //设置任务堆栈大小
-#define UpyunWF_STK_SIZE  		    	1024
+#define UpyunWF_STK_SIZE  		    	1512
 //任务堆栈	
 __align(8)OS_STK UpyunWF_TASK_STK[UpyunWF_STK_SIZE];
 //任务函数
@@ -104,7 +105,7 @@ void UpyunWF_task(void *pdata);
 #define 	CMD_AIRTEMP		0x01
 #define		CMD_AIRHUMI 	0x00
 #define		CMD_SOILTEMP	0x03
-#define		CMD_SOILHUMI	0x02
+#define		CMD_SOILHUMI	0x12
 #define		CMD_CO2			0x05
 #define 	CMD_LIGTH		0x07
 #define		CMD_EC			0x15
@@ -150,6 +151,7 @@ unsigned int  Nsendok=1;	//NB上报正常标志
 #include "my_HDMI.h"
 
 extern 	uint8_t g_RxBuf1[UART1_RX_BUF_SIZE];
+extern 	uint8_t g_RxBuf2[UART2_RX_BUF_SIZE];
 extern 	uint8_t g_RxBuf4[UART4_RX_BUF_SIZE];
 extern 	uint8_t g_RxBuf5[UART5_RX_BUF_SIZE];
 void	UpSetAlarm_wifi(Waring data,u8 group);

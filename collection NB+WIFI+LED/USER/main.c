@@ -1,18 +1,26 @@
 #include "main.h"
 #include "LED_dz.h"
 
+OS_TMR   * tmr1;           								//软件定时器1
+void tmr1_callback(OS_TMR *ptmr,void *p_arg)			//软件定时器1回调函数
+{
+    if(++ttm==6){wifi++,nb++,wart++;ttm=0;}		//1分钟计时++
+	if(wifi>=up_time)wifiup=1,wifi=0;			//wifi上传时间到
+	if(nb>up_time)nbup=1,nb=0;					//NB上传时间到
+	if(wart>=up_wartime)warup=1,wart=0;			//报警上传时间到
+}
+
 #define 	sensor_num		1			//传感器数量
 
 Environmental sensor[EnvNum];			//传感器数量上限组数的内存
 
-u16	Alarm(u16 armtime)					//报警判断
+u16	Alarm()								//报警判断
 {
 	u8 i;
 	char a[250];
 	char c[250];
 	char *b=c;
 	u8 k=0;
-	armtime++;
 	memset(a,0,sizeof a);
 	memset(a,0,sizeof c);
 	for(i=0;i<sensor_num;i++,k=0)
@@ -59,16 +67,17 @@ u16	Alarm(u16 armtime)					//报警判断
 			delay_ms(100);
 			sprintf(b,"\\\"EC_%d\\\":%d",i+1,sensor[i].EC);									for(;*b;b++)a[k++]=*b;
 		}
-		if((armtime/80)>=up_wartime)				//报警上报周期
+		if(warup|firstarm)
 		{
-			armtime=0;
+			warup=0;
 			if(k>2)
 			{
+				firstarm=0;
 				if(N21_B)
 				{
 					n21_set=1;
 					OSTaskSuspend(Upyun_TASK_PRIO);
-					sendN21(a,1);
+					Nsendok=sendN21(a,1);
 					OSTaskResume(Upyun_TASK_PRIO);
 					n21_set=0;
 				}	
@@ -77,16 +86,17 @@ u16	Alarm(u16 armtime)					//报警判断
 				{
 					emw_set=1;
 					OSTaskSuspend(UpyunWF_TASK_PRIO);
-					sendEmw(a,1);
+					sendok=sendEmw(a,1);
 					OSTaskResume(UpyunWF_TASK_PRIO);
 					emw_set=0;
 				}	
-				
-				delay_ms(1000);delay_ms(1000);delay_ms(1000);delay_ms(1000);delay_ms(1000);
+				delay_ms(1000);delay_ms(1000);
+				return 1;
 			}
+			firstarm=1;
 		}
 	}
-	return armtime;
+	return 0;
 }
 
 void	Update_Sensor_Number()			//更新传感器显示
@@ -157,12 +167,16 @@ void	setalarm()						//显示报警设置值
 	comClearRxFifo(COM5);
 }
 
-void	sendcmd_read(u8 addr,u8 CMD)	//发送查询相关数据指令
+void	sendcmd_read(u8 addr,u8 CMD,u8 num)	//发送传感器读取指令
 {
 	u8 check_value[]={0x01,0x03,0x00,0x00,0x00,0x09,0xc4,0xb0};
 	u8 i;
 	u16 crc;
+	comClearRxFifo(COM3);
 	check_value[0]=addr;
+	check_value[2]=CMD>>8;
+	check_value[3]=CMD&0xff;
+	check_value[5]=num;
 	crc=mc_check_crc16(check_value,6);
 	check_value[6]=crc>>8;
 	check_value[7]=crc&0xff;
@@ -171,7 +185,7 @@ void	sendcmd_read(u8 addr,u8 CMD)	//发送查询相关数据指令
 	delay_ms(60);
 }
 
-u16		readcmd1(u8 i)					//读取空气传感器返回的数据
+u16		readcmd1(u8 i)					//读取空气温度
 {
 	u16 crc;
 	u8 a[26];
@@ -192,70 +206,48 @@ u16		readcmd1(u8 i)					//读取空气传感器返回的数据
 	return 0;
 }
 
-u16		readcmd2(u8 i)					//读取土壤传感器返回的数据
+u16		readcmd2(u8 i)					//读取土壤温度
 {
 	u16 crc;
 	u8 a[26];
 	u8 len;
 	len=COM3GetBuf(a,25);
-	if(len<10)return 0;
+	if(len<12)return 0;
 	comClearRxFifo(COM3);
 	crc=mc_check_crc16(a,len-2);
 	if((a[len-2]==(crc>>8))&&(a[len-1]==(crc&0xff)))
 	{
-		sensor[i].soilhumi=(a[7]<<8)|a[8];
+		sensor[i].soilhumi=(a[3]<<8)|a[4];
 		if(sensor[i].soilhumi>990)sensor[i].soilhumi=990;
-		sensor[i].soiltemp=(a[9]<<8)|a[10];
-		//if(sensor[i].soilhumi==0)return 0;
+		sensor[i].soiltemp=(a[5]<<8)|a[6];
+		sensor[i].EC=(a[9]<<8)|a[10];
 		return 1;
 	}
 	return 0;
 }
 
-u16		readcmd3(u8 i)					//读取土壤传感器返回的数据
-{
-	u16 crc;
-	u8 a[26];
-	u8 len;
-	len=COM3GetBuf(a,25);
-	if(len<7)return 0;
-	comClearRxFifo(COM3);
-	crc=mc_check_crc16(a,len-2);
-	if((a[len-2]==(crc>>8))&&(a[len-1]==(crc&0xff)))
-	{
-		sensor[i].EC=(a[7]<<8)|a[8];
-		return 1;
-	}
-	return 0;
-}
-
-void	ReadValue()						//读取传感器数据并上传到触摸屏
+void	ReadValue()						//传感器读取
 {
 	u16 k;
-	u8 	i;
-	comClearRxFifo(COM3);
+	u8 	i,b;
 	for(i=0;i<sensor_num;i++)
 	{
+		b=0;
 		do{
-			sendcmd_read(1+i,CMD_AIRHUMI);			//读取空气湿度
+			sendcmd_read(1+i,CMD_AIRHUMI,9);			//璇诲彇绌烘皵
 			delay_ms(200);
-			k=readcmd1(0);
+			k=readcmd1(i);
 			if(k)break;
-		}while(1);
-		delay_ms(500);
-		
-		do{
-			sendcmd_read(50+i,CMD_AIRHUMI);			//读取空气湿度
-			delay_ms(200);
-			k=readcmd2(0);
-			if(k)break;
+			if(++b==5)break;
 		}while(1);
 		
+		b=0;
 		do{
-			sendcmd_read(50+i,CMD_EC);					//读取空气湿度
+			sendcmd_read(50+i,CMD_SOILHUMI,4);			//璇诲彇鍦熷￥
 			delay_ms(200);
-			k=readcmd3(0);
+			k=readcmd2(i);
 			if(k)break;
+			if(++b==5)break;
 		}while(1);
 	}
 }
@@ -353,9 +345,12 @@ void	init()							//系统初始化
 
 int 	main(void)						//系统开始
 {	 
+	u8 err;
 	init();
 	OSInit();   
 	OSTaskCreate(start_task,(void *)0,(OS_STK *)&START_TASK_STK[START_STK_SIZE-1],START_TASK_PRIO );//创建起始任务
+	tmr1=OSTmrCreate(0,100,OS_TMR_OPT_PERIODIC,(OS_TMR_CALLBACK)tmr1_callback,0,(u8 *)tmr1,&err);//10s执行一次
+	OSTmrStart(tmr1,&err);//启动软件定时器1
 	OSStart();
 }
 
@@ -685,7 +680,7 @@ void	Uptoaliyun_wifi(Environmental data,u8 group)	//上传传感器数据到阿里云 WIFI
 	sprintf(b,"\"soilhumi_%d\":%2.1f,",group+1,(float)(data.soilhumi/10.0));	for(;*b;b++)a[i++]=*b;
 	sprintf(b,"\"EC_%d\":%d",group+1,data.EC);									for(;*b;b++)a[i++]=*b;
 	
-	sendEmw(a,0);
+	sendok=sendEmw(a,0);
 	OSTaskResume(Alarm_TASK_PRIO);
 }
 
@@ -948,11 +943,11 @@ void 	Upyun_task(void *pdata)							//上传云任务 N21
 	while(1)
 	{
 		delay_ms(200);
-		if(((++time)/250)>=up_time)					//发送间隔，每次只发送一组
+		readset(0);						//读取阿里云下发数据
+		if(nbup)
 		{
+			nbup=0;
 			n21_set=1;
-			comClearRxFifo(COM1);
-			memset(g_RxBuf1,0,UART1_RX_BUF_SIZE);
 			printf_num=1;
 			printf("AT\r\n");
 			delay_ms(100);
@@ -971,18 +966,18 @@ void 	Upyun_task(void *pdata)							//上传云任务 N21
 				N21_B=1;
 				memset(g_RxBuf1,0,UART1_RX_BUF_SIZE);
 			}
-			time=0;
 			Uptoaliyun(sensor[g],g);if(++g==sensor_num)g=0;
 			n21_set=0;
 		}
-		if(!Nsendok){n21_set=1;N21_B=0;NeoWayN21_init();conN21();n21_set=0;N21_B=1;}
-		readset(0);						//读取阿里云下发数据	
+		if(!Nsendok){n21_set=1;N21_B=0;NeoWayN21_init();conN21();n21_set=0;N21_B=1;}	
+		comClearRxFifo(COM1);
+		memset(g_RxBuf1,0,UART1_RX_BUF_SIZE);
 	}
 }
 
 void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 {
-	u16 i;u8 buf[50];u8 error=0;
+	u8 buf[50];u8 error=0;
 	do	
 	{
 		Emw3060_init();
@@ -1002,18 +997,18 @@ void 	UpyunWF_task(void *pdata)						//上传云任务 WIFI
 		{
 			if(++error==10)
 			{
-				emw_set=1;Emw_B=0;
+rest:			sendok=1;emw_set=1;Emw_B=0;
 				do	
 				{
 					Emw3060_init();
 				}while(!Emw3060_con());
 				Emw_B=1;emw_set=0;
-			
 			}
 			continue;
 		}
 		else error=0;
-		if(((++i)/270)>=up_time){i=0;emw_set=1;Uptoaliyun_wifi(sensor[0],0);emw_set=0;}
+		if(sendok==0)goto rest;
+		if(wifiup){wifiup=0;emw_set=1;Uptoaliyun_wifi(sensor[0],0);emw_set=0;}
 	}
 }
 
@@ -1048,11 +1043,10 @@ void 	Collection_task(void *pdata)					//采集任务
 
 void 	Alarm_task(void *pdata)							//报警任务
 {	
-	u16 armtime=0;
 	while(1)
 	{	
 		delay_ms(200);
-		armtime=Alarm(armtime);
+		Alarm();
 	}
 }
 

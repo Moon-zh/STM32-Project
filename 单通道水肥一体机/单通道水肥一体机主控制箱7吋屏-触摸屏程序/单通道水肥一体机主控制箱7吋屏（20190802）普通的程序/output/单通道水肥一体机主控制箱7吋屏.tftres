@@ -1,0 +1,42 @@
+<Resource>
+    <pages>
+        <page name="首页" id="0" />
+        <page name="第一步" id="1" />
+        <page name="第二步" id="2" />
+        <page name="第三步" id="3" />
+        <page name="正在灌溉" id="4" />
+        <page name="WIFI配置" id="5" />
+        <page name="保存确认" id="6" />
+        <page name="灌溉分区为空界面" id="7" />
+    </pages>
+    <images>
+        <image id="0" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\1_待机画面.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="1" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\第一步1.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="2" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\清水灌溉.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="3" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\肥水灌溉.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="4" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\设备配置.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="5" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\3_第二步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="6" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\上一步.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="7" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\下一步.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="8" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\复选空.png" width="54" height="54" crop="0" effect_left="0" effect_top="0" effect_width="54" effect_height="54" size="5832" />
+        <image id="9" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\复选√.png" width="54" height="54" crop="0" effect_left="0" effect_top="0" effect_width="54" effect_height="54" size="5832" />
+        <image id="10" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\4_第三步.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="11" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\启动.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="12" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\60.png" width="70" height="70" crop="0" effect_left="0" effect_top="0" effect_width="70" effect_height="70" size="9800" />
+        <image id="13" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\90.png" width="70" height="70" crop="0" effect_left="0" effect_top="0" effect_width="70" effect_height="70" size="9800" />
+        <image id="14" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\120.png" width="70" height="70" crop="0" effect_left="0" effect_top="0" effect_width="70" effect_height="70" size="9800" />
+        <image id="15" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\150.png" width="70" height="70" crop="0" effect_left="0" effect_top="0" effect_width="70" effect_height="70" size="9800" />
+        <image id="16" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\180.png" width="70" height="70" crop="0" effect_left="0" effect_top="0" effect_width="70" effect_height="70" size="9800" />
+        <image id="17" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\210.png" width="70" height="70" crop="0" effect_left="0" effect_top="0" effect_width="70" effect_height="70" size="9800" />
+        <image id="18" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\5_正在灌溉.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="19" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\停止.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="20" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\配置1-1.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="21" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\保存.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="22" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\返回.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="23" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\复选空.png" width="64" height="49" crop="0" effect_left="0" effect_top="0" effect_width="64" effect_height="49" size="6272" />
+        <image id="24" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\复选√.png" width="64" height="49" crop="0" effect_left="0" effect_top="0" effect_width="64" effect_height="49" size="6272" />
+        <image id="25" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\确认.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="26" url="d:\明基\et-单通道水肥一体机\单通道水肥一体机主控制箱7吋屏-触摸屏程序\单通道水肥一体机主控制箱7吋屏（20190802）\Images\取消.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+    </images>
+    <waves />
+</Resource>

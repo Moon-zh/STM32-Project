@@ -1,5 +1,7 @@
 #include "main.h"
-
+#include "MCGS.h"
+#define	washf	5
+#define	washb	5
 void	init()							//系统初始化
 {
 	SystemInit();
@@ -43,6 +45,7 @@ void 	start_task(void *pdata)			//线程初始化
 	OSTaskCreate(Work_task,(void *)0,(OS_STK*)&Work_TASK_STK[Work_STK_SIZE-1],Work_TASK_PRIO);						//灌溉任务
 	OSTaskCreate(Plan_task,(void *)0,(OS_STK*)&Plan_TASK_STK[Plan_STK_SIZE-1],Plan_TASK_PRIO);						//计划任务
 	OSTaskCreate(Collection_task,(void *)0,(OS_STK*)&Collection_TASK_STK[Collection_STK_SIZE-1],Collection_TASK_PRIO);//采集传感器任务
+	OSTaskCreate(Sewage_task,(void *)0,(OS_STK*)&Sewage_TASK_STK[Sewage_STK_SIZE-1],Sewage_TASK_PRIO);
 	OSTaskSuspend(START_TASK_PRIO);	
 	OS_EXIT_CRITICAL();				
 }
@@ -79,6 +82,9 @@ void 	LED_task(void *pdata)			//LED任务
 				EmwLED2=0;
 				break;
 		}
+		
+		if(!Scram)Error=10,Err=1;
+		if(!PressSwitch)Error=11,Err=1;
 	}
 }
 
@@ -89,6 +95,7 @@ void 	HDMI_task(void *pdata)			//触摸屏监控任务
 	while(1)
 	{
 		delay_ms(200);
+		HDMI_Check_Sewage();										//读取排污设置
 		HDMI_Check_Button();										//读取屏幕按键状态
 		if(Irrsign==1)HDMI_Check_Irrigation_time(),Irrsign=0;		//读取灌溉时常
 		if(Remsign==1)HDMI_Set_Remaining_time(Remaining),Remsign=0;	//设置倒计时时间
@@ -109,7 +116,6 @@ void 	HDMI_task(void *pdata)			//触摸屏监控任务
 		if(Err)HDMI_Set_Error(),Err=0;									//弹出错误
 		if(GetTime)HDMI_Check_SysTime(),GetTime=0;						//获取触摸屏时间
 		if(ReadPlan)HDMI_Check_Plan(PlanAddr),ReadPlan=0;				//获取计划内容
-		
 		if(SetRun)														//设置屏幕运行 用于计划任务
 		{
 			HDMI_Set_Partition(HC_Partition);
@@ -129,6 +135,49 @@ void 	HDMI_task(void *pdata)			//触摸屏监控任务
 				Logwait=0;
 				HDMI_Set_Log((LogPage-1)*10+i+1,0x190+(i*17));		//显示日志
 			}
+		}
+		
+		if(ManualButton)				//手动模式
+		{
+			emw_set=1;
+			while(ManualButton)
+			{
+				HDMI_Check_Button();
+				HDMI_Check_Manual();
+
+				if(Manual_Par1)Solenoid1Open;
+				else	Solenoid1Close;
+				if(Manual_Par2)Solenoid2Open;
+				else	Solenoid2Close;
+				if(Manual_Par2)Solenoid3Open;
+				else	Solenoid3Close;
+				if(Manual_Par2)Solenoid4Open;
+				else	Solenoid4Close;
+				if(Manual_Par2)Solenoid5Open;
+				else	Solenoid5Close;
+				if(Manual_Par2)Solenoid6Open;
+				else	Solenoid6Close;
+				if(Manual_Fer1)Stir1Open;
+				else	Stir1Close;
+				if(Manual_Fer2)Stir2Open;
+				else	Stir2Close;
+				if(MCGS_FM)FerRun;
+				else	FerStop;
+				IO8Set=1;delay_ms(200);
+			}
+			IO8SWITCH=0;
+			IO8Set=1;
+			FerStop;
+			emw_set=0;
+		}
+		while(Auto)
+		{
+			HDMI_Check_Sewage();
+			HDMI_Check_Button();
+			HDMI_Check_Humi();
+			if((sensor[0].soilhumi/10)>=Humidown)Solenoid1Close,IO8Set=1;
+			if((sensor[0].soilhumi/10)<Humiup)Solenoid1Open,IO8Set=1;
+			if(!Auto)Solenoid1Close,IO8Set=1;
 		}
 	}
 }
@@ -234,13 +283,38 @@ void 	SaveThree_task(void *pdata)		//三元组任务
 	}
 }
 
+void	ChangeFlow()					//流量控制
+{
+	u8	Flowcmd[]={10,06,00,02,0x0b,0xb7,0x6f,0x4c};
+	u16	crc;
+	Flowcmd[4]=(0x07cf+((int)((float)NeedFlow*1.205)/10*10+10))>>8;
+	Flowcmd[5]=(0x07cf+((int)((float)NeedFlow*1.205)/10*10+10))&0xff;
+	crc=mc_check_crc16(Flowcmd,6);
+	Flowcmd[6]=crc>>8;
+	Flowcmd[7]=crc&0xff;
+	comSendBuf(COM4,Flowcmd,sizeof(Flowcmd));
+	delay_ms(1000);
+}
 void 	IO_task(void *pdata)			//IO控制任务
 {
+	u16	flow=0;
+	flow=NeedFlow;
 	while(1)
 	{
 		delay_ms(200);
 		CheckIO8();								//读取IO8状态
 		if(IO8Set)SetIO8(IO8SWITCH),IO8Set=0;	//设置IO8输出
+		
+		if(flow!=NeedFlow)
+		{
+			flow=NeedFlow;
+			ChangeFlow();
+		}
+		if(RunState&IrrMethod&FerB)
+		{
+			if((EC-sensor[0].EC)>150)NeedFlow-=10;
+			if((sensor[0].EC-EC)>150)NeedFlow+=10;
+		}
 	}
 }
 
@@ -262,10 +336,11 @@ void 	Model_task(void *pdata)			//模式识别任务	与	手动功能
 	while(1)
 	{
 		delay_ms(200);
-		if((!FerSwitch)|StirSwitch1|StirSwitch2|SolenoidSwitch1|SolenoidSwitch2)MODEL=ManualModel,ChoMode=0;	//任何开关人为干预则为手动模式
-		else if(MODEL==ManualModel)MODEL=localModel;		//所有开关都在自动档时  若之前在手动模式则改为本地模式
+		//if(!((!FerSwitch)&StirSwitch1&StirSwitch2&SolenoidSwitch1&SolenoidSwitch2))MODEL=ManualModel,ChoMode=0;	//任何开关人为干预则为手动模式
+		//else if(MODEL==ManualModel)MODEL=localModel;		//所有开关都在自动档时  若之前在手动模式则改为本地模式
 		if(MODEL==ManualModel)
 		{
+			while(TimePopup)delay_ms(200);
 			if((State!=IO8STATE)|(state!=FerState))
 			{
 				HLog.Irrtime=0;								//设置计划时间为0
@@ -329,12 +404,12 @@ void 	Model_task(void *pdata)			//模式识别任务	与	手动功能
 				HLog.StopMode=0;							//记录日志	停止模式
 				while(Logwait)delay_ms(200);				//等待外部flash操作完成
 				Logwait=1;OSTaskSuspend(HDMI_TASK_PRIO);
-				FlashWriteLog(&HLog.StartTime[0],Logmem.mem32,17);	//日志写入flash
+				FlashWriteLog(&HLog.StartTime[0],Logmem.mem32,18);	//日志写入flash
 				if(Logmem.mem32==20*100)Logmem.mem32=0;				//日志存储地址增加
 				Logmem.mem32+=20;FlashWriteMem(Logmem.mem);			//日志地址增加
 				Logwait=0;OSTaskResume(HDMI_TASK_PRIO);
 				up_state=1;									//上传设备状态
-				TimePopup=1;
+				TimePopup=0;
 			}
 		}
 	}
@@ -359,9 +434,9 @@ void 	Plan_task(void *pdata)			//计划任务
 					if(Plan.Irrtime<21)goto next;			//计划设置时间小于21分钟不执行
 					Planing=1;								//装载相关运行参数
 					IrrTime=Plan.Irrtime;					//设置任务时间
-					HC_IrrMode=MCGS_Button&0XFE;			//设置触摸屏相关寄存器状态
+					HC_IrrMode=MCGS_Button&0XFD;			//设置触摸屏相关寄存器状态
 					HC_Partition=Plan.Partition;
-					HC_IrrMode|=Plan.IrrMode|0x28;
+					HC_IrrMode|=(Plan.IrrMode<<1)|0x28;
 					SetRun=1;
 					while(SetRun)delay_ms(200);				//等待触摸屏执行结束
 					Net=0;
@@ -393,7 +468,7 @@ void	Judge_Partition()				//排序分区进入待灌溉队列
 
 void 	Work_task(void *pdata)			//灌溉任务
 {
-	u8 ATPartition,first,error;
+	u8 ATPartition,first,error,i;
 	while(1)
 	{
 	 	delay_ms(200);
@@ -407,7 +482,7 @@ void 	Work_task(void *pdata)			//灌溉任务
 			if(Net==0&ChoMode!=3)				//根据是否为网络启动  判断是否需要读屏参
 			{
 				if(Irrsign==0)Irrsign=1;		//读取设置的时间
-				while(Irrsign==1)delay_ms(20);
+				while(Irrsign==1)delay_ms(200);
 			}
 			if(Emw_B)							//读取当前时间  网络或触摸屏
 			{
@@ -430,7 +505,8 @@ void 	Work_task(void *pdata)			//灌溉任务
 			}
 			
 			Log.StartMode=ChoMode;				//记录日志	启动方式
-			Log.IrrMode=IrrMethod;				//记录日志	灌溉方式
+			if(IrrMethod)Log.IrrMode=1;			//记录日志	灌溉方式
+			else	Log.IrrMode=0;
 			if(ChoPartition1)					//记录日志	灌溉分区
 			{
 				if(ChoPartition2)Log.Partition=3;
@@ -454,8 +530,12 @@ void 	Work_task(void *pdata)			//灌溉任务
 			}
 			if(waitPartition[ATPartition]==1)Solenoid1Open;	//打开一分区电磁阀
 			if(waitPartition[ATPartition]==2)Solenoid2Open;	//打开二分区电磁阀
+			if(waitPartition[ATPartition]==3)Solenoid3Open;	//打开三分区电磁阀
+			if(waitPartition[ATPartition]==4)Solenoid4Open;	//打开四分区电磁阀
+			if(waitPartition[ATPartition]==5)Solenoid5Open;	//打开五分区电磁阀
+			if(waitPartition[ATPartition]==6)Solenoid6Open;	//打开六分区电磁阀
 			error=0;
-			OpenLED;							//打开LED
+
 			while(1)							//异常检查
 			{
 				IO8Set=1;delay_ms(200);
@@ -466,8 +546,28 @@ void 	Work_task(void *pdata)			//灌溉任务
 				}
 				if(waitPartition[ATPartition]==2)
 				{
-					if(SolenoidState1)break;
+					if(SolenoidState2)break;
 					if(++error==10)Error=5,Err=1;
+				}
+				if(waitPartition[ATPartition]==3)
+				{
+					if(SolenoidState3)break;
+					if(++error==10)Error=6,Err=1;
+				}
+				if(waitPartition[ATPartition]==4)
+				{
+					if(SolenoidState4)break;
+					if(++error==10)Error=7,Err=1;
+				}
+				if(waitPartition[ATPartition]==5)
+				{
+					if(SolenoidState5)break;
+					if(++error==10)Error=8,Err=1;
+				}
+				if(waitPartition[ATPartition]==6)
+				{
+					if(SolenoidState6)break;
+					if(++error==10)Error=9,Err=1;
 				}
 				if(error==10)break;
 			}
@@ -478,31 +578,36 @@ void 	Work_task(void *pdata)			//灌溉任务
 				delay_ms(200);
 				if(MODEL==ManualModel)goto stop;
 				if(IrrMethod)
-				{
-					if(Remaining<(IrrTime-10))	//启动吸肥并上传状态
+				{	
+					NeedFlow=100;				//初始流量设置
+					if(Remaining<(IrrTime-washf))//启动吸肥并上传状态
 					{
 						if(first==0)first=up_state=1;
+						else goto next1;
 						FerRun;					//开始吸肥
+						FerB=1;
 						Stir1Open;				//肥料桶1搅拌
+						if(Fer2M)
 						Stir2Open;				//肥料桶2搅拌
 						error=0;
 						while(1)				//异常检测
 						{
 							IO8Set=1;delay_ms(200);
-							if(FerState&StirState1&StirState2)break;
+							if(!((!FerState)&StirState1&StirState2))break;
 							if(++error==10)
 							{
 								if(FerState)Error=1;
-								if(StirState1)Error=2;
-								if(StirState2)Error=3;
+								if(!StirState1)Error=2;
+								if(!StirState2)Error=3;
 								Err=1;
 								goto stop;		//设备异常结束运行
 							}	
 						}
 					}
-					if(Remaining<10)			//停止吸肥并上传状态
+next1:				if(Remaining<washb)			//停止吸肥并上传状态
 					{
 						if(first==1)first=2,up_state=1;
+						else goto next2;
 						FerStop;				//停止吸肥
 						Stir1Close;				//肥料桶1停止搅拌
 						Stir2Close;				//肥料桶2停止搅拌
@@ -510,10 +615,10 @@ void 	Work_task(void *pdata)			//灌溉任务
 						while(1)				//异常检测
 						{
 							IO8Set=1;delay_ms(200);
-							if((FerState|StirState1|StirState2)==0)break;
+							if(((!FerState)|StirState1|StirState2)==0)break;
 							if(++error==10)
 							{
-								if(FerState)Error=1;
+								if(!FerState)Error=1;
 								if(StirState1)Error=2;
 								if(StirState2)Error=3;
 								Err=1;
@@ -523,10 +628,14 @@ void 	Work_task(void *pdata)			//灌溉任务
 					}
 				}
 				
-				if(Remaining==0)				//当前分区结束重载相关参数
+next2:			if(Remaining==0)				//当前分区结束重载相关参数
 				{
 					if(waitPartition[ATPartition]==1)Solenoid1Close;	//关闭一分区电磁阀
 					if(waitPartition[ATPartition]==2)Solenoid2Close;	//关闭二分区电磁阀
+					if(waitPartition[ATPartition]==3)Solenoid3Close;
+					if(waitPartition[ATPartition]==4)Solenoid4Close;
+					if(waitPartition[ATPartition]==5)Solenoid5Close;
+					if(waitPartition[ATPartition]==6)Solenoid6Close;
 					while(IO8Set)delay_ms(100);IO8Set=1;				//确保更改继电器状态
 					if(waitPartition[++ATPartition])					//判断下一分区编号
 					{
@@ -534,7 +643,12 @@ void 	Work_task(void *pdata)			//灌溉任务
 						Remsign=1;										//触摸屏更新倒计时显示
 						Current=waitPartition[ATPartition];				//更新分区显示
 						Cursing=1;										//触摸屏更新分区显示
-						if(waitPartition[ATPartition]==2)Solenoid2Open;	//打开二分区电磁阀
+						if(waitPartition[ATPartition]==1)Solenoid1Open;	//打开二分区电磁阀
+						if(waitPartition[ATPartition]==2)Solenoid2Open;
+						if(waitPartition[ATPartition]==3)Solenoid3Open;
+						if(waitPartition[ATPartition]==4)Solenoid4Open;
+						if(waitPartition[ATPartition]==5)Solenoid5Open;
+						if(waitPartition[ATPartition]==6)Solenoid6Open;
 						while(1)										//异常检查
 						{
 							IO8Set=1;delay_ms(200);
@@ -546,7 +660,27 @@ void 	Work_task(void *pdata)			//灌溉任务
 							if(waitPartition[ATPartition]==2)
 							{
 								if(++error==10)Error=5,Err=1;
-								if(SolenoidState1)break;
+								if(SolenoidState2)break;
+							}
+							if(waitPartition[ATPartition]==3)
+							{
+								if(SolenoidState3)break;
+								if(++error==10)Error=6,Err=1;
+							}
+							if(waitPartition[ATPartition]==4)
+							{
+								if(SolenoidState4)break;
+								if(++error==10)Error=7,Err=1;
+							}
+							if(waitPartition[ATPartition]==5)
+							{
+								if(SolenoidState5)break;
+								if(++error==10)Error=8,Err=1;
+							}
+							if(waitPartition[ATPartition]==6)
+							{
+								if(SolenoidState6)break;
+								if(++error==10)Error=9,Err=1;
 							}
 							if(error==10)break;
 						}
@@ -572,12 +706,16 @@ stop:				rema=0;
 			Current=0;							//当前灌溉分区清零
 			Solenoid1Close;						//关闭一分区电磁阀
 			Solenoid2Close;						//关闭二分区电磁阀
+			Solenoid3Close;
+			Solenoid4Close;
+			Solenoid5Close;
+			Solenoid6Close;
 			FerStop;							//停止吸肥
+			FerB=0;
 			Stir1Close;							//肥料桶1停止搅拌
 			Stir2Close;							//肥料桶2停止搅拌
 			IO8Set=1;							//更新IO8输出状态
 			while(IO8Set)delay_ms(100);			//确保更改继电器状态
-			CloseLED;							//关闭LED
 			OSTaskSuspend(HDMI_TASK_PRIO);		//停止触摸屏 ‘运行中’标志
 			HDMI_Set_Button(MCGS_Button&0xD7);
 			OSTaskResume(HDMI_TASK_PRIO);
@@ -614,6 +752,22 @@ stop:				rema=0;
 			Planing=0;	//任务结束标志
 			ChoMode=1;	//切回本地模式
 			TimePopup=0;//设为空闲状态
+			for(i=0;i<5;i++)
+			{
+				OpenLED;delay_ms(1000);							//打开LED
+				CloseLED;delay_ms(1000);						//关闭LED
+			}
 		}
+	}
+}
+
+void 	Sewage_task(void *pdata)
+{
+	while(1)
+	{
+		delay_ms(200);
+		if(space>=sewage_space)Sewage(1),sw_time=0;
+		while(sw_time<sewage_time)delay_ms(200);
+		Sewage(0);space=0;
 	}
 }

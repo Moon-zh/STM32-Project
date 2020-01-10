@@ -10,13 +10,13 @@ unsigned char Emwled=0;
 u8 sumbz=0;
 //鉴权信息
 char ProductKey1[20]=	"a1TymkIzezE";
-char DeviceName1[50]=	"mjwlcjx-141";
-char DeviceSecret1[50]=	"I9ymKFepDHR1SVFaVTemHV54hs5HyP6E";
+char DeviceName1[50]=	"DkA1tcluRJ92pLMIpyfg";
+char DeviceSecret1[50]=	"chOfucKAXNuUHOcYJb0hyEWklnpS23k5";
 
-//char ssid[20]=		"IoT";
-//char password[20]=	"ag20190520";
-char ssid[20]=		"CU_afkE";
-char password[20]=	"yrx3htkq";
+char ssid[20]=		"IoT";
+char password[20]=	"ag20190520";
+//char ssid[20]=		"mingji";
+//char password[20]=	"mingji2015";
 char ip[20]=		"192.168.7.101";
 char network[20]=	"255.255.255.0";
 char gateway[20]=	"192.168.7.1";
@@ -121,27 +121,27 @@ void	Emw3060_init(void)				//EMW初始化
 	comClearRxFifo(COM2);
 	memset(buf,0,sizeof buf);
 	
-	while(1)	//设置北京时间时区
-	{
-		printf_num=2;
-		printf("AT+SNTPCFG=+8\r");
-		delay_ms(500);
-		COM2GetBuf(buf,30);
-		if(strchr((const char *)buf,'O')[0]=='O')break;
-	}
-	comClearRxFifo(COM2);
-	memset(buf,0,sizeof buf);
-	
-	while(1)	//校准网络时间
-	{
-		printf_num=2;
-		printf("AT+SNTPTIME\r");
-		delay_ms(1000);
-		COM2GetBuf(buf,100);
-		if(strchr((const char *)buf,'2')[0]=='2')break;
-	}
-	comClearRxFifo(COM2);
-	memset(buf,0,sizeof buf);
+//	while(1)	//设置北京时间时区
+//	{
+//		printf_num=2;
+//		printf("AT+SNTPCFG=+8\r");
+//		delay_ms(500);
+//		COM2GetBuf(buf,30);
+//		if(strchr((const char *)buf,'O')[0]=='O')break;
+//	}
+//	comClearRxFifo(COM2);
+//	memset(buf,0,sizeof buf);
+//	
+//	while(1)	//校准网络时间
+//	{
+//		printf_num=2;
+//		printf("AT+SNTPTIME\r");
+//		delay_ms(1000);
+//		COM2GetBuf(buf,100);
+//		if(strchr((const char *)buf,'2')[0]=='2')break;
+//	}
+//	comClearRxFifo(COM2);
+//	memset(buf,0,sizeof buf);
 }
 extern 	uint8_t g_RxBuf2[UART2_RX_BUF_SIZE];
 unsigned char Emw3060_con(void)				//EMW连接阿里云
@@ -312,8 +312,8 @@ u8	sendEmw(char *data,unsigned char w)	//EMW上报数据
 	COM2GetBuf(buf,100);
 	Emwled=3;
 	comClearRxFifo(COM2);
-	if(strstr((const char *)buf,"+MQTTEVENT:PUBLISH,SUCCESS")[0]=='+')sumbz=0;	//判断是否正常发送
+	if(strstr((const char *)buf,"SUCCESS")[0]=='S')sumbz=0;	//判断是否正常发送
 	else sumbz++;
-	if(sumbz>=3)return 0;
+	if(sumbz>=3){sumbz=0;return 0;}
 	else return 1;
 }

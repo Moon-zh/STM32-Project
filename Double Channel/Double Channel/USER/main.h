@@ -11,12 +11,13 @@
 #include "Emw3060.h"
 #include "w25qxx.h"
 #include "FlashDivide.h"
+#include "cJSON.h"
 
 
 #define 	CMD_AIRTEMP		0x01
 #define		CMD_AIRHUMI 	0x00
 #define		CMD_SOILTEMP	0x03
-#define		CMD_SOILHUMI	0x02
+#define		CMD_SOILHUMI	0x12
 #define		CMD_CO2			0x05
 #define 	CMD_LIGTH		0x07
 #define		CMD_EC			0x15
@@ -121,6 +122,15 @@ OS_STK Plan_TASK_STK[Plan_STK_SIZE];
 //任务函数
 void Plan_task(void *pdata);
 
+//设置任务优先级
+#define Sewage_TASK_PRIO       			11 
+//设置任务堆栈大小
+#define Sewage_STK_SIZE  		    	256
+//任务堆栈	
+OS_STK Sewage_TASK_STK[Plan_STK_SIZE];
+//任务函数
+void Sewage_task(void *pdata);
+
 #ifndef Env
 #define Env
 typedef struct
@@ -199,16 +209,26 @@ typedef struct
 
 SysLog	Log;			//系统日志
 
-#define	FerSwitch		PBin(12)				//吸肥开关
-#define	FerState		PBin(15)				//吸肥状态
-#define	StirSwitch1		(IO8STATE&0x01)			//搅拌1开关
-#define	StirState1		(IO8STATE&0x02)			//搅拌1反馈
-#define	StirSwitch2		(IO8STATE&0x04)			//搅拌2开关
-#define	StirState2		(IO8STATE&0x08)			//搅拌2反馈
-#define	SolenoidSwitch1	(IO8STATE&0x10)			//电磁阀1开关
-#define	SolenoidState1	(IO8STATE&0x20)			//电磁阀1反馈
-#define	SolenoidSwitch2	(IO8STATE&0x40)			//电磁阀2开关
-#define	SolenoidState2	(IO8STATE&0x80)			//电磁阀2反馈
+#define	FerState		PBin(12)				//吸肥状态
+#define	Scram			PBin(13)				//急停
+#define PressSwitch		PBin(15)				//压力开关
+//#define	StirSwitch1		(IO8STATE&0x01)			//搅拌1开关
+//#define	StirState1		(IO8STATE&0x02)			//搅拌1反馈
+//#define	StirSwitch2		(IO8STATE&0x04)			//搅拌2开关
+//#define	StirState2		(IO8STATE&0x08)			//搅拌2反馈
+//#define	SolenoidSwitch1	(IO8STATE&0x10)			//电磁阀1开关
+//#define	SolenoidState1	(IO8STATE&0x20)			//电磁阀1反馈
+//#define	SolenoidSwitch2	(IO8STATE&0x40)			//电磁阀2开关
+//#define	SolenoidState2	(IO8STATE&0x80)			//电磁阀2反馈
+
+#define	StirState1		(IO8STATE&0x01)			//搅拌1反馈
+#define	StirState2		(IO8STATE&0x02)			//搅拌2反馈
+#define	SolenoidState1	(IO8STATE&0x04)			//电磁阀1反馈
+#define	SolenoidState2	(IO8STATE&0x08)			//电磁阀2反馈
+#define	SolenoidState3	(IO8STATE&0x10)			//电磁阀1开关
+#define	SolenoidState4	(IO8STATE&0x20)			//电磁阀1反馈
+#define	SolenoidState5	(IO8STATE&0x40)			//电磁阀2开关
+#define	SolenoidState6	(IO8STATE&0x80)			//电磁阀2反馈
 
 #define	Stir1Open		IO8SWITCH|=1			//搅拌1打开
 #define	Stir1Close		IO8SWITCH&=0xFE			//搅拌1关闭
@@ -218,18 +238,28 @@ SysLog	Log;			//系统日志
 #define	Solenoid1Close	IO8SWITCH&=0xFB			//电磁阀1关闭
 #define	Solenoid2Open	IO8SWITCH|=8			//电磁阀2打开
 #define	Solenoid2Close	IO8SWITCH&=0xF7			//电磁阀2关闭
+#define	Solenoid3Open	IO8SWITCH|=0x10			//电磁阀3打开
+#define	Solenoid3Close	IO8SWITCH&=0xEF			//电磁阀3关闭
+#define	Solenoid4Open	IO8SWITCH|=0x20			//电磁阀4打开
+#define	Solenoid4Close	IO8SWITCH&=0xDF			//电磁阀4关闭
+#define	Solenoid5Open	IO8SWITCH|=0x40			//电磁阀5打开
+#define	Solenoid5Close	IO8SWITCH&=0xBF			//电磁阀5关闭
+#define	Solenoid6Open	IO8SWITCH|=0x80			//电磁阀6打开
+#define	Solenoid6Close	IO8SWITCH&=0x7F			//电磁阀6关闭
 
 #define	FerRun			IO_OutSet(1,1)			//吸肥
 #define	FerStop			IO_OutSet(1,0)			//不吸肥
 #define OpenLED			IO_OutSet(2,1)			//打开灯
 #define CloseLED		IO_OutSet(2,0)			//关闭灯
+#define	SewageOpen		IO_OutSet(4,1)			//打开排污
+#define	SewageClose		IO_OutSet(4,0)			//关闭排污
 
 #define	ManualModel		0						//手动模式
 #define	localModel		1						//本地模式
 #define	NetworkModel	2						//网络模式
 #define	PlanModel		3						//计划模式
 
-#define	FirstButton		(MCGS_Button&0x01)		//首页按钮
+#define	ManualButton	(MCGS_Button&0x01)		//手动按钮
 #define	IrrMethod		(MCGS_Button&0x02)		//灌溉模式
 #define	WifiButton		(MCGS_Button&0x04)		//wifi开关
 #define	StartButton		(MCGS_Button&0x08)		//启动按钮
@@ -247,6 +277,18 @@ SysLog	Log;			//系统日志
 #define	DHCPButton		(MCGS_Partition&0x40)	//DHCP
 #define	TimeButton		(MCGS_Partition&0x80)	//时间同步
 
+#define	Fer2M			(MCGS_Fer2S&0x02)		//二号桶搅拌电机
+#define	Auto			(MCGS_Fer2S&0x04)		//自动开关
+
+#define	Manual_Par1		(MCGS_Manual&0x01)
+#define	Manual_Par2		(MCGS_Manual&0x02)
+#define	Manual_Par3		(MCGS_Manual&0x04)
+#define	Manual_Par4		(MCGS_Manual&0x08)
+#define	Manual_Par5		(MCGS_Manual&0x10)
+#define	Manual_Par6		(MCGS_Manual&0x20)
+#define	Manual_Fer1		(MCGS_Manual&0x40)
+#define	Manual_Fer2		(MCGS_Manual&0x80)
+
 #define	MCGS_SSID			10					//wifi名称
 #define	MCGS_PASSWORD		74					//密码
 #define	MCGS_IP				138					//IP地址
@@ -254,14 +296,14 @@ SysLog	Log;			//系统日志
 #define	MCGS_GATEWAY		266					//网关
 #define	MCGS_DNS			330					//DNS
 
-u8	MCGS_Button=0,MCGS_Partition=0;				//触摸屏按键，触摸屏分区
+u8	MCGS_Button=0,MCGS_Partition=0,MCGS_Fer2S=0,MCGS_Manual,MCGS_FM;	//触摸屏按键，触摸屏分区
 u8	HC_Partition,HC_IrrMode;					//触摸屏更新缓存
 
 u8	SOILERROR=0;	//土壤传感器错误标识
 u8	AIRERROR=0;		//空气传感器错误标识
 u8	IO8STATE=0;		//IO8光耦状态
 u8	IO8SWITCH=0;	//IO8输出状态
-u8	MODEL=0;		//当前模式
+u8	MODEL=1;		//当前模式
 u16	IrrTime=0;		//设置的灌溉时常
 u16	Remaining=0;	//倒计时时间
 u8	Net=0;			//是否为网络启动
@@ -285,6 +327,15 @@ u8	Planing=0;		//任务执行中
 u8	SetRun=0;		//非本地启动重载标志
 u16	htime=0;		//手动计时
 u8	Logwait=0;		//等待日志写入
+u8	Humiup=0;		//湿度上限
+u8	Humidown=0;		//湿度下限
+u8	sewage_space=0;	//排污间隔
+u8	sewage_time=0;	//排污时长
+u8	space=0;		//间隔及时
+u8	sw_time=0;		//时长计时
+u16	EC=0;			//目标EC
+u16	NeedFlow=0;		//目标流量
+u8	FerB=0;			//吸肥标志
 
 union	Logaddr
 {
@@ -299,6 +350,7 @@ unsigned char emw_set=1;	//wifi报警与线程互斥标志
 unsigned int  up_time=15;	//数据上传频率
 
 extern 	uint8_t g_RxBuf1[UART1_RX_BUF_SIZE];
+extern 	uint8_t g_RxBuf2[UART2_RX_BUF_SIZE];
 extern 	uint8_t g_RxBuf4[UART4_RX_BUF_SIZE];
 extern 	uint8_t g_RxBuf5[UART5_RX_BUF_SIZE];
 
@@ -325,7 +377,9 @@ void tmr1_callback(OS_TMR *ptmr,void *p_arg)	//软件定时器1回调函数
 	{
 		htime++;upenv++;ttm=0;					//传感器，系统计时
 		if(rema)Remaining--,Remsign=1;			//灌溉倒计时
+		space++;
 	}
+	sw_time+=10;
 }
 
 void	readflashthree()				//读取三元组
@@ -364,8 +418,12 @@ void	sendflashthree()				//写入三元组
 	LED_BZ=0;
 }
 
-#include "MCGS.h"
 #include "Sensor.h"
 #include "Interactive.h"
 #include "IO.h"
+void	Sewage(u8 i)
+{
+	if(i)SewageOpen;
+	else SewageClose;
+}
 #endif

@@ -1,0 +1,20 @@
+<Resource>
+    <pages>
+        <page name="主界面" id="0" />
+        <page name="联系我们界面" id="1" />
+        <page name="设置界面" id="2" />
+    </pages>
+    <images>
+        <image id="0" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\主界面 - 副本.jpg" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="1" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\左键.jpg" width="63" height="250" crop="0" effect_left="0" effect_top="0" effect_width="63" effect_height="250" size="31500" />
+        <image id="2" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\右键.jpg" width="63" height="250" crop="0" effect_left="0" effect_top="0" effect_width="63" effect_height="250" size="31500" />
+        <image id="3" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\设置按键.jpg" width="180" height="80" crop="0" effect_left="0" effect_top="0" effect_width="180" effect_height="80" size="28800" />
+        <image id="4" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\联系按键.jpg" width="180" height="80" crop="0" effect_left="0" effect_top="0" effect_width="180" effect_height="80" size="28800" />
+        <image id="5" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\timg-(1).gif" width="65" height="76" crop="0" effect_left="0" effect_top="0" effect_width="65" effect_height="76" size="19760" delay="20" frameCount="2" />
+        <image id="6" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\图片4.jpg" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="7" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\返回.jpg" width="180" height="80" crop="0" effect_left="0" effect_top="0" effect_width="180" effect_height="80" size="28800" />
+        <image id="8" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\保存.jpg" width="180" height="80" crop="0" effect_left="0" effect_top="0" effect_width="180" effect_height="80" size="28800" />
+        <image id="9" url="c:\users\moon\desktop\触摸屏采集程序 展示\采集界面\采集界面\project\Images\箭头.png" width="75" height="70" crop="0" effect_left="0" effect_top="0" effect_width="75" effect_height="70" size="10500" />
+    </images>
+    <waves />
+</Resource>

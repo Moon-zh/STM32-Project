@@ -55,23 +55,28 @@ void	Uptoaliyun_wifi_State()			//上传当前状态到阿里云
 
 void	readset()						//解析平台下发的指令
 {
-	u8 len;u8 Method=0,Partition=0;
-	u8 buf[250];
-	char c[100];
-	char *msg=c;
+	u8 Method=0,Partition=0;
+	cJSON *json;
+	char *jsa;
 	if(emw_set)return;
 	Method=MCGS_Button;
 	Partition=MCGS_Partition;
-	len=COM1GetBuf(buf,200);
-	if(len>40)
+	if(strstr((const char *)g_RxBuf1,"RECV")[0]!='R')return;
+	else
 	{
-		COM1GetBuf(buf,200);
-		if(strstr((const char *)buf,"RECV")[0]!='R'){memset(buf,0,sizeof buf);memset(c,0,sizeof c);comClearRxFifo(COM1);return;}
-		msg=strstr((const char *)buf,"IrrMethod:");	if(msg[0]=='I'){if(msg[10]-0x30)Method|=0x02;else Method&=0xFD;}
-		msg=strstr((const char *)buf,"Partition1:");if(msg[0]=='P'){if(msg[11]-0x30)Partition|=0x01;else Partition&=0xFE;}
-		msg=strstr((const char *)buf,"Partition2:");if(msg[0]=='P'){if(msg[11]-0x30)Partition|=0x02;else Partition&=0xFD;}
-		msg=strstr((const char *)buf,"IrrTime:");	if(msg[0]=='I'){IrrTime=(msg[8]-0x30)*10000+(msg[9]-0x30)*1000+(msg[10]-0x30)*100+(msg[11]-0x30)*10+(msg[12]-0x30);}
-		msg=strstr((const char *)buf,"State:");		if(msg[0]=='S'){if(msg[6]-0x30)Method|=(0x20|0x08);else Method&=(0xDF&0xF7);}
+		delay_ms(200);
+		json=cJSON_Parse(strstr((const char *)g_RxBuf1,"{"));
+		atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"IrrMethod")))?Method|=0x02:(Method&=0xFD);
+		atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"Partition1")))?Partition|=0x01:(Partition&=0xFE);
+		atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"Partition2")))?Partition|=0x02:(Partition&=0xFD);
+		atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"Partition3")))?Partition|=0x04:(Partition&=0xFB);
+		atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"Partition4")))?Partition|=0x08:(Partition&=0xF7);
+		atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"Partition5")))?Partition|=0x10:(Partition&=0xEF);
+		atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"Partition6")))?Partition|=0x20:(Partition&=0xDF);
+		IrrTime=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"IrrTime")));
+		atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"State")))?Method|=(0x20|0x08):(Method&=(0xDF&0xF7));
+		cJSON_Delete(json);
+		cJSON_free(jsa);
 		
 		if(PlanButton)goto cc;						//计划进行中不接受指令
 		if(RunState){if((Method&0x08))goto cc;}		//当前在运行中不接收新计划指令
@@ -79,13 +84,12 @@ void	readset()						//解析平台下发的指令
 		if(Partition<1)goto cc;						//最少开启一个分区
 		HC_Partition=Partition;
 		HC_IrrMode=Method;
-		SetRun=1;									//重载相关运行参数
-		while(SetRun)delay_ms(200);
 		Net=1;
 		ChoMode=2;
-cc:		comClearRxFifo(COM1);
-		memset(buf,0,sizeof buf);
-		memset(c,0,sizeof c);
+		SetRun=1;									//重载相关运行参数
+		while(SetRun)delay_ms(200);
+cc:		memset(g_RxBuf1,0,UART1_RX_BUF_SIZE);
+		comClearRxFifo(COM1);
 	}
 }
 #endif

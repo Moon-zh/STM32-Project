@@ -125,13 +125,3 @@ void TIM4_IRQHandler(void) //³¬Ê±±¨ÎÄÃüÁî
 {
 	TIM_ClearITPendingBit(TIM4, TIM_FLAG_Update);
 }
-
-
-
-
-
-
-
-
-
-

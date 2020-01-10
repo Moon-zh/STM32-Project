@@ -8,6 +8,7 @@
 "..\obj\neowayn21.o"
 "..\obj\emw3060.o"
 "..\obj\md5.o"
+"..\obj\cjson.o"
 "..\obj\delay.o"
 "..\obj\sys.o"
 "..\obj\core_cm3.o"

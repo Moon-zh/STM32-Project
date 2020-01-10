@@ -178,14 +178,14 @@ void	HDMI_Check_Net(u16 CMD,char *data)		//读取网络参数
 	if((buf[len-2]==(crc>>8))&(buf[len-1]==(crc&0xff)))
 	{
 		buf[len-2]=0;
-		sprintf(hc,(char *)buf+9);
+		sprintf(hc,"%s",(char *)buf+9);
 		strcpy(data,hc);
 	}
 }
 
 void	HDMI_Check_Button()						//读取按钮开关按下状态
 {
-	u8 Buttoncmd[]={01,01,00,00,00,16,0x3D,0xC6};
+	u8 Buttoncmd[]={01,01,00,00,00,19,0x7D,0xc7};
 	u8 buf[100];
 	u8 len;
 	u16 crc;
@@ -195,11 +195,25 @@ void	HDMI_Check_Button()						//读取按钮开关按下状态
 	{
 		comSendBuf(COM5,Buttoncmd,sizeof(Buttoncmd));
 		delay_ms(200);
-		len=COM5GetBuf(buf,7);
+		len=COM5GetBuf(buf,8);
 	}while(len<5);
+	crc=mc_check_crc16(buf,6);
+	if((buf[6]==(crc>>8))&(buf[7]==(crc&0xff)))
+		MCGS_Button=buf[3],MCGS_Partition=buf[4],MCGS_Fer2S=buf[5];
+}
+
+void	HDMI_Check_Manual()						//读取手动开关按下状态
+{
+	u8 Buttoncmd[]={01,01,00,23,00,9,0x4c,0x08};
+	u8 buf[100];
+	u16 crc;
+	comClearRxFifo(COM5);
+	comSendBuf(COM5,Buttoncmd,sizeof(Buttoncmd));
+	delay_ms(200);
+	COM5GetBuf(buf,7);
 	crc=mc_check_crc16(buf,5);
 	if((buf[5]==(crc>>8))&(buf[6]==(crc&0xff)))
-		MCGS_Button=buf[3],MCGS_Partition=buf[4];
+		MCGS_Manual=buf[3],MCGS_FM=buf[4];
 }
 
 void	HDMI_Check_Irrigation_time()			//读取设置的灌溉时常
@@ -214,6 +228,34 @@ void	HDMI_Check_Irrigation_time()			//读取设置的灌溉时常
 	crc=mc_check_crc16(buf,5);
 	if((buf[5]==(crc>>8))&(buf[6]==(crc&0xff)))
 		IrrTime=(buf[3]<<8)|buf[4];
+}
+
+void	HDMI_Check_Humi()						//读取设置的湿度
+{
+	u8 Irrigationcmd[]={01,03,00,12,00,02,0x04,0x08};
+	u8 buf[100];
+	u16 crc;
+	comClearRxFifo(COM5);
+	comSendBuf(COM5,Irrigationcmd,sizeof(Irrigationcmd));
+	delay_ms(100);
+	COM5GetBuf(buf,9);
+	crc=mc_check_crc16(buf,7);
+	if((buf[7]==(crc>>8))&(buf[8]==(crc&0xff)))
+		Humiup=(buf[3]<<8)|buf[4],Humidown=(buf[5]<<8)|buf[6];
+}
+
+void	HDMI_Check_Sewage()						//读取设置的湿度
+{
+	u8 Irrigationcmd[]={01,03,00,9,00,03,0xD5,0xC9};
+	u8 buf[100];
+	u16 crc;
+	comClearRxFifo(COM5);
+	comSendBuf(COM5,Irrigationcmd,sizeof(Irrigationcmd));
+	delay_ms(100);
+	COM5GetBuf(buf,11);
+	crc=mc_check_crc16(buf,9);
+	if((buf[9]==(crc>>8))&(buf[10]==(crc&0xff)))
+		EC=(buf[3]<<8)|buf[4],sewage_space=(buf[5]<<8)|buf[6],sewage_time=(buf[7]<<8)|buf[8];
 }
 
 void	HDMI_Check_SysTime()					//读取触摸屏系统时间

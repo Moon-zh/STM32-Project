@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="com/alibaba/apiclient-0.0.1.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/common-utils-0.0.1.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/device_manager_java.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/fastjson-1.2.40.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/gson-2.7.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/iot-linkkit-java.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/iot-mqttclient.0.0.1.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/mqttv3-1.2.0.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/network-core-0.0.1.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/okhttp-3.1.0.jar"/>
+	<classpathentry kind="lib" path="com/alibaba/okio-1.6.0.jar"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

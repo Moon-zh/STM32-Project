@@ -173,34 +173,18 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>279</LineNumber>
+          <LineNumber>358</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134237594</Address>
+          <Address>134220586</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\Moon\Desktop\闆嗕腑鎺у埗浜у搧\闆嗕腑鎺у埗浜у搧\澶氶€氶亾姘磋偉涓€浣撴満\MainBoard\USER\logic.c</Filename>
+          <Filename>C:\Users\Moon\Desktop\闆嗕腑鎺у埗浜у搧\闆嗕腑鎺у埗浜у搧\澶氶€氶亾姘磋偉涓€浣撴満\MainBoard\USER\UserCore.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\UCOSII_3\logic.c\279</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>466</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134235198</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\Moon\Desktop\闆嗕腑鎺у埗浜у搧\闆嗕腑鎺у埗浜у搧\澶氶€氶亾姘磋偉涓€浣撴満\MainBoard\USER\Communication.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\UCOSII_3\Communication.c\466</Expression>
+          <Expression>\\UCOSII_3\UserCore.c\358</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -339,6 +323,46 @@
           <WinNumber>1</WinNumber>
           <ItemText>ipaddr</ItemText>
         </Ww>
+        <Ww>
+          <count>27</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ReSet.NetSet</ItemText>
+        </Ww>
+        <Ww>
+          <count>28</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ReSet.Remote_Para</ItemText>
+        </Ww>
+        <Ww>
+          <count>29</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>SetText</ItemText>
+        </Ww>
+        <Ww>
+          <count>30</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>OSTCBCur</ItemText>
+        </Ww>
+        <Ww>
+          <count>31</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>fertasktimedate.ufertask.lastflower2</ItemText>
+        </Ww>
+        <Ww>
+          <count>32</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>fertasktimedate.ufertask.flower2</ItemText>
+        </Ww>
+        <Ww>
+          <count>33</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>fertasktimedate.ufertask.flower4&gt;fertasktimedate.ufertask.lastflower4</ItemText>
+        </Ww>
+        <Ww>
+          <count>34</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>fertasktimedate.ufertask.lastflower3</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -365,6 +389,14 @@
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
+      <MemoryWindow2>
+        <Mm>
+          <WinNumber>2</WinNumber>
+          <SubType>8</SubType>
+          <ItemText>src</ItemText>
+          <AccSizeX>0</AccSizeX>
+        </Mm>
+      </MemoryWindow2>
       <Tracepoint>
         <THDelay>0</THDelay>
       </Tracepoint>
@@ -867,7 +899,7 @@
 
   <Group>
     <GroupName>FWLib</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

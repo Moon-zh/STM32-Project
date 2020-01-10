@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\IO Controller.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\IO Controller.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Jun 24 08:57:51 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Dec 19 08:26:57 2019
 <BR><P>
 <H3>Maximum Stack Usage =        324 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -60,12 +60,12 @@ Function Pointers
  <LI><a href="#[f]">PVD_IRQHandler</a> from startup_stm32f10x_hd.o(.text) referenced from startup_stm32f10x_hd.o(RESET)
  <LI><a href="#[c]">PendSV_Handler</a> from stm32f10x_it.o(.text) referenced from startup_stm32f10x_hd.o(RESET)
  <LI><a href="#[13]">RCC_IRQHandler</a> from startup_stm32f10x_hd.o(.text) referenced from startup_stm32f10x_hd.o(RESET)
- <LI><a href="#[ac]">RS485_0_SendBefor</a> from rs485.o(.text) referenced from rs485.o(.text)
- <LI><a href="#[ad]">RS485_0_SendOver</a> from rs485.o(.text) referenced from rs485.o(.text)
- <LI><a href="#[ae]">RS485_1_SendBefor</a> from rs485.o(.text) referenced from rs485.o(.text)
- <LI><a href="#[af]">RS485_1_SendOver</a> from rs485.o(.text) referenced from rs485.o(.text)
- <LI><a href="#[aa]">RS485_3_SendBefor</a> from rs485.o(.text) referenced from rs485.o(.text)
- <LI><a href="#[ab]">RS485_3_SendOver</a> from rs485.o(.text) referenced from rs485.o(.text)
+ <LI><a href="#[ad]">RS485_0_SendBefor</a> from rs485.o(.text) referenced from rs485.o(.text)
+ <LI><a href="#[ae]">RS485_0_SendOver</a> from rs485.o(.text) referenced from rs485.o(.text)
+ <LI><a href="#[af]">RS485_1_SendBefor</a> from rs485.o(.text) referenced from rs485.o(.text)
+ <LI><a href="#[b0]">RS485_1_SendOver</a> from rs485.o(.text) referenced from rs485.o(.text)
+ <LI><a href="#[ab]">RS485_3_SendBefor</a> from rs485.o(.text) referenced from rs485.o(.text)
+ <LI><a href="#[ac]">RS485_3_SendOver</a> from rs485.o(.text) referenced from rs485.o(.text)
  <LI><a href="#[37]">RTCAlarm_IRQHandler</a> from startup_stm32f10x_hd.o(.text) referenced from startup_stm32f10x_hd.o(RESET)
  <LI><a href="#[11]">RTC_IRQHandler</a> from startup_stm32f10x_hd.o(.text) referenced from startup_stm32f10x_hd.o(RESET)
  <LI><a href="#[4]">Reset_Handler</a> from startup_stm32f10x_hd.o(.text) referenced from startup_stm32f10x_hd.o(RESET)
@@ -418,7 +418,7 @@ Global Symbols
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 </UL>
 
 <P><STRONG><a name="[88]"></a>GO_Init</STRONG> (Thumb, 72 bytes, Stack size 8 bytes, main.o(.text))
@@ -427,7 +427,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 </UL>
 
 <P><STRONG><a name="[89]"></a>saveaddr</STRONG> (Thumb, 38 bytes, Stack size 16 bytes, main.o(.text))
@@ -468,18 +468,17 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[92]"></a>change_ks</STRONG> (Thumb, 648 bytes, Stack size 16 bytes, main.o(.text))
+<P><STRONG><a name="[92]"></a>change_ks</STRONG> (Thumb, 640 bytes, Stack size 16 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = change_ks &rArr; send1 &rArr; comSendBuf &rArr; UartSend &rArr; USART_ITConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send1
 </UL>
 <BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pdcmd
 </UL>
 
-<P><STRONG><a name="[94]"></a>change_all_ks</STRONG> (Thumb, 250 bytes, Stack size 8 bytes, main.o(.text))
+<P><STRONG><a name="[94]"></a>change_all_ks</STRONG> (Thumb, 232 bytes, Stack size 8 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = change_all_ks &rArr; send1 &rArr; comSendBuf &rArr; UartSend &rArr; USART_ITConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
@@ -501,10 +500,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[97]"></a>pdcmd</STRONG> (Thumb, 424 bytes, Stack size 24 bytes, main.o(.text))
+<P><STRONG><a name="[97]"></a>pdcmd</STRONG> (Thumb, 464 bytes, Stack size 24 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 132<LI>Call Chain = pdcmd &rArr; change_ks &rArr; send1 &rArr; comSendBuf &rArr; UartSend &rArr; USART_ITConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comSendBuf
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comClearRxFifo
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;change_all_ks
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;change_ks
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send
@@ -514,27 +514,27 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[98]"></a>init</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, main.o(.text))
+<P><STRONG><a name="[99]"></a>init</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = init &rArr; bsp_InitUart &rArr; InitHardUart &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
-<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_init
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_init
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
-<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_PriorityGroupConfig
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_PriorityGroupConfig
+<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GO_Init
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KS_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[7e]"></a>main</STRONG> (Thumb, 200 bytes, Stack size 24 bytes, main.o(.text))
+<P><STRONG><a name="[7e]"></a>main</STRONG> (Thumb, 202 bytes, Stack size 24 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 156<LI>Call Chain = main &rArr; pdcmd &rArr; change_ks &rArr; send1 &rArr; comSendBuf &rArr; UartSend &rArr; USART_ITConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write
-<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Read
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Read
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pdcmd
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_go
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read
@@ -573,22 +573,22 @@ Global Symbols
 <P><STRONG><a name="[4a]"></a>SystemInit</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, system_stm32f10x.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = SystemInit &rArr; SetSysClock &rArr; SetSysClockTo72
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
+<BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
 </UL>
-<BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_hd.o(.text)
 </UL>
 <P><STRONG><a name="[132]"></a>SystemCoreClockUpdate</STRONG> (Thumb, 142 bytes, Stack size 8 bytes, system_stm32f10x.o(.text), UNUSED)
 
-<P><STRONG><a name="[9c]"></a>LED_Init</STRONG> (Thumb, 68 bytes, Stack size 8 bytes, led.o(.text))
+<P><STRONG><a name="[9d]"></a>LED_Init</STRONG> (Thumb, 68 bytes, Stack size 8 bytes, led.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = LED_Init &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 </UL>
 
 <P><STRONG><a name="[83]"></a>_sys_exit</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rs485.o(.text))
@@ -599,60 +599,60 @@ Global Symbols
 
 <P><STRONG><a name="[134]"></a>_ttywrch</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rs485.o(.text), UNUSED)
 
-<P><STRONG><a name="[a9]"></a>RS485_InitTXE</STRONG> (Thumb, 116 bytes, Stack size 8 bytes, rs485.o(.text))
+<P><STRONG><a name="[aa]"></a>RS485_InitTXE</STRONG> (Thumb, 116 bytes, Stack size 8 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = RS485_InitTXE &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
+<BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
 </UL>
 
-<P><STRONG><a name="[af]"></a>RS485_1_SendOver</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rs485.o(.text))
+<P><STRONG><a name="[b0]"></a>RS485_1_SendOver</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rs485.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> rs485.o(.text)
 </UL>
-<P><STRONG><a name="[ae]"></a>RS485_1_SendBefor</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rs485.o(.text))
+<P><STRONG><a name="[af]"></a>RS485_1_SendBefor</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rs485.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> rs485.o(.text)
 </UL>
-<P><STRONG><a name="[ad]"></a>RS485_0_SendOver</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, rs485.o(.text))
+<P><STRONG><a name="[ae]"></a>RS485_0_SendOver</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, rs485.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> rs485.o(.text)
 </UL>
-<P><STRONG><a name="[ac]"></a>RS485_0_SendBefor</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, rs485.o(.text))
+<P><STRONG><a name="[ad]"></a>RS485_0_SendBefor</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, rs485.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> rs485.o(.text)
 </UL>
-<P><STRONG><a name="[ab]"></a>RS485_3_SendOver</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rs485.o(.text))
+<P><STRONG><a name="[ac]"></a>RS485_3_SendOver</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rs485.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> rs485.o(.text)
 </UL>
-<P><STRONG><a name="[aa]"></a>RS485_3_SendBefor</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rs485.o(.text))
+<P><STRONG><a name="[ab]"></a>RS485_3_SendBefor</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rs485.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> rs485.o(.text)
 </UL>
-<P><STRONG><a name="[9b]"></a>bsp_InitUart</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, rs485.o(.text))
+<P><STRONG><a name="[9c]"></a>bsp_InitUart</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = bsp_InitUart &rArr; InitHardUart &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RS485_InitTXE
-<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartVarInit
-<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
-<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfigUartNVIC
+<BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RS485_InitTXE
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartVarInit
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfigUartNVIC
 </UL>
-<BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 </UL>
 
-<P><STRONG><a name="[b2]"></a>ComToUart</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, rs485.o(.text))
+<P><STRONG><a name="[b3]"></a>ComToUart</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, rs485.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COMGetBuf
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COM5GetBuf
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COM3GetBuf
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COM4GetBuf
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COM1GetBuf
-<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comClearRxFifo
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comClearTxFifo
-<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
-<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetRxAvailableDataSize
+<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comClearTxFifo
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetRxAvailableDataSize
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comSendBuf
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comClearRxFifo
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COM2GetBuf
 </UL>
 
-<P><STRONG><a name="[b1]"></a>comGetRxAvailableDataSize</STRONG> (Thumb, 22 bytes, Stack size 4 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<P><STRONG><a name="[b2]"></a>comGetRxAvailableDataSize</STRONG> (Thumb, 22 bytes, Stack size 4 bytes, rs485.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
 </UL>
 
 <P><STRONG><a name="[bd]"></a>ComToUSARTx</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, rs485.o(.text), UNUSED)
@@ -662,24 +662,24 @@ Global Symbols
 <P><STRONG><a name="[8d]"></a>comSendBuf</STRONG> (Thumb, 46 bytes, Stack size 24 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = comSendBuf &rArr; UartSend &rArr; USART_ITConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartSend
+<BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartSend
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comSendChar
+<BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comSendChar
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pdcmd
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send1
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send
 </UL>
 
-<P><STRONG><a name="[b5]"></a>comSendChar</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, rs485.o(.text), UNUSED)
+<P><STRONG><a name="[b6]"></a>comSendChar</STRONG> (Thumb, 16 bytes, Stack size 16 bytes, rs485.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comSendBuf
 </UL>
 
-<P><STRONG><a name="[b7]"></a>comGetChar</STRONG> (Thumb, 30 bytes, Stack size 16 bytes, rs485.o(.text))
+<P><STRONG><a name="[b8]"></a>comGetChar</STRONG> (Thumb, 30 bytes, Stack size 16 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = comGetChar &rArr; UartGetChar
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
-<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartGetChar
+<BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartGetChar
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fgetc
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COMGetBuf
@@ -690,12 +690,16 @@ Global Symbols
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COM2GetBuf
 </UL>
 
-<P><STRONG><a name="[b8]"></a>comClearTxFifo</STRONG> (Thumb, 28 bytes, Stack size 4 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<P><STRONG><a name="[b9]"></a>comClearTxFifo</STRONG> (Thumb, 28 bytes, Stack size 4 bytes, rs485.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
 </UL>
 
-<P><STRONG><a name="[b9]"></a>comClearRxFifo</STRONG> (Thumb, 28 bytes, Stack size 4 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<P><STRONG><a name="[98]"></a>comClearRxFifo</STRONG> (Thumb, 28 bytes, Stack size 4 bytes, rs485.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = comClearRxFifo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+</UL>
+<BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pdcmd
 </UL>
 
 <P><STRONG><a name="[ba]"></a>USART_SetBaudRate</STRONG> (Thumb, 150 bytes, Stack size 48 bytes, rs485.o(.text), UNUSED)
@@ -751,42 +755,42 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_hd.o(RESET)
 </UL>
 <P><STRONG><a name="[c4]"></a>COM1GetBuf</STRONG> (Thumb, 106 bytes, Stack size 32 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<BR><BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
 
 <P><STRONG><a name="[90]"></a>COM2GetBuf</STRONG> (Thumb, 106 bytes, Stack size 32 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = COM2GetBuf &rArr; comGetChar &rArr; UartGetChar
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read
 </UL>
 
 <P><STRONG><a name="[c5]"></a>COM4GetBuf</STRONG> (Thumb, 106 bytes, Stack size 32 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<BR><BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
 
 <P><STRONG><a name="[c6]"></a>COM3GetBuf</STRONG> (Thumb, 104 bytes, Stack size 32 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<BR><BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
 
 <P><STRONG><a name="[c7]"></a>COM5GetBuf</STRONG> (Thumb, 104 bytes, Stack size 32 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<BR><BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
 
 <P><STRONG><a name="[c8]"></a>COMGetBuf</STRONG> (Thumb, 96 bytes, Stack size 32 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
+<BR><BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ComToUart
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
 
@@ -803,11 +807,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[cd]"></a>fgetc</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, rs485.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<BR><BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
 </UL>
 
 <P><STRONG><a name="[d0]"></a>STMFLASH_ReadHalfWord</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stmflash.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Read
+<BR><BR>[Called By]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Read
 </UL>
 
 <P><STRONG><a name="[ce]"></a>STMFLASH_Write_NoCheck</STRONG> (Thumb, 38 bytes, Stack size 24 bytes, stmflash.o(.text))
@@ -818,7 +822,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write
 </UL>
 
-<P><STRONG><a name="[9d]"></a>STMFLASH_Read</STRONG> (Thumb, 34 bytes, Stack size 12 bytes, stmflash.o(.text))
+<P><STRONG><a name="[9e]"></a>STMFLASH_Read</STRONG> (Thumb, 34 bytes, Stack size 12 bytes, stmflash.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = STMFLASH_Read
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_ReadHalfWord
@@ -834,7 +838,7 @@ Global Symbols
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FLASH_Lock
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FLASH_ErasePage
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write_NoCheck
-<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Read
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Read
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Test_Write
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -845,12 +849,12 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write
 </UL>
 
-<P><STRONG><a name="[99]"></a>delay_init</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, delay.o(.text))
+<P><STRONG><a name="[9a]"></a>delay_init</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, delay.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = delay_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_CLKSourceConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 </UL>
 
 <P><STRONG><a name="[138]"></a>delay_us</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, delay.o(.text), UNUSED)
@@ -864,7 +868,6 @@ Global Symbols
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;COM2GetBuf
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_go
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;change_ks
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read
 </UL>
 
@@ -1044,14 +1047,14 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[9a]"></a>NVIC_PriorityGroupConfig</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, misc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+<P><STRONG><a name="[9b]"></a>NVIC_PriorityGroupConfig</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, misc.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 </UL>
 
-<P><STRONG><a name="[a1]"></a>NVIC_Init</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, misc.o(.text))
+<P><STRONG><a name="[a2]"></a>NVIC_Init</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, misc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = NVIC_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfigUartNVIC
+<BR>[Called By]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfigUartNVIC
 </UL>
 
 <P><STRONG><a name="[139]"></a>NVIC_SetVectorTable</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, misc.o(.text), UNUSED)
@@ -1059,7 +1062,7 @@ Global Symbols
 <P><STRONG><a name="[13a]"></a>NVIC_SystemLPConfig</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, misc.o(.text), UNUSED)
 
 <P><STRONG><a name="[d5]"></a>SysTick_CLKSourceConfig</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, misc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_init
+<BR><BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_init
 </UL>
 
 <P><STRONG><a name="[d6]"></a>GPIO_DeInit</STRONG> (Thumb, 172 bytes, Stack size 8 bytes, stm32f10x_gpio.o(.text), UNUSED)
@@ -1073,9 +1076,9 @@ Global Symbols
 <P><STRONG><a name="[86]"></a>GPIO_Init</STRONG> (Thumb, 278 bytes, Stack size 24 bytes, stm32f10x_gpio.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RS485_InitTXE
-<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
+<BR>[Called By]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RS485_InitTXE
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GO_Init
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KS_Init
 </UL>
@@ -1093,7 +1096,7 @@ Global Symbols
 <P><STRONG><a name="[13e]"></a>GPIO_ReadOutputData</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, stm32f10x_gpio.o(.text), UNUSED)
 
 <P><STRONG><a name="[87]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_gpio.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
+<BR><BR>[Called By]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;change_all_ks
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;change_ks
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KS_Init
@@ -1167,32 +1170,32 @@ Global Symbols
 <P><STRONG><a name="[bb]"></a>RCC_GetClocksFreq</STRONG> (Thumb, 192 bytes, Stack size 12 bytes, stm32f10x_rcc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = RCC_GetClocksFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
+<BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
 <LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_SetBaudRate
 </UL>
 
 <P><STRONG><a name="[159]"></a>RCC_AHBPeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f10x_rcc.o(.text), UNUSED)
 
 <P><STRONG><a name="[85]"></a>RCC_APB2PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f10x_rcc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RS485_InitTXE
-<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
+<BR><BR>[Called By]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RS485_InitTXE
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GO_Init
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KS_Init
 </UL>
 
-<P><STRONG><a name="[a7]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f10x_rcc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<P><STRONG><a name="[a8]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f10x_rcc.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
 </UL>
 
 <P><STRONG><a name="[d7]"></a>RCC_APB2PeriphResetCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f10x_rcc.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_AFIODeInit
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_DeInit
-<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeInit
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeInit
 </UL>
 
 <P><STRONG><a name="[db]"></a>RCC_APB1PeriphResetCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f10x_rcc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeInit
+<BR><BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeInit
 </UL>
 
 <P><STRONG><a name="[15a]"></a>RCC_BackupResetCmd</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, stm32f10x_rcc.o(.text), UNUSED)
@@ -1207,21 +1210,21 @@ Global Symbols
 
 <P><STRONG><a name="[15f]"></a>RCC_ClearITPendingBit</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f10x_rcc.o(.text), UNUSED)
 
-<P><STRONG><a name="[a8]"></a>USART_DeInit</STRONG> (Thumb, 134 bytes, Stack size 8 bytes, stm32f10x_usart.o(.text))
+<P><STRONG><a name="[a9]"></a>USART_DeInit</STRONG> (Thumb, 134 bytes, Stack size 8 bytes, stm32f10x_usart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = USART_DeInit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphResetCmd
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphResetCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
 </UL>
 
-<P><STRONG><a name="[a3]"></a>USART_Init</STRONG> (Thumb, 210 bytes, Stack size 56 bytes, stm32f10x_usart.o(.text))
+<P><STRONG><a name="[a4]"></a>USART_Init</STRONG> (Thumb, 210 bytes, Stack size 56 bytes, stm32f10x_usart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = USART_Init &rArr; RCC_GetClocksFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_GetClocksFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
 </UL>
 
 <P><STRONG><a name="[160]"></a>USART_StructInit</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32f10x_usart.o(.text), UNUSED)
@@ -1230,16 +1233,16 @@ Global Symbols
 
 <P><STRONG><a name="[162]"></a>USART_ClockStructInit</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32f10x_usart.o(.text), UNUSED)
 
-<P><STRONG><a name="[a5]"></a>USART_Cmd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32f10x_usart.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<P><STRONG><a name="[a6]"></a>USART_Cmd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32f10x_usart.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
 </UL>
 
-<P><STRONG><a name="[a4]"></a>USART_ITConfig</STRONG> (Thumb, 74 bytes, Stack size 20 bytes, stm32f10x_usart.o(.text))
+<P><STRONG><a name="[a5]"></a>USART_ITConfig</STRONG> (Thumb, 74 bytes, Stack size 20 bytes, stm32f10x_usart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = USART_ITConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartIRQ
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartSend
-<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartSend
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
 </UL>
 
 <P><STRONG><a name="[163]"></a>USART_DMACmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f10x_usart.o(.text), UNUSED)
@@ -1290,9 +1293,9 @@ Global Symbols
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartIRQ
 </UL>
 
-<P><STRONG><a name="[a6]"></a>USART_ClearFlag</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f10x_usart.o(.text))
+<P><STRONG><a name="[a7]"></a>USART_ClearFlag</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f10x_usart.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartIRQ
-<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardUart
 </UL>
 
 <P><STRONG><a name="[bf]"></a>USART_GetITStatus</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, stm32f10x_usart.o(.text))
@@ -1846,62 +1849,62 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[9f]"></a>SetSysClockTo72</STRONG> (Thumb, 214 bytes, Stack size 12 bytes, system_stm32f10x.o(.text))
+<P><STRONG><a name="[a0]"></a>SetSysClockTo72</STRONG> (Thumb, 214 bytes, Stack size 12 bytes, system_stm32f10x.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = SetSysClockTo72
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
+<BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
 </UL>
 
-<P><STRONG><a name="[9e]"></a>SetSysClock</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, system_stm32f10x.o(.text))
+<P><STRONG><a name="[9f]"></a>SetSysClock</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, system_stm32f10x.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = SetSysClock &rArr; SetSysClockTo72
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClockTo72
+<BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClockTo72
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
 </UL>
 
-<P><STRONG><a name="[a0]"></a>ConfigUartNVIC</STRONG> (Thumb, 140 bytes, Stack size 8 bytes, rs485.o(.text))
+<P><STRONG><a name="[a1]"></a>ConfigUartNVIC</STRONG> (Thumb, 140 bytes, Stack size 8 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = ConfigUartNVIC &rArr; NVIC_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
+<BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
+<BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
 </UL>
 
-<P><STRONG><a name="[a2]"></a>InitHardUart</STRONG> (Thumb, 650 bytes, Stack size 24 bytes, rs485.o(.text))
+<P><STRONG><a name="[a3]"></a>InitHardUart</STRONG> (Thumb, 650 bytes, Stack size 24 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = InitHardUart &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
-<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
-<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeInit
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ClearFlag
-<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<BR>[Calls]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeInit
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ClearFlag
+<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
+<BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
 </UL>
 
-<P><STRONG><a name="[b0]"></a>UartVarInit</STRONG> (Thumb, 300 bytes, Stack size 0 bytes, rs485.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
+<P><STRONG><a name="[b1]"></a>UartVarInit</STRONG> (Thumb, 300 bytes, Stack size 0 bytes, rs485.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_InitUart
 </UL>
 
-<P><STRONG><a name="[b3]"></a>UartSend</STRONG> (Thumb, 114 bytes, Stack size 24 bytes, rs485.o(.text))
+<P><STRONG><a name="[b4]"></a>UartSend</STRONG> (Thumb, 114 bytes, Stack size 24 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = UartSend &rArr; USART_ITConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_PRIMASK
+<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_PRIMASK
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comSendBuf
 </UL>
 
-<P><STRONG><a name="[b6]"></a>UartGetChar</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, rs485.o(.text))
+<P><STRONG><a name="[b7]"></a>UartGetChar</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, rs485.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = UartGetChar
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_PRIMASK
+<BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_PRIMASK
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
+<BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comGetChar
 </UL>
 
 <P><STRONG><a name="[be]"></a>UartIRQ</STRONG> (Thumb, 352 bytes, Stack size 16 bytes, rs485.o(.text))
@@ -1909,11 +1912,11 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_SendData
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ReceiveData
-<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetITStatus
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetFlagStatus
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ClearITPendingBit
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ClearFlag
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ClearFlag
 </UL>
 <BR>[Called By]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART5_IRQHandler
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART4_IRQHandler
@@ -1922,9 +1925,9 @@ Local Symbols
 <LI><a href="#[33]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[b4]"></a>__set_PRIMASK</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rs485.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartGetChar
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartSend
+<P><STRONG><a name="[b5]"></a>__set_PRIMASK</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rs485.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartGetChar
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartSend
 </UL>
 
 <P><STRONG><a name="[4d]"></a>_printf_input_char</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, _printf_char_common.o(.text))

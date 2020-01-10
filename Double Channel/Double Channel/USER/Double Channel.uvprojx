@@ -443,6 +443,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\SPI\spi.c</FilePath>
             </File>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\cJSON.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

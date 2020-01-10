@@ -27,11 +27,75 @@ Project File Date:  06/24/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'UCOSII-3'
-compiling UserHmi.c...
-linking...
-Program Size: Code=77406 RO-data=4046 RW-data=1144 ZI-data=36760  
-FromELF: creating hex file...
-"..\OBJ\UCOSII-3.axf" - 0 Error(s), 0 Warning(s).
+compiling logic.c...
+logic.c(59): warning:  #177-D: variable "MsgtempBlk"  was declared but never referenced
+      MsgStruct MsgtempBlk;
+logic.c(133): error:  #169: expected a declaration
+  }
+logic.c(158): warning:  #12-D: parsing restarts here after previous syntax error
+      temp1=fercaldate.Th_C;
+logic.c(159): error:  #77-D: this declaration has no storage class or type specifier
+      temp1=temp1/100;
+logic.c(159): error:  #28: expression must have a constant value
+      temp1=temp1/100;
+logic.c(160): error:  #77-D: this declaration has no storage class or type specifier
+      temp2=fercaldate.formula_C;
+logic.c(160): error:  #28: expression must have a constant value
+      temp2=fercaldate.formula_C;
+logic.c(161): error:  #77-D: this declaration has no storage class or type specifier
+      temp2=temp2/100;
+logic.c(161): error:  #148: variable "temp2"  has already been initialized
+      temp2=temp2/100;
+logic.c(161): error:  #28: expression must have a constant value
+      temp2=temp2/100;
+logic.c(162): error:  #77-D: this declaration has no storage class or type specifier
+      fercaldate.M_C=temp2*temp*fercaldate.amount;
+logic.c(162): error:  #147: declaration is incompatible with "fercal fercaldate"  (declared at line 20)
+      fercaldate.M_C=temp2*temp*fercaldate.amount;
+logic.c(162): error:  #65: expected a ";"
+      fercaldate.M_C=temp2*temp*fercaldate.amount;
+logic.c(163): error:  #77-D: this declaration has no storage class or type specifier
+      temp1=fercaldate.Th_D;
+logic.c(163): error:  #148: variable "temp1"  has already been initialized
+      temp1=fercaldate.Th_D;
+logic.c(163): error:  #28: expression must have a constant value
+      temp1=fercaldate.Th_D;
+logic.c(164): error:  #77-D: this declaration has no storage class or type specifier
+      temp1=temp1/100;
+logic.c(164): error:  #148: variable "temp1"  has already been initialized
+      temp1=temp1/100;
+logic.c(164): error:  #28: expression must have a constant value
+      temp1=temp1/100;
+logic.c(165): error:  #77-D: this declaration has no storage class or type specifier
+      temp2=fercaldate.formula_D;
+logic.c(165): error:  #148: variable "temp2"  has already been initialized
+      temp2=fercaldate.formula_D;
+logic.c(165): error:  #28: expression must have a constant value
+      temp2=fercaldate.formula_D;
+logic.c(166): error:  #77-D: this declaration has no storage class or type specifier
+      temp2=temp2/100;
+logic.c(166): error:  #148: variable "temp2"  has already been initialized
+      temp2=temp2/100;
+logic.c(166): error:  #28: expression must have a constant value
+      temp2=temp2/100;
+logic.c(167): error:  #77-D: this declaration has no storage class or type specifier
+      fercaldate.M_D=temp2*temp*fercaldate.amount;
+logic.c(167): error:  #147: declaration is incompatible with "fercal fercaldate"  (declared at line 162)
+      fercaldate.M_D=temp2*temp*fercaldate.amount;
+logic.c(167): error:  #65: expected a ";"
+      fercaldate.M_D=temp2*temp*fercaldate.amount;
+logic.c(169): error:  #169: expected a declaration
+  }
+logic.c(210): warning:  #12-D: parsing restarts here after previous syntax error
+      temp2=temp2/100;
+logic.c(211): error:  #77-D: this declaration has no storage class or type specifier
+      Use_D_Kg=fercaldate.Q_D*fercaldate.PH_D*temp1/temp2;
+logic.c(211): error:  #147: declaration is incompatible with "float Use_D_Kg"  (declared at line 27)
+      Use_D_Kg=fercaldate.Q_D*fercaldate.PH_D*temp1/temp2;
+logic.c(211): error:  #148: variable "Use_D_Kg"  has already been initialized
+      Use_D_Kg=fercaldate.Q_D*fercaldate.PH_D*temp1/temp2;
+logic.c: 3 warnings, 30 errors
+"..\OBJ\UCOSII-3.axf" - 30 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -45,6 +109,7 @@ Package Vendor: Keil
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
+Target not created.
 Build Time Elapsed:  00:00:07
 </pre>
 </body>

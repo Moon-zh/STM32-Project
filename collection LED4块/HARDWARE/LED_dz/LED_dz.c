@@ -38,11 +38,11 @@ void	senddzcmd(u8 *data,u8 num)
 void	setdz1(u8 addr,Environmental data)//数据域
 {
 	u8 i=0;
-	char *h1="空气温度:25℃ CO2:0233ppm    土壤温度:21℃ EC:254μg/cm ";
+	char *h1="空气温度:25℃ CO2:0233ppm    土壤温度:21℃ EC:254us/cm ";
 	char *h2="空气湿度:75% 光照强度:072548L  土壤湿度:80%                   ";
 	u16 crc;
 	for(;*h1;h1++)tab_dz1[88+i++]=*h1;i=0;
-	del(144);
+//	del(144);								//适配转义符
 	for(;*h2;h2++)tab_dz1[175+i++]=*h2;
 
 	
@@ -83,7 +83,7 @@ void	setdz1(u8 addr,Environmental data)//数据域
 	crc=CalcCRC(tab_dz1,sizeof(tab_dz1)-4);
 	tab_dz1[sizeof(tab_dz1)-3]=crc>>8;
 	tab_dz1[sizeof(tab_dz1)-4]=crc&0xff;
-	insert(138,1);
+//	insert(138,1);
 	
 	for(i=0;i<8;i++)comSendChar(COM4,0xA5);
 	comSendBuf(COM4,tab_dz1,sizeof(tab_dz1));
@@ -96,7 +96,7 @@ void	setprogram1(u8 addr ,Environmental data)	//设置节目
 	i=0;
 	do
 	{
-		senddzcmd(tab_dz_set1,sizeof(tab_dz_set1));
+		senddzcmd(tab_dz_set1,sizeof(tab_dz_set1));	//设置节目
 		delay_ms(500);
 		if(COM4GetBuf(a,35)>30)break;
 		if(++i==10)return;
@@ -120,7 +120,7 @@ void	setdz()
 	u8 a[40];
 	do
 	{
-		senddzcmd(tab_dz_hand,sizeof(tab_dz_hand));
+		senddzcmd(tab_dz_hand,sizeof(tab_dz_hand));	//握手
 		delay_ms(500);
 		if(COM4GetBuf(a,35)>30)break;
 		if(++i==10)return;

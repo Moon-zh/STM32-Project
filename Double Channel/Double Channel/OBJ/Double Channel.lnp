@@ -10,6 +10,7 @@
 "..\obj\md5.o"
 "..\obj\w25qxx.o"
 "..\obj\spi.o"
+"..\obj\cjson.o"
 "..\obj\delay.o"
 "..\obj\sys.o"
 "..\obj\core_cm3.o"

@@ -1,0 +1,23 @@
+<Resource>
+    <pages>
+        <page name="首页" id="0" />
+        <page name="信息显示1 只有一组" id="1" />
+        <page name="设置" id="2" />
+        <page name="保存设置" id="3" />
+        <page name="wifi设置" id="4" />
+    </pages>
+    <images>
+        <image id="0" url="c:\users\moon\desktop\采集箱触摸屏\Images\1_待机画面.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="1" url="c:\users\moon\desktop\采集箱触摸屏\Images\2_信息显示1.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="2" url="c:\users\moon\desktop\采集箱触摸屏\Images\告警设置.png" width="66" height="97" crop="0" effect_left="0" effect_top="0" effect_width="66" effect_height="97" size="12804" />
+        <image id="3" url="c:\users\moon\desktop\采集箱触摸屏\Images\5_设置.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="4" url="c:\users\moon\desktop\采集箱触摸屏\Images\保存.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="5" url="c:\users\moon\desktop\采集箱触摸屏\Images\返回.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="6" url="c:\users\moon\desktop\采集箱触摸屏\Images\wifi.jpg" width="139" height="107" crop="0" effect_left="0" effect_top="0" effect_width="139" effect_height="107" size="29746" />
+        <image id="7" url="c:\users\moon\desktop\采集箱触摸屏\Images\6_保存设置.png" width="1024" height="600" crop="0" effect_left="0" effect_top="0" effect_width="1024" effect_height="600" size="1228800" />
+        <image id="8" url="c:\users\moon\desktop\采集箱触摸屏\Images\确认.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="9" url="c:\users\moon\desktop\采集箱触摸屏\Images\取消.png" width="200" height="100" crop="0" effect_left="0" effect_top="0" effect_width="200" effect_height="100" size="40000" />
+        <image id="10" url="c:\users\moon\desktop\采集箱触摸屏\Images\确认.png" width="152" height="78" crop="0" effect_left="0" effect_top="0" effect_width="152" effect_height="78" size="23712" />
+    </images>
+    <waves />
+</Resource>

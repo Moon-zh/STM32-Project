@@ -6,7 +6,7 @@
 #include "SETIO.h"
 #include "stmflash.h"
 
-#define FLASH_SAVE_ADDR  0X08020480
+#define FLASH_SAVE_ADDR  0X0802DD00
 
 #define head 0xFE		//I0板地址(头帧)
 
@@ -60,7 +60,7 @@ void	send1(u8 *a,u8 addr,u8 data)	//用于返回8字节的指令
 	comSendBuf(COM2,a,8);
 }
 
-u8		read(u8 *a)				//485读取函数
+u8		read(u8 *a)						//485读取函数
 {
 	u8 len;
 	len=COM2GetBuf(a,15);
@@ -114,7 +114,7 @@ void	change_ks(u8 addr,u8 data)		//单个继电器状态改变
 	}
 //	if(a!=zt_ks)		//无变化不发送数据
 	send1(check1_out_back,addr,data);
-	delay_ms(100);
+//	delay_ms(100);
 }
 
 void	change_all_ks(u8 a)				//全部继电器状态改变
@@ -143,8 +143,8 @@ void	change_all_ks(u8 a)				//全部继电器状态改变
 	if(a&0x80)GPIO_ResetBits(GPIOB,GPIO_Pin_12);
 	else GPIO_SetBits(GPIOB,GPIO_Pin_12);
 	
-	if(zt_ks!=a)zt_ks=a;			//无变化不发送数据
-	else return;
+//	if(zt_ks!=a)zt_ks=a;			//无变化不发送数据
+//	else return;
 
 	send1(back_all,0,0);
 	//send(check_out_back,zt_ks);
@@ -178,6 +178,11 @@ void	pdcmd(u8 *a)	//判断指令
 {
 	u8 k,g,sum;
 	u16 checkcrc=0;
+	if(!((a[0]==0xfe)|(a[0]==control[0])))
+	{
+		comClearRxFifo(COM2);
+		return ;
+	}
 	for(g=0;g<6;g++)
 	{
 		sum=0;
@@ -192,7 +197,7 @@ void	pdcmd(u8 *a)	//判断指令
 			else if(tab[g]==check_in){if(a[1]==2){addr0=a[0];send(check_in_back,zt_go);return;}}	//光耦状态查询
 			else if((a[3]==0xEB)&(a[8]==1)){Model=1;comSendBuf(COM2,a,11);return ;}					//设置为联动状态
 			else if((a[3]==0xEB)&(a[8]==0)){Model=0;comSendBuf(COM2,a,11);return ;}					//设置为正常状态
-			else if(a[3]==0xEA)																		//设置模块地址
+			else if(a[3]==0xEA)												//设置模块地址
 				{
 					checkcrc=mc_check_crc16(a,9);
 					comSendBuf(COM2,a,11);
@@ -203,7 +208,7 @@ void	pdcmd(u8 *a)	//判断指令
 		}
 		if(sum>=4)				//判断是否是继电器控制指令
 		{
-			if(a[0]==0xFE|a[0]==control[0])
+			if((a[0]==0xFE)|(a[0]==control[0]))
 			{
 				addr0=a[0];
 				checkcrc=mc_check_crc16(a,6);
@@ -245,16 +250,14 @@ int 	main(void)
 {	 
 	u8 t=0;
 	u8 buf0[20];
+	u16 bz=0xFE;
 	u8 *rs485buf=buf0;
 	
 	init();
-
-	STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)buf0,2);		//读取flash内存储的地址
-//	RS485_Send_Data(buf0,1);
-	if((buf0[0]==0)|(buf0[0]==0xFF)){buf0[0]=0xFE;STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)buf0,2);}	//如果为非法地址则写入FE
-	STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)buf0,1);
-//	RS485_Send_Data(buf0,1);
-	saveaddr(buf0[0]);
+	delay_ms(1000);
+	STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)&bz,1);		//读取flash内存储的地址
+	if((bz==0)|(bz==0xFF)){bz=0xFE;STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)&bz,1);}	//如果为非法地址则写入FE
+	saveaddr(bz);
 	
 	while(1)
 	{

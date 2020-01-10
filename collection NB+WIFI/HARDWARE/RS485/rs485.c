@@ -1340,7 +1340,7 @@ uint8_t COM1GetBuf(u8* Buf,u16 size)
 	return u16Cnt;
 }
 
-uint8_t COM2GetBuf(u8* Buf,u8 size)
+uint8_t COM2GetBuf(u8* Buf,u16 size)
 {
     uint8_t WriteP =0;
     uint16_t u16Cnt = 0;

@@ -52,7 +52,7 @@ typedef enum
 #if UART2_FIFO_EN == 1
 	#define UART2_BAUD			115200
 	#define UART2_TX_BUF_SIZE	200
-	#define UART2_RX_BUF_SIZE	200
+	#define UART2_RX_BUF_SIZE	351
 #endif
 
 #if UART3_FIFO_EN == 1
@@ -128,7 +128,7 @@ uint8_t COM5GetBuf(u8* Buf,u8 size);
 uint8_t COM4GetBuf(u8* Buf,u8 size);
 uint8_t COM3GetBuf(u8* Buf,u8 size);
 uint8_t COM1GetBuf(u8* Buf,u16 size);
-uint8_t COM2GetBuf(u8* Buf,u8 size);
+uint8_t COM2GetBuf(u8* Buf,u16 size);
 void Uart1VarInit(void);
 extern unsigned char printf_num;
 

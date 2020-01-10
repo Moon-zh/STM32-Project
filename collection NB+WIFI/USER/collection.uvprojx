@@ -433,6 +433,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\md5\core\md5.c</FilePath>
             </File>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\cJSON.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

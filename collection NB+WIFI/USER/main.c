@@ -164,12 +164,16 @@ void	setalarm()										//显示报警设置值
 	comClearRxFifo(COM5);
 }
 
-void	sendcmd_read(u8 addr,u8 CMD)					//发送查询相关数据指令
+void	sendcmd_read(u8 addr,u8 CMD,u8 num)				//发送传感器读取指令
 {
 	u8 check_value[]={0x01,0x03,0x00,0x00,0x00,0x09,0xc4,0xb0};
 	u8 i;
 	u16 crc;
+	comClearRxFifo(COM3);
 	check_value[0]=addr;
+	check_value[2]=CMD>>8;
+	check_value[3]=CMD&0xff;
+	check_value[5]=num;
 	crc=mc_check_crc16(check_value,6);
 	check_value[6]=crc>>8;
 	check_value[7]=crc&0xff;
@@ -178,7 +182,7 @@ void	sendcmd_read(u8 addr,u8 CMD)					//发送查询相关数据指令
 	delay_ms(60);
 }
 
-u16		readcmd1(u8 i)									//读取空气传感器返回的数据
+u16		readcmd1(u8 i)									//读取空气温度
 {
 	u16 crc;
 	u8 a[26];
@@ -199,77 +203,48 @@ u16		readcmd1(u8 i)									//读取空气传感器返回的数据
 	return 0;
 }
 
-u16		readcmd2(u8 i)									//读取土壤传感器返回的数据
+u16		readcmd2(u8 i)									//读取土壤温度
 {
 	u16 crc;
 	u8 a[26];
 	u8 len;
 	len=COM3GetBuf(a,25);
-	if(len<10)return 0;
+	if(len<12)return 0;
 	comClearRxFifo(COM3);
 	crc=mc_check_crc16(a,len-2);
 	if((a[len-2]==(crc>>8))&&(a[len-1]==(crc&0xff)))
 	{
-		sensor[i].soilhumi=(a[7]<<8)|a[8];
+		sensor[i].soilhumi=(a[3]<<8)|a[4];
 		if(sensor[i].soilhumi>990)sensor[i].soilhumi=990;
-		sensor[i].soiltemp=(a[9]<<8)|a[10];
-		//if(sensor[i].soilhumi==0)return 0;
+		sensor[i].soiltemp=(a[5]<<8)|a[6];
+		sensor[i].EC=(a[9]<<8)|a[10];
 		return 1;
 	}
 	return 0;
 }
 
-u16		readcmd3(u8 i)									//读取土壤传感器返回的数据
-{
-	u16 crc;
-	u8 a[26];
-	u8 len;
-	len=COM3GetBuf(a,25);
-	if(len<7)return 0;
-	comClearRxFifo(COM3);
-	crc=mc_check_crc16(a,len-2);
-	if((a[len-2]==(crc>>8))&&(a[len-1]==(crc&0xff)))
-	{
-		sensor[i].EC=(a[7]<<8)|a[8];
-		return 1;
-	}
-	return 0;
-}
-
-void	ReadValue()										//读取传感器数据并上传到触摸屏
+void	ReadValue()										//传感器读取
 {
 	u16 k;
-	u8 	i;
-	u8	time=0;
-	comClearRxFifo(COM3);
+	u8 	i,b;
 	for(i=0;i<sensor_num;i++)
 	{
-		time=0;
+		b=0;
 		do{
-			sendcmd_read(1+i,CMD_AIRHUMI);			//读取空气湿度
+			sendcmd_read(1+i,CMD_AIRHUMI,9);			//璇诲彇绌烘皵
 			delay_ms(200);
-			k=readcmd1(0);
+			k=readcmd1(i);
 			if(k)break;
-			if(++time==10)break;
-		}while(1);
-		delay_ms(500);
-		
-		time=0;
-		do{
-			sendcmd_read(50+i,CMD_AIRHUMI);			//读取空气湿度
-			delay_ms(200);
-			k=readcmd2(0);
-			if(k)break;
-			if(++time==10)break;
+			if(++b==5)break;
 		}while(1);
 		
-		time=0;
+		b=0;
 		do{
-			sendcmd_read(50+i,CMD_EC);				//读取空气湿度
+			sendcmd_read(50+i,CMD_SOILHUMI,4);			//璇诲彇鍦熷￥
 			delay_ms(200);
-			k=readcmd3(0);
+			k=readcmd2(i);
 			if(k)break;
-			if(++time==10)break;
+			if(++b==5)break;
 		}while(1);
 	}
 }
@@ -435,7 +410,7 @@ void	readflash()										//从flash读取报警设置
 
 	memset(buf,0,sizeof buf);
 	STMFLASH_Read(400+FLASH_SAVE_ADDR+200,(u16*)&data,1);
-	if(data!=0xaaaa){sendflash(); return;}
+	if(data!=0xaaab){sendflash(); return;}
 
 	STMFLASH_Read(400+FLASH_SAVE_ADDR,buf,50);
 	
@@ -512,7 +487,7 @@ void	readflash()										//从flash读取报警设置
 
 void	sendflash()										//存储报警设置到flash
 {
-	u16 bz=0xaaaa;
+	u16 bz=0xaaab;
 	u16 buf[50];
 	u8 i,k;
 	k=0;
@@ -816,35 +791,47 @@ void	readthree()										//从COM3 485串口读取是否设置了三元组数据
 	}
 }
 
+void	analysis_json(u8 *buf)							//解析JSON 并设置阈值
+{
+	cJSON *json;
+	char *jsa;
+	u32 hc;
+	
+	json=cJSON_Parse(strstr((const char *)buf,"{"));
+		
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"airtempUP_war")))*10)==0?hc=0:(Alarm_war[0].Alarm_airtemp_up=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"airtempDN_war")))*10)==0?hc=0:(Alarm_war[0].Alarm_airtemp_dn=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"airhumiUP_war")))*10)==0?hc=0:(Alarm_war[0].Alarm_airhumi_up=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"airhumiDN_war")))*10)==0?hc=0:(Alarm_war[0].Alarm_airhumi_dn=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"CO2UP_war"))))==0?hc=0:(Alarm_war[0].Alarm_CO2_up=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"CO2DN_war"))))==0?hc=0:(Alarm_war[0].Alarm_CO2_dn=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"lightUP_war"))))==0?hc=0:(Alarm_war[0].Alarm_light_up=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"lightDN_war"))))==0?hc=0:(Alarm_war[0].Alarm_light_dn=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"ECUP_war"))))==0?hc=0:(Alarm_war[0].Alarm_EC_up=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"ECDN_war"))))==0?hc=0:(Alarm_war[0].Alarm_EC_dn=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"soiltempUP_war")))*10)==0?hc=0:(Alarm_war[0].Alarm_soiltemp_up=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"soiltempDN_war")))*10)==0?hc=0:(Alarm_war[0].Alarm_soiltemp_dn=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"soilhumiUP_war")))*10)==0?hc=0:(Alarm_war[0].Alarm_soilhumi_up=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"soilhumiDN_war")))*10)==0?hc=0:(Alarm_war[0].Alarm_soilhumi_dn=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"up_time"))))==0?hc=0:(up_time=hc);
+	(hc=atoi(jsa=cJSON_Print(cJSON_GetObjectItem(json,"up_wartime"))))==0?hc=0:(up_wartime=hc);
+
+	cJSON_Delete(json);
+	cJSON_free(jsa);
+}
+
 void	readset(u8 t)									//读取阿里下发的数据
 {
-	u8 len;
-	u8 buf[250];
-	char c[100];
-	char *msg=c;
 	OS_CPU_SR cpu_sr=0;
 	if(n21_set)goto qw;
-	len=COM1GetBuf(buf,100);
-	if(len>10)
+	if(strstr((const char *)g_RxBuf1,"RCVPUB")[0]!='R')return;
+	else
 	{
-		delay_ms(200);COM1GetBuf(buf,100);
-		if(strstr((const char *)buf,"RCVPUB")[0]!='R'){memset(buf,0,200);memset(c,0,200);comClearRxFifo(COM1);return;}
-		msg=strstr((const char *)buf,"airtempUP_war:");	if(msg[0]=='a')Alarm_war[0].Alarm_airtemp_up=	((msg[17]-0x30)*10+(msg[18]-0x30))*10;
-		msg=strstr((const char *)buf,"airtempDN_war:");	if(msg[0]=='a')Alarm_war[0].Alarm_airtemp_dn=	((msg[17]-0x30)*10+(msg[18]-0x30))*10;
-		msg=strstr((const char *)buf,"airhumiUP_war:");	if(msg[0]=='a')Alarm_war[0].Alarm_airhumi_up=	((msg[17]-0x30)*10+(msg[18]-0x30))*10;
-		msg=strstr((const char *)buf,"airhumiDN_war:");	if(msg[0]=='a')Alarm_war[0].Alarm_airhumi_dn=	((msg[17]-0x30)*10+(msg[18]-0x30))*10;
-		msg=strstr((const char *)buf,"CO2UP_war:");		if(msg[0]=='C')Alarm_war[0].Alarm_CO2_up=		(msg[10]-0x30)*10000+(msg[11]-0x30)*1000+(msg[12]-0x30)*100+(msg[13]-0x30)*10+(msg[14]-0x30);
-		msg=strstr((const char *)buf,"CO2DN_war:");		if(msg[0]=='C')Alarm_war[0].Alarm_CO2_dn=		(msg[10]-0x30)*10000+(msg[11]-0x30)*1000+(msg[12]-0x30)*100+(msg[13]-0x30)*10+(msg[14]-0x30);
-		msg=strstr((const char *)buf,"lightUP_war:");	if(msg[0]=='l')Alarm_war[0].Alarm_light_up=		(msg[12]-0x30)*10000+(msg[13]-0x30)*1000+(msg[14]-0x30)*100+(msg[15]-0x30)*10+(msg[16]-0x30);
-		msg=strstr((const char *)buf,"lightDN_war:");	if(msg[0]=='l')Alarm_war[0].Alarm_light_dn=		(msg[12]-0x30)*10000+(msg[13]-0x30)*1000+(msg[14]-0x30)*100+(msg[15]-0x30)*10+(msg[16]-0x30);
-		msg=strstr((const char *)buf,"ECUP_war:");		if(msg[0]=='E')Alarm_war[0].Alarm_EC_up=		(msg[ 9]-0x30)*10+(msg[10]-0x30);
-		msg=strstr((const char *)buf,"ECDN_war:");		if(msg[0]=='E')Alarm_war[0].Alarm_EC_dn=		(msg[ 9]-0x30)*10+(msg[10]-0x30);
-		msg=strstr((const char *)buf,"soiltempUP_war:");if(msg[0]=='s')Alarm_war[0].Alarm_soiltemp_up=	((msg[18]-0x30)*10+(msg[19]-0x30))*10;
-		msg=strstr((const char *)buf,"soiltempDN_war:");if(msg[0]=='s')Alarm_war[0].Alarm_soiltemp_dn=	((msg[18]-0x30)*10+(msg[19]-0x30))*10;
-		msg=strstr((const char *)buf,"soilhumiUP_war:");if(msg[0]=='s')Alarm_war[0].Alarm_soilhumi_up=	((msg[18]-0x30)*10+(msg[19]-0x30))*10;
-		msg=strstr((const char *)buf,"soilhumiDN_war:");if(msg[0]=='s')Alarm_war[0].Alarm_soilhumi_dn=	((msg[18]-0x30)*10+(msg[19]-0x30))*10;
-		msg=strstr((const char *)buf,"up_time:");		if(msg[0]=='u')up_time=							(msg[8]-0x30)*10000+(msg[9]-0x30)*1000+(msg[10]-0x30)*100+(msg[11]-0x30)*10+(msg[12]-0x30);
-		msg=strstr((const char *)buf,"up_wartime:");	if(msg[0]=='u')up_wartime=						(msg[11]-0x30)*10000+(msg[12]-0x30)*1000+(msg[13]-0x30)*100+(msg[14]-0x30)*10+(msg[15]-0x30);
+		delay_ms(200);
+		analysis_json(g_RxBuf1);
+		
+		memset(g_RxBuf1,0,UART1_RX_BUF_SIZE);
+		comClearRxFifo(COM1);
 		
 		OS_ENTER_CRITICAL();
 		sendflash();
@@ -860,52 +847,33 @@ void	readset(u8 t)									//读取阿里下发的数据
 		UpSetAlarm(Alarm_war[0],0);
 		OSTaskResume(Alarm_TASK_PRIO);
 		if(t)OSTaskResume(UpyunWF_TASK_PRIO);
-		
 	}
+		
+qw:	if(emw_set)return;
+	if(strstr((const char *)g_RxBuf2,"RECV")[0]!='R')return;
 	else
 	{
-qw:		if(emw_set)return;
-		len=COM2GetBuf(buf,100);
-		if(len>10)
-		{
-			delay_ms(200);COM2GetBuf(buf,100);
-			if(strstr((const char *)buf,"RECV")[0]!='R'){memset(buf,0,200);memset(c,0,200);comClearRxFifo(COM2);return;}
-			msg=strstr((const char *)buf,"airtempUP_war:");	if(msg[0]=='a')Alarm_war[0].Alarm_airtemp_up=	((msg[17]-0x30)*10+(msg[18]-0x30))*10;
-			msg=strstr((const char *)buf,"airtempDN_war:");	if(msg[0]=='a')Alarm_war[0].Alarm_airtemp_dn=	((msg[17]-0x30)*10+(msg[18]-0x30))*10;
-			msg=strstr((const char *)buf,"airhumiUP_war:");	if(msg[0]=='a')Alarm_war[0].Alarm_airhumi_up=	((msg[17]-0x30)*10+(msg[18]-0x30))*10;
-			msg=strstr((const char *)buf,"airhumiDN_war:");	if(msg[0]=='a')Alarm_war[0].Alarm_airhumi_dn=	((msg[17]-0x30)*10+(msg[18]-0x30))*10;
-			msg=strstr((const char *)buf,"CO2UP_war:");		if(msg[0]=='C')Alarm_war[0].Alarm_CO2_up=		(msg[10]-0x30)*10000+(msg[11]-0x30)*1000+(msg[12]-0x30)*100+(msg[13]-0x30)*10+(msg[14]-0x30);
-			msg=strstr((const char *)buf,"CO2DN_war:");		if(msg[0]=='C')Alarm_war[0].Alarm_CO2_dn=		(msg[10]-0x30)*10000+(msg[11]-0x30)*1000+(msg[12]-0x30)*100+(msg[13]-0x30)*10+(msg[14]-0x30);
-			msg=strstr((const char *)buf,"lightUP_war:");	if(msg[0]=='l')Alarm_war[0].Alarm_light_up=		(msg[12]-0x30)*10000+(msg[13]-0x30)*1000+(msg[14]-0x30)*100+(msg[15]-0x30)*10+(msg[16]-0x30);
-			msg=strstr((const char *)buf,"lightDN_war:");	if(msg[0]=='l')Alarm_war[0].Alarm_light_dn=		(msg[12]-0x30)*10000+(msg[13]-0x30)*1000+(msg[14]-0x30)*100+(msg[15]-0x30)*10+(msg[16]-0x30);
-			msg=strstr((const char *)buf,"ECUP_war:");		if(msg[0]=='E')Alarm_war[0].Alarm_EC_up=		(msg[ 12]-0x30)*10+(msg[13]-0x30);
-			msg=strstr((const char *)buf,"ECDN_war:");		if(msg[0]=='E')Alarm_war[0].Alarm_EC_dn=		(msg[ 12]-0x30)*10+(msg[13]-0x30);
-			msg=strstr((const char *)buf,"soiltempUP_war:");if(msg[0]=='s')Alarm_war[0].Alarm_soiltemp_up=	((msg[18]-0x30)*10+(msg[19]-0x30))*10;
-			msg=strstr((const char *)buf,"soiltempDN_war:");if(msg[0]=='s')Alarm_war[0].Alarm_soiltemp_dn=	((msg[18]-0x30)*10+(msg[19]-0x30))*10;
-			msg=strstr((const char *)buf,"soilhumiUP_war:");if(msg[0]=='s')Alarm_war[0].Alarm_soilhumi_up=	((msg[18]-0x30)*10+(msg[19]-0x30))*10;
-			msg=strstr((const char *)buf,"soilhumiDN_war:");if(msg[0]=='s')Alarm_war[0].Alarm_soilhumi_dn=	((msg[18]-0x30)*10+(msg[19]-0x30))*10;
-			msg=strstr((const char *)buf,"up_time:");		if(msg[0]=='u')up_time=							(msg[8]-0x30)*10000+(msg[9]-0x30)*1000+(msg[10]-0x30)*100+(msg[11]-0x30)*10+(msg[12]-0x30);
-			msg=strstr((const char *)buf,"up_wartime:");	if(msg[0]=='u')up_wartime=						(msg[11]-0x30)*10000+(msg[12]-0x30)*1000+(msg[13]-0x30)*100+(msg[14]-0x30)*10+(msg[15]-0x30);
+		delay_ms(200);
+		analysis_json(g_RxBuf2);
 		
-			OS_ENTER_CRITICAL();
-			sendflash();
-			OS_EXIT_CRITICAL();
-			OSTaskSuspend(HDMI_TASK_PRIO);
-			setalarm();
-			OSTaskResume(HDMI_TASK_PRIO);
-			comClearRxFifo(COM2);
-			
-			OSTaskSuspend(Alarm_TASK_PRIO);
-			if(!t)OSTaskSuspend(Upyun_TASK_PRIO);
-			UpSetAlarm_wifi(Alarm_war[0],0);
-			if(N21_B)UpSetAlarm(Alarm_war[0],0);
-			OSTaskResume(Alarm_TASK_PRIO);
-			if(!t)OSTaskResume(Upyun_TASK_PRIO);
-			
-		}
+		memset(g_RxBuf2,0,UART2_RX_BUF_SIZE);
+		comClearRxFifo(COM2);
+		
+		OS_ENTER_CRITICAL();
+		sendflash();
+		OS_EXIT_CRITICAL();
+		OSTaskSuspend(HDMI_TASK_PRIO);
+		setalarm();
+		OSTaskResume(HDMI_TASK_PRIO);
+		comClearRxFifo(COM2);
+		
+		OSTaskSuspend(Alarm_TASK_PRIO);
+		if(!t)OSTaskSuspend(Upyun_TASK_PRIO);
+		UpSetAlarm_wifi(Alarm_war[0],0);
+		if(N21_B)UpSetAlarm(Alarm_war[0],0);
+		OSTaskResume(Alarm_TASK_PRIO);
+		if(!t)OSTaskResume(Upyun_TASK_PRIO);
 	}
-	memset(buf,0,200);
-	memset(c,0,200);
 }
 
 void	Upccid()										//上报CCID
@@ -997,6 +965,7 @@ rest:			sendok=1;emw_set=1;Emw_B=0;
 		}
 		else error=0;
 		if(sendok==0)goto rest;
+		if(strstr((const char *)g_RxBuf2,"PUBLISH,FAIL")[0]=='P')goto rest;
 		if(wifiup){wifiup=0;emw_set=1;Uptoaliyun_wifi(sensor[0],0);emw_set=0;}
 	}
 }

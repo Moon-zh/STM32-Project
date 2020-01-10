@@ -76,23 +76,23 @@ ARM Macro Assembler    Page 2
    42 00000400         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
    43 00000400         ; </h>
    44 00000400         
-   45 00000400 00000200 
+   45 00000400 00000C00 
                        Heap_Size
-                               EQU              0x00000200
+                               EQU              0x00000C00
    46 00000400         
    47 00000400                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3
    48 00000000         __heap_base
    49 00000000         Heap_Mem
                                SPACE            Heap_Size
-   50 00000200         __heap_limit
-   51 00000200         
-   52 00000200                 PRESERVE8
-   53 00000200                 THUMB
-   54 00000200         
-   55 00000200         
-   56 00000200         ; Vector Table Mapped to Address 0 at Reset
-   57 00000200                 AREA             RESET, DATA, READONLY
+   50 00000C00         __heap_limit
+   51 00000C00         
+   52 00000C00                 PRESERVE8
+   53 00000C00                 THUMB
+   54 00000C00         
+   55 00000C00         
+   56 00000C00         ; Vector Table Mapped to Address 0 at Reset
+   57 00000C00                 AREA             RESET, DATA, READONLY
    58 00000000                 EXPORT           __Vectors
    59 00000000                 EXPORT           __Vectors_End
    60 00000000                 EXPORT           __Vectors_Size
@@ -561,14 +561,14 @@ ARM Macro Assembler    Page 9
               00000000 
               00000000 
               00000400 
-              00000200 
+              00000C00 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=..\obj\startup_stm32f10x_hd.d -o..\obj\startup_stm32f10x_hd.o -I.\
-RTE\_Double_Channel -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Inclu
-de -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__UVISION_VERSION SETA 526" --pr
-edefine="STM32F10X_HD SETA 1" --list=.\startup_stm32f10x_hd.lst ..\CORE\startup
-_stm32f10x_hd.s
+RTE\_Double_Channel -IC:\Users\Moon-Z\AppData\Local\Arm\Packs\Keil\STM32F1xx_DF
+P\2.3.0\Device\Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__UVISION_VE
+RSION SETA 526" --predefine="STM32F10X_HD SETA 1" --list=.\startup_stm32f10x_hd
+.lst ..\CORE\startup_stm32f10x_hd.s
 
 
 
@@ -632,7 +632,7 @@ Symbol: __heap_base
    Uses
       None
 Comment: __heap_base unused
-__heap_limit 00000200
+__heap_limit 00000C00
 
 Symbol: __heap_limit
    Definitions
@@ -1407,7 +1407,7 @@ Comment: __user_initial_stackheap used once
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Absolute symbols
 
-Heap_Size 00000200
+Heap_Size 00000C00
 
 Symbol: Heap_Size
    Definitions

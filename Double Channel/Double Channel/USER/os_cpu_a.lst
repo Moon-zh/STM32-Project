@@ -318,9 +318,9 @@ ARM Macro Assembler    Page 5
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=..\obj\os_cpu_a.d -o..\obj\os_cpu_a.o -I.\RTE\_Double_Channel -IC:
-\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include -IC:\Keil_v5\ARM\CMSI
-S\Include --predefine="__UVISION_VERSION SETA 526" --predefine="STM32F10X_HD SE
-TA 1" --list=.\os_cpu_a.lst ..\UCOSII\PORT\os_cpu_a.asm
+\Users\Moon-Z\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include -
+IC:\Keil_v5\ARM\CMSIS\Include --predefine="__UVISION_VERSION SETA 526" --predef
+ine="STM32F10X_HD SETA 1" --list=.\os_cpu_a.lst ..\UCOSII\PORT\os_cpu_a.asm
 
 
 

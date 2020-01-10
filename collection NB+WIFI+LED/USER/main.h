@@ -127,7 +127,7 @@ void LED_DZ_task(void *pdata);
 #define 	CMD_AIRTEMP		0x01	//传感器寄存器地址
 #define		CMD_AIRHUMI 	0x00
 #define		CMD_SOILTEMP	0x03
-#define		CMD_SOILHUMI	0x02
+#define		CMD_SOILHUMI	0x12
 #define		CMD_CO2			0x05
 #define 	CMD_LIGTH		0x07
 #define		CMD_EC			0x15
@@ -169,6 +169,7 @@ unsigned int  up_time=15;	//数据上传频率
 unsigned int  up_wartime=20;	//报警上传频率
 unsigned char Three=0;
 unsigned char Nsendok=0;
+u8	sendok=0;
 #include "my_HDMI.h"
 extern uint8_t g_RxBuf1[UART1_RX_BUF_SIZE];
 extern uint8_t g_RxBuf5[UART5_RX_BUF_SIZE];
@@ -176,3 +177,7 @@ void	readflash(void);
 void	sendflash(void);
 void	UpSetAlarm_wifi(Waring data,u8 group);
 void	UpSetAlarm(Waring data,u8 group);
+
+u8 firstarm=1;
+u8 wifiup=0,nbup=0,warup;								//模组上传标志
+u8 ttm=0,wifi=0,nb=0,wart;								//定时计数器 上传标志

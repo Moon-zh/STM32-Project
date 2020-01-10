@@ -487,9 +487,9 @@ void	readset(u8 t)					//读取阿里下发的数据
 		sendflash();
 		comClearRxFifo(COM1);
 
-		if(t)OSTaskSuspend(UpyunWF_TASK_PRIO);
+//		if(t)OSTaskSuspend(UpyunWF_TASK_PRIO);
 
-		if(t)OSTaskResume(UpyunWF_TASK_PRIO);
+//		if(t)OSTaskResume(UpyunWF_TASK_PRIO);
 	}
 	else
 	{
@@ -506,9 +506,9 @@ qw:		if(emw_set)return;
 			sendflash();
 			comClearRxFifo(COM2);
 			
-			if(!t)OSTaskSuspend(Upyun_TASK_PRIO);
+//			if(!t)OSTaskSuspend(Upyun_TASK_PRIO);
 
-			if(!t)OSTaskResume(Upyun_TASK_PRIO);
+//			if(!t)OSTaskResume(Upyun_TASK_PRIO);
 			
 		}
 	}

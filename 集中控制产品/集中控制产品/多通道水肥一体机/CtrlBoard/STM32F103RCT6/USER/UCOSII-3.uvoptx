@@ -125,7 +125,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>/</Name>
+          <Name>(105=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -153,7 +153,24 @@
           <Name></Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>441</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134220280</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>C:\Users\Moon\Desktop\闆嗕腑鎺у埗浜у搧\闆嗕腑鎺у埗浜у搧\澶氶€氶亾姘磋偉涓€浣撴満\CtrlBoard\STM32F103RCT6\USER\ZoneCtrl.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\UCOSII_3\ZoneCtrl.c\441</Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -220,6 +237,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>g_RxBuf5</ItemText>
         </Ww>
+        <Ww>
+          <count>13</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>FlowmeterCount.flower</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -241,8 +263,8 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-          <SubType>3</SubType>
-          <ItemText>TxBuf</ItemText>
+          <SubType>0</SubType>
+          <ItemText>\\UCOSII_3\../HARDWARE/RS485/rs485.c\g_RxBuf3</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>

@@ -105,7 +105,7 @@ void FerLogic_task(void *pdata);
 //设置任务优先级
 #define GPRS_TASK_PRIO       			5 
 //设置任务堆栈大小
-#define GPRS_STK_SIZE  		 			512
+#define GPRS_STK_SIZE  		 			1024
 //任务堆栈	
 OS_STK GPRS_TASK_STK[GPRS_STK_SIZE];
 //任务函数

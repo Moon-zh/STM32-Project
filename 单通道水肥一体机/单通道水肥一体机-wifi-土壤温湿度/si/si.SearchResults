@@ -1,0 +1,8 @@
+---- g_u8WifiPara Matches (7 in 1 files) ----
+UserHmi.c (d:\hardware\张保忠\单通道水肥一体机emw\单通道水肥一体机\user):u8 g_u8WifiPara[62];
+UserHmi.c (d:\hardware\张保忠\单通道水肥一体机emw\单通道水肥一体机\user):		FlashReadWiFi(g_u8WifiPara);
+UserHmi.c (d:\hardware\张保忠\单通道水肥一体机emw\单通道水肥一体机\user):		SetTextValue(LCD_PARASET_PAGE,3,g_u8WifiPara);
+UserHmi.c (d:\hardware\张保忠\单通道水肥一体机emw\单通道水肥一体机\user):		SetTextValue(LCD_PARASET_PAGE,1,&g_u8WifiPara[31]);
+UserHmi.c (d:\hardware\张保忠\单通道水肥一体机emw\单通道水肥一体机\user):		memcpy(g_u8WifiPara,msg->param,(size-12));
+UserHmi.c (d:\hardware\张保忠\单通道水肥一体机emw\单通道水肥一体机\user):		memcpy(&g_u8WifiPara[31],msg->param,(size-12));
+UserHmi.c (d:\hardware\张保忠\单通道水肥一体机emw\单通道水肥一体机\user):		FlashWriteWiFi(g_u8WifiPara);
